@@ -140,7 +140,7 @@ module.exports = {
         {
           context: "public",
           from: "assets/*",
-          to: path.resolve(ROOT_PATH, "./build"),
+          to: path.resolve(ROOT_PATH, "./dist"),
           toType: "dir",
           globOptions: {
             dot: true,

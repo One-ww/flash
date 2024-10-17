@@ -13,7 +13,7 @@ module.exports = merge(common, {
   mode: 'production',
   devtool: false,
   output: {
-    path: path.resolve(ROOT_PATH, './build'),
+    path: path.resolve(ROOT_PATH, './dist'),
     publicPath: './',
     filename: 'js/[name].[contenthash:8].js',
     chunkFilename: 'js/[name].[contenthash:8].js',

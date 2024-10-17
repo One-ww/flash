@@ -9,7 +9,7 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'eval-cheap-module-source-map',
   output: {
-    path: path.resolve(ROOT_PATH, './build'),
+    path: path.resolve(ROOT_PATH, './dist'),
     filename: 'js/[name].js'
   },
   devServer: {
