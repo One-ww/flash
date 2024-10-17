@@ -1,0 +1,101 @@
+.customizedClassScheduleContainer {
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  table {
+    border-collapse: unset;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .container .left {
+    padding: 10px;
+    width: 100px;
+    background: #eee;
+  }
+
+  .container .left .item {
+    margin-bottom: 10px;
+  }
+
+  .item {
+    width: 100%;
+    line-height: 40px;
+    text-align: center;
+    cursor: move;
+  }
+
+  .color1 {
+    background: #058f85; /* 鲜艳橘红色调 */
+  }
+
+  .color2 {
+    background: #fdb537; /* 鲜艳浅蓝色调 */
+  }
+
+  .color3 {
+    background: #7d88bd; /* 鲜艳粉红色调 */
+  }
+
+  .color4 {
+    background: #93c4c8; /* 鲜艳黄色调 */
+  }
+
+  .color5 {
+    background: #e8b080; /* 鲜艳蓝色调 */
+  }
+
+  .color6 {
+    background: #81b1c7; /* 鲜艳粉紫色调 */
+  }
+
+  .color7 {
+    background: #dc514c; /* 鲜艳浅蓝色调 */
+  }
+
+  .container .right {
+    background: #eee;
+    width: 800px;
+    margin-left: 10px;
+    padding: 10px;
+  }
+
+  .container .right table {
+    width: 100%;
+  }
+
+  .container .right td,
+  .container .right th {
+    border: 1px solid #999;
+    height: 56px;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .container .right col:first-child {
+    width: 40px;
+  }
+
+  .container .right .span {
+    line-height: 40px;
+  }
+
+  .container .right thead td:first-child,
+  .container .right .noborder {
+    border: none;
+  }
+
+  .container .right th {
+    font-weight: normal;
+    background: #ccc;
+  }
+
+  .container .drop-over {
+    background: #666;
+  }
+}
