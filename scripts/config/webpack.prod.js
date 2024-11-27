@@ -1,12 +1,12 @@
-const path = require('path');
-const { merge } = require('webpack-merge');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const path = require('path')
+const { merge } = require('webpack-merge')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-const common = require('./webpack.common');
-const { ROOT_PATH } = require('../constant');
+const common = require('./webpack.common')
+const { ROOT_PATH } = require('../constant')
 
 module.exports = merge(common, {
   target: 'browserslist',
@@ -49,4 +49,4 @@ module.exports = merge(common, {
       minSize: 0
     }
   }
-});
+})
