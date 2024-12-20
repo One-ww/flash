@@ -1,0 +1,101 @@
+{
+  "data": [
+    {
+      "_id": "2d44d6c2612e13c10855b3ff4ebf6046",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 数据结构与算法",
+      "content": "## 1. 思路\n\n以**升序**排序为例：\n\n1. 依次比较所有相邻元素，如果第一个比第二个大，则交换他们\n2. 一轮下来可以保证最后一个数是最大的\n3. 执行`n-1`轮就可以完成排序\n\n**升序冒泡排序**动画演示如图所示：\n\n![](https://img.lzxjack.top:99/20210316114513.gif)\n\n**时间复杂度**：O(n^2)\n\n## 2. 实现\n\n现有数组`[7, 5, 4, 15, 3, 9, 6, 12]`，进行升序排序：\n\n```javascript\nArray.prototype.bubbleSort = function () {\n    // 重复(元素个数-1)次\n    for (let i = 0; i < this.length - 1; i++) {\n        // 从0开始遍历还没有排序过的元素\n        for (let j = 0; j < this.length - 1 - i; j++) {\n            // 如果当前元素比下一个大\n            if (this[j] > this[j + 1]) {\n                // 交换他们的位置\n                let temp = this[j];\n                this[j] = this[j + 1];\n                this[j + 1] = temp;\n            }\n        }\n    }\n};\n\nconst arr = [7, 5, 4, 15, 3, 9, 6, 12];\narr.bubbleSort();\nconsole.log(arr);\n```\n\n执行结果：\n\n![](https://img.lzxjack.top:99/20210316114654.png)\n\n\n",
+      "date": 1615862029000,
+      "post": true,
+      "tags": ["JavaScript", "排序算法"],
+      "title": "JavaScript 冒泡排序",
+      "titleEng": "sort-bubble",
+      "url": "https://lzxjack.top/post?title=sort-bubble"
+    },
+    {
+      "_id": "2d44d6c261262d8d06ee53d861a9e717",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 数据结构与算法",
+      "content": "## 1. 概念\n\n堆是一种特殊的**完全二叉树**。\n\n它的所有节点都**大于等于**或**小于等于**它的**子节点**。\n\n-   最大堆：所有节点都大于等于它的子节点\n\n    ![](https://img.lzxjack.top:99/20210315205216.png)\n\n-   最小堆：所有节点都小于等于它的子节点\n\n    ![](https://img.lzxjack.top:99/20210315205144.png)\n\n\n## 2. 实现\n\nJavaScript 中通常用`数组`表示堆，如下图堆，可用数组表示：\n\n![](https://img.lzxjack.top:99/20210316084618.png)\n\n![](https://img.lzxjack.top:99/20210316084643.png)\n\n即按照**广度优先遍历**的顺序依次填入到**数组**中。\n\n另外，节点位置与数组的下标`index`有如下关系：\n\n-   任意节点的**左侧子节点**（若存在）的位置：`2 × index + 1`\n-   任意节点的**右侧子节点**（若存在）的位置：`2 × index + 2`\n-   任意节点的**父节点**的位置：`( index - 1 ) / 2`（商）\n\n## 3. 最小堆类\n\n1. 在类里，声明一个数组，用来装元素\n2. 主要方法：插入、删除堆顶、获取堆顶、获取堆大小\n\n```javascript\n// 最小堆类\nclass MinHeap {\n    constructor() {\n        this.heap = [];\n    }\n    // 交换节点位置\n    swap(i1, i2) {\n        const temp = this.heap[i1];\n        this.heap[i1] = this.heap[i2];\n        this.heap[i2] = temp;\n    }\n    // 获得父节点\n    getParentIndex(i) {\n        return Math.floor((i - 1) / 2);\n    }\n    // 获得左节点\n    getleftIndex(i) {\n        return 2 * i + 1;\n    }\n    // 获得右节点\n    getrightIndex(i) {\n        return 2 * i + 2;\n    }\n    // 上移\n    shiftUp(index) {\n        if (index === 0) {\n            return;\n        }\n        const parentIndex = this.getParentIndex(index);\n        if (this.heap[parentIndex] > this.heap[index]) {\n            this.swap(parentIndex, index);\n            this.shiftUp(parentIndex);\n        }\n    }\n    // 下移\n    shiftDown(index) {\n        const leftIndex = this.getleftIndex(index);\n        const rightIndex = this.getrightIndex(index);\n        if (this.heap[leftIndex] < this.heap[index]) {\n            this.swap(leftIndex, index);\n            this.shiftDown(leftIndex);\n        }\n        if (this.heap[rightIndex] < this.heap[index]) {\n            this.swap(rightIndex, index);\n            this.shiftDown(rightIndex);\n        }\n    }\n    // 插入 时间复杂度O(logk)，k为堆大小\n    insert(value) {\n        this.heap.push(value);\n        this.shiftUp(this.heap.length - 1);\n    }\n    // 删除堆顶\n    pop() {\n        // pop()方法删除数组最后一个元素并返回，赋值给堆顶\n        this.heap[0] = this.heap.pop();\n        // 对堆顶重新排序\n        this.shiftDown(0);\n    }\n    // 获取堆顶\n    peek() {\n        return this.heap[0];\n    }\n    // 获取堆的大小\n    size() {\n        return this.heap.length;\n    }\n}\n```\n\n\n",
+      "date": 1615776332000,
+      "post": true,
+      "tags": ["JavaScript", "数据结构"],
+      "title": "JavaScript 数据结构 —— 堆",
+      "titleEng": "heap",
+      "url": "https://lzxjack.top/post?title=heap"
+    },
+    {
+      "_id": "8937eaa961262fa70644e935784f340a",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 数据结构与算法",
+      "content": "## 1. 概念\n\n图是**网络结构**的抽象模型，是一组由**边**连接的**节点**。\n\n![](https://img.lzxjack.top:99/20210314114704.png)\n\n## 2. 实现\n\nJavaScript 中没有图，但可用`Object`和`Array`构建图。\n\n### 1. 邻接矩阵\n\n上述图可用邻接矩阵表示为：\n\n![](https://img.lzxjack.top:99/20210314115710.png)\n\n### 2. 邻接表\n\n上述图可用邻接表表示为：\n\n```javascript\nconst graph = {\n    A: ['B'],\n    B: ['C', 'D'],\n    C: ['E'],\n    D: ['A'],\n    E: ['D'],\n};\n```\n\n## 3. 遍历\n\n有如下图，起点为`节点2`：\n\n![](https://img.lzxjack.top:99/20210314131201.png)\n\n```javascript\n// start:2\nconst graph = {\n    0: [1, 2],\n    1: [2],\n    2: [0, 3],\n    3: [3],\n};\n```\n\n### 1. 深度优先遍历\n\n尽可能深地搜索图的分支。\n\n![](https://img.lzxjack.top:99/20210314131638.gif)\n\n1. 访问**根节点**\n2. 对根节点的**未访问过**的**相邻节点**依次进行**深度优先遍历**\n\n```javascript\n// 深度优先遍历图\n// 已访问过的节点集合\nconst visited = new Set();\nconst dfs = n => {\n    console.log(n);\n    visited.add(n);\n    graph[n].forEach(c => {\n        if (!visited.has(c)) {\n            dfs(c);\n        }\n    });\n};\n```\n\n### 2. 广度优先遍历\n\n先访问离根节点最近的节点。\n\n![](https://img.lzxjack.top:99/20210314132317.gif)\n\n1. 新建队列，**根节点**入队\n2. **队头**出队并访问\n3. 队头的**未访问过**的**相邻接点**入队\n4. 重复 2、3 步骤，直至队列为空\n\n```javascript\nconst visited = new Set();\nconst q = [2];\n// 起点先默认访问了\nvisited.add(2);\n\nwhile (q.length) {\n    // 队头出队\n    const n = q.shift();\n    // 访问\n    console.log(n);\n    graph[n].forEach(c => {\n        if (!visited.has(c)) {\n            q.push(c);\n            // 入队就代表已经访问过了\n            visited.add(c);\n        }\n    });\n}\n```\n\n\n",
+      "date": 1615692853000,
+      "post": true,
+      "tags": ["JavaScript", "数据结构"],
+      "title": "JavaScript 数据结构 —— 图",
+      "titleEng": "pic",
+      "url": "https://lzxjack.top/post?title=pic"
+    },
+    {
+      "_id": "14139e1261262d3b06e699421098c1d3",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 数据结构与算法",
+      "content": "## 1. 概念\n\n二叉树是树中每个节点最多只能有两个子节点的**树**。\n\n![](https://img.lzxjack.top:99/20210314093855.png)\n\n## 2. 实现\n\n在 JavaScript 中常用`Object`来实现二叉树，如上图二叉树可表示为：\n\n```javascript\nconst bt = {\n    val: 1,\n    left: {\n        val: 2,\n        left: {\n            val: 4,\n            left: null,\n            right: null,\n        },\n        right: {\n            val: 5,\n            left: {\n                val: 8,\n                left: null,\n                right: null,\n            },\n            right: {\n                val: 9,\n                left: null,\n                right: null,\n            },\n        },\n    },\n    right: {\n        val: 3,\n        left: {\n            val: 6,\n            left: null,\n            right: null,\n        },\n        right: {\n            val: 7,\n            left: null,\n            right: null,\n        },\n    },\n};\n```\n\n## 3. 遍历\n\n### 1. 先序遍历\n\n1. 访问**根节点**\n2. 对根节点的**左子树**进行**先序遍历**\n3. 对根节点的**右子树**进行**先序遍历**\n\n![](https://img.lzxjack.top:99/20210314094724.gif)\n\n**递归版：**\n\n```javascript\n/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n\n// 递归先序遍历： 根 - 左 - 右\nconst preorderTraversal = root => {\n    const res = [];\n    const preOrder = root => {\n        if (!root) return;\n        res.push(root.val); // 根\n        preOrder(root.left); // 左\n        preOrder(root.right); // 右\n    };\n    preOrder(root);\n    return res;\n};\n```\n\n**非递归版：**\n\n```javascript\n/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n\n// 先序遍历（非递归）\nconst preorderTraversal = root => {\n    if (!root) return [];\n    const res = [];\n    const stack = [root];\n    while (stack.length) {\n        // n是栈顶元素，栈顶元素出栈\n        const n = stack.pop();\n        // 访问栈顶元素\n        res.push(n.val);\n        // 栈顶左节点入栈\n        n.right && stack.push(n.right);\n        // 栈顶右节点入栈\n        n.left && stack.push(n.left);\n    }\n    return res;\n};\n```\n\n### 2. 中序遍历\n\n1. 对根节点的**左子树**进行**先序遍历**\n2. 访问**根节点**\n3. 对根节点的**右子树**进行**先序遍历**\n\n![](https://img.lzxjack.top:99/20210314095122.gif)\n\n**递归版：**\n\n```javascript\n/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n\n// 递归中序遍历：左-根-右\nconst inorderTraversal = root => {\n    const res = [];\n    const inOrder = root => {\n        if (!root) return;\n        inOrder(root.left); // 左\n        res.push(root.val); // 根\n        inOrder(root.right); // 右\n    };\n    inOrder(root);\n    return res;\n};\n```\n\n**非递归版：**\n\n```javascript\n/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n\n// 中序遍历（非递归）\nconst inorderTraversal = root => {\n    if (!root) return [];\n    const res = [];\n    const stack = [];\n    let p = root;\n    while (stack.length || p) {\n        while (p) {\n            stack.push(p);\n            p = p.left;\n        }\n        const n = stack.pop();\n        res.push(n.val);\n        p = n.right;\n    }\n    return res;\n};\n```\n\n### 3. 后序遍历\n\n1. 对根节点的**左子树**进行**先序遍历**\n2. 对根节点的**右子树**进行**先序遍历**\n3. 访问**根节点**\n\n![](https://img.lzxjack.top:99/20210314095735.gif)\n\n**递归版：**\n\n```javascript\n/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n\n// 递归后序遍历：左-右-根\nconst postorderTraversal = root => {\n    const res = [];\n    const postOrder = root => {\n        if (!root) return;\n        postOrder(root.left); // 左\n        postOrder(root.right); // 右\n        res.push(root.val); // 根\n    };\n    postOrder(root);\n    return res;\n};\n```\n\n**非递归版：**\n\n```javascript\n/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n\n// 后序遍历（非递归）\nconst postorderTraversal = root => {\n    if (!root) return [];\n    const arr = [root];\n    const res = [];\n    while (arr.length) {\n        const n = arr.pop();\n        res.unshift(n.val);\n        n.left && arr.push(n.left);\n        n.right && arr.push(n.right);\n    }\n    return res;\n};\n```\n\n\n",
+      "date": 1615686214000,
+      "post": true,
+      "tags": ["JavaScript", "数据结构"],
+      "title": "JavaScript 数据结构 —— 二叉树",
+      "titleEng": "b-tree",
+      "url": "https://lzxjack.top/post?title=b-tree"
+    },
+    {
+      "_id": "14139e12612630d306e7455242148bd1",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 数据结构与算法",
+      "content": "## 1. 概念\n\n树是一种**分层**数据的抽象模型。\n\n树的常用操作：\n\n-   深度优先遍历\n-   广度优先遍历\n\n![](https://img.lzxjack.top:99/20210314205329.png)\n\n## 2. 实现\n\nJavaScript 中没有树，但是可用`Object`和`Array`来构建树，如上图中的树可表示为：\n\n```javascript\nconst tree = {\n    val: 'A',\n    children: [\n        {\n            val: 'B',\n            children: [\n                {\n                    val: 'D',\n                    children: [\n                        {\n                            val: 'J',\n                            children: [],\n                        },\n                    ],\n                },\n                {\n                    val: 'E',\n                    children: [],\n                },\n                {\n                    val: 'F',\n                    children: [],\n                },\n            ],\n        },\n        {\n            val: 'C',\n            children: [\n                {\n                    val: 'G',\n                    children: [],\n                },\n                {\n                    val: 'H',\n                    children: [],\n                },\n            ],\n        },\n    ],\n};\n```\n\n## 3. 遍历\n\n### 1. 深度优先遍历\n\n尽可能**深**地搜索树的分支。\n\n![](https://img.lzxjack.top:99/20210314205856.gif)\n\n1. 访问**根**节点\n2. 对根节点的**子节点**依次进行**深度优先遍历**\n\n如上图所示，**深度优先遍历**这棵树，访问顺序为`A - B - D - K - E - F - C - G - H`。\n\n```javascript\n// 深度优先遍历\nconst dfs = root => {\n    // 访问根节点\n    console.log(root.val);\n    // 对根节点的子节点依次进行深度优先遍历\n    root.children.forEach(item => {\n        dfs(item);\n    });\n};\n```\n\n### 2. 广度优先遍历\n\n先访问离根节点**最近**的节点。\n\n![](https://img.lzxjack.top:99/20210314210016.gif)\n\n1. 新建**队列**，**根节点**入队\n2. **队头**出队并访问\n3. 把队头的**子节点**依次入队\n4. 循环 2、3 步骤，直到队列空\n\n如上图所示，**广度优先遍历**这棵树，访问顺序为`A - B - C - D - E - F - G - H - K`，即按照**一级、二级、三级**节点的顺序依次访问。\n\n```javascript\n// 广度优先遍历\nconst bfs = root => {\n    // 创建队列\n    const queue = [root];\n    while (queue.length > 0) {\n        // 获取根节点，根节点出队\n        const n = queue.shift();\n        // 访问队头\n        console.log(n.val);\n        // 队头的子节点依次入队\n        n.children.forEach(item => {\n            queue.push(item);\n        });\n    }\n};\n```\n\n\n",
+      "date": 1615620516000,
+      "post": true,
+      "tags": ["JavaScript", "数据结构"],
+      "title": "JavaScript 数据结构 —— 树",
+      "titleEng": "tree",
+      "url": "https://lzxjack.top/post?title=tree"
+    },
+    {
+      "_id": "cd045e756126305707b7c25c01cb90cf",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 数据结构与算法",
+      "content": "## 1. 概念\n\n栈是一种线性结构，最大的特点就是**先进后出，后进先出**。\n\n![](https://img.lzxjack.top:99/20210313211238.png)\n\n入栈`push()`：\n\n![](https://img.lzxjack.top:99/20210313211250.gif)\n\n出栈`pop()`：\n\n![](https://img.lzxjack.top:99/20210313211258.gif)\n\n## 2. 实现\n\nJavaScript 中可以用**数组**表示栈：\n\n```javascript\nclass Stack {\n    constructor() {\n        this.stack = [];\n    }\n    push(item) {\n        // 入栈\n        this.stack.push(item);\n    }\n    pop() {\n        // 出栈\n        this.stack.pop();\n    }\n    getCount() {\n        // 获取栈大小\n        return this.stack.length;\n    }\n    peek() {\n        // 获取栈顶元素\n        return this.stack[this.getCount() - 1];\n    }\n    isEmpty() {\n        // 判断是否为空栈\n        return this.stack.length === 0;\n    }\n}\n```\n\n\n",
+      "date": 1615618062000,
+      "post": true,
+      "tags": ["JavaScript", "数据结构"],
+      "title": "JavaScript 数据结构 —— 栈",
+      "titleEng": "stack",
+      "url": "https://lzxjack.top/post?title=stack"
+    },
+    {
+      "_id": "2d44d6c26126302306eeca1b63a1edf4",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 数据结构与算法",
+      "content": "## 1. 概念\n\n集合是一种**无序且唯一**的数据结构。\n\n-   **无序**：没有先后顺序，不关心顺序\n-   **唯一**：集合中的元素不允许有重复\n\n## 2. 实现\n\nJavaScript 可用`Set()`表示集合：\n\n```javascript\nconst arr = [1, 2, 2, 3, 3, 3];\n\n// 利用集合进行数组去重\nconst arr2 = [...new Set(arr)];\nconsole.log(arr2); // [ 1, 2, 3 ]\n\n// 判断元素是否在集合中\nconst set = new Set(arr);\nconsole.log(set.has(1)); // true\nconsole.log(set.has(5)); // false\n\n// 求集合的交集\nconst set2 = new Set([2, 3, 4, 5]);\n// 求交集后的集合set3\nconst set3 = new Set([...set].filter(item => set2.has(item)));\nconsole.log(set3); // Set(2) { 2, 3 }\n```\n\n\n",
+      "date": 1615613809000,
+      "post": true,
+      "tags": ["JavaScript", "数据结构"],
+      "title": "JavaScript 数据结构 —— 集合",
+      "titleEng": "set",
+      "url": "https://lzxjack.top/post?title=set"
+    },
+    {
+      "_id": "14139e1261262ff006e712f76cccd065",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 数据结构与算法",
+      "content": "## 1. 概念\n\n队列是一个线性结构，特点是**先进先出**。\n\n![](https://img.lzxjack.top:99/20210313211153.png)\n\n入队`push()`：\n\n![](https://img.lzxjack.top:99/20210313211211.gif)\n\n出队`shift()`：\n\n![](https://img.lzxjack.top:99/20210313211221.gif)\n\n## 2. 实现\n\n```javascript\nclass Queue {\n    constructor() {\n        this.queue = [];\n    }\n    push(item) {\n        // 入队\n        this.queue.push(item);\n    }\n    shift() {\n        // 出队\n        return this.queue.shift();\n    }\n    getHeader() {\n        // 获得队头元素\n        return this.queue[0];\n    }\n    getLength() {\n        // 获得队列长度\n        return this.queue.length;\n    }\n    isEmpty() {\n        // 判断队列是否为空\n        return this.getLength() === 0;\n    }\n}\n```\n\n\n",
+      "date": 1615608946000,
+      "post": true,
+      "tags": ["JavaScript", "数据结构"],
+      "title": "JavaScript 数据结构 —— 队列",
+      "titleEng": "queue",
+      "url": "https://lzxjack.top/post?title=queue"
+    }
+  ],
+  "requestId": "9d1617aef277a"
+}

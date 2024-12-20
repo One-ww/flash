@@ -1,0 +1,101 @@
+{
+  "data": [
+    {
+      "_id": "cd045e75611f343e06c30dad5ee7851b",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 手撕代码",
+      "content": "## 1. 实现效果\n\n```javascript\n// 4+2-1=5\nconsole.log((4).add(2).minus(1)); // 5\n```\n\n## 2. 实现过程\n\n使用`Number`对象的`prototype`属性，为对象**添加方法**即可。\n\n```javascript\nNumber.prototype.add = function (n) {\n    // this为 Number {4} 实例对象\n    // this.valueOf()为Number {4}的基本数字值4\n    return this.valueOf() + n;\n};\nNumber.prototype.minus = function (n) {\n    return this.valueOf() - n;\n};\n\n// 同样，也可以添加乘、除的方法\nNumber.prototype.mul = function (n) {\n    return this.valueOf() * n;\n};\n\nNumber.prototype.div = function (n) {\n    return this.valueOf() / n;\n};\n```\n\n## 3. 验证\n\n```javascript\n// (4+2-1)×6÷10=3\nconsole.log((4).add(2).minus(1).mul(6).div(10)); // 3\n\n// (2×9+6)÷4-5=1\nconsole.log((2).mul(9).add(6).div(4).minus(5)); // 1\n```\n\n完成！\n\n\n",
+      "date": 1608094145000,
+      "post": true,
+      "tags": ["JavaScript"],
+      "title": "JavaScript 实现(4).add(2).minus(1)功能",
+      "titleEng": "add-min",
+      "url": "https://lzxjack.top/post?title=add-min"
+    },
+    {
+      "_id": "cd045e756124f84a07861fdc39555557",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 手撕代码",
+      "content": "## 1. 判断数据类型的方法\n\n### 1. typeof\n\n使用简单，但功能不完整，不能判断所有的数据类型，如下表所示：\n\n|     类型     |     结果      |\n| :----------: | :-----------: |\n| `Undefined`  | `\"undefined\"` |\n|    `Null`    |  `\"object\"`   |\n|  `Boolean`   |  `\"boolean\"`  |\n|   `Number`   |  `\"number\"`   |\n|   `BigInt`   |  `\"bigint\"`   |\n|   `String`   |  `\"string\"`   |\n|   `Symbol`   |  `\"symbol\"`   |\n|  `Function`  | `\"function\"`  |\n| 其他任何对象 |  `\"object\"`   |\n\n### 2. toString\n\n使用`Object.prototype.toString.call()`可正确判断所有数据类型，返回形如`\"[object XXX]\"`的字符串。\n\n### 3. instanceof\n\n`instanceof`**运算符**用于检测构造函数的`prototype`属性是否出现在某个实例对象的原型链上。并**不能**用来判断数据类型。\n\n```javascript\nfunction Car(make, model, year) {\n    this.make = make;\n    this.model = model;\n    this.year = year;\n}\nconst auto = new Car('Honda', 'Accord', 1998);\n\nconsole.log(auto instanceof Car); // true\nconsole.log(auto instanceof Object); // true\n```\n\n\n\n## 2. 封装判断数据类型函数\n\n我们可以通过`typeof`来查看数据的类型，但是在 JavaScript 中，`null`、对象`{}`、数组`[]`、正则表达式`/123/`、日期`new Date()`都被认为是`object`，如下代码所示：\n\n```javascript\nconsole.log(typeof 123); // number\nconsole.log(typeof 'string'); // string\nconsole.log(typeof true); // boolean\nconsole.log(typeof undefined); // undefined\n//----------------------------------------\nconsole.log(typeof null); // object\nconsole.log(typeof {}); // object\nconsole.log(typeof []); // object\nconsole.log(typeof /123/); // object\nconsole.log(typeof new Date()); // object\n```\n\n此时若我们希望输入一个数组`[]`，直接得到`array`这样的返回值，使用`typeof`就无法实现了。\n\n那么如何直接得到`array`呢？\n\n我们先来看下面一段代码：\n\n```javascript\nconsole.log(Object.prototype.toString.call(null)); // [object Null]\nconsole.log(Object.prototype.toString.call({})); // [object Object]\nconsole.log(Object.prototype.toString.call([])); // [object Array]\nconsole.log(Object.prototype.toString.call(/123/)); // [object RegExp]\nconsole.log(Object.prototype.toString.call(new Date())); // [object Date]\n```\n\n可以看到，通过`Object.prototype.toString.call()`，将**需要判断的数据类型**放入`call()`中就可以得到**需要的字符**，如`Null`、`Array`、`RegExp`等。\n\n```javascript\n// 返回的是一个字符串\nconsole.log(typeof Object.prototype.toString.call([])); // string\n```\n\n比如`Object.prototype.toString.call([])`返回`[object Array]`，它是一个**字符串**，那么将这个字符串中除了`Array`以外的字符**全删掉**即可得到`Array`。\n\n```javascript\n// 字符串中除了 Array 以外的字符全删掉即可得到 Array\nconsole.log(Object.prototype.toString.call([]).replace('[object ', '').replace(']', '')); // Array\n```\n\n为了和`typeof`的输出形式一致，将其返回的结果**转化为小写**即可。\n\n```javascript\n// 转化为小写\nconsole.log(Object.prototype.toString.call([]).replace('[object ', '').replace(']', '').toLowerCase()); // array\n```\n\n最后，将上述过程封装成自己的函数`getType()`：\n\n```javascript\nconst getType = obj => {\n    return typeof obj === 'object'\n        ? Object.prototype.toString.call(obj).replace('[object ', '').replace(']', '').toLowerCase()\n        : typeof obj;\n};\n```\n\n首先判断`typeof`返回值是否为`'object'`，若是则**需要进行处理**；若不是则**直接返回**即可。\n\n验证一下：\n\n```javascript\nconsole.log(getType(123)); // number\nconsole.log(getType('string')); // string\nconsole.log(getType(true)); // boolean\nconsole.log(getType(undefined)); // undefined\nconsole.log(getType(null)); // null\nconsole.log(getType({})); // object\nconsole.log(getType([])); // array\nconsole.log(getType(/123/)); // regexp\nconsole.log(getType(new Date())); // date\n```\n\n完成！\n\n\n",
+      "date": 1607952519000,
+      "post": true,
+      "tags": ["JavaScript"],
+      "title": "JavaScript 实现一个判断数据类型的函数",
+      "titleEng": "get-type",
+      "url": "https://lzxjack.top/post?title=get-type"
+    },
+    {
+      "_id": "8937eaa9611f692a0587244714c2a646",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "Demo",
+      "content": "## 1. 实现效果\n\n<a href=\"https://lzxjack.gitee.io/calculator/\" target=\"_blank\">[→ 点击此处预览效果 ←]</a>\n\n1. 点击`Calculator`按钮，打开计算器。\n2. 打开计算器后，左边一栏是对于键盘操作的提示信息。\n3. 按住计算器顶部并移动，可以实现拖拽计算器功能。\n4. 实现了计算器的基本计算功能。\n5. 计算器显示数字的区域，当数字过多时，自动缩小字体以显示全部的数字。\n6. 点击计算器右上角的`×`，关闭计算器。\n7. 支持小键盘输入，功能按键见左侧说明。\n\n![计算器演示](https://img.lzxjack.top:99/20201203162332.gif)\n![自动缩小字体](https://img.lzxjack.top:99/20201203162412.gif)\n\n---\n\n## 2. 存在的BUG\n\n因本人水平、时间有限，计算器存在一些 BUG\n\n1. 没有键盘按下的显示效果。键盘按下的显示效果应与鼠标点击一致。\n\n2. 尽管显示数字区域会自动缩小字体，但显示的数字还是有限。\n\n## 3. 仓库地址\n\n源代码已上传至：\n\n1. <a href=\"https://github.com/lzxjack/Calculator.git\" target=\"_blank\">[GitHub]</a>\n2. <a href=\"https://gitee.com/lzxjack/Calculator.git\" target=\"_blank\">[Gitee]</a>\n\n\n",
+      "date": 1606742923000,
+      "post": true,
+      "tags": ["HTML", "CSS", "jQuery"],
+      "title": "使用jQuery写一个仿IOS14计算器",
+      "titleEng": "calculator",
+      "url": "https://lzxjack.top/post?title=calculator"
+    },
+    {
+      "_id": "8937eaa9611f6d490587ab7e0c7ba5c2",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "CSS",
+      "content": "## 1. 为什么要清除浮动\n\n因为**父级盒子**很多情况下，**不方便给高度**，但是**子盒子浮动**就不占有位置，最后父级盒子高度为 0，就**影响了下面的标准流盒子**。\n![标准流盒子](https://img.lzxjack.top:99/20201203162653.png)\n![子盒子浮动](https://img.lzxjack.top:99/20201203162711.png)\n\n## 2. 清除浮动的方法\n\n### 1. 额外标签法\n\n在**浮动元素末尾**添加一个**空的标签**例如：\n\n```html\n<div style=\"clear:both\"></div>\n```\n\n### 2. 父级添加overflow属性\n\n可以给**父级**添加`overflow`属性为`hidden`或`auto`或`scroll`，触发BFC：\n\n```css\n.Father {\n    overflow: hidden;\n    /* overflow: auto; */\n    /* overflow: scroll; */\n}\n```\n\n### 3. 父级使用after伪元素\n\n```css\n.Father::after {\n    content: '';\n    display: block;\n    height: 0;\n    clear: both;\n    visibility: hidden;\n}\n\n/* IE6、7 专有 */\n.Father {\n    *zoom: 1;\n}\n```\n\n### 4. 父级使用双伪元素\n\n```css\n.Father::before,\n.Father::after {\n    content: '';\n    display: table;\n}\n\n.Father::after {\n    clear: both;\n}\n\n.Father {\n    *zoom: 1;\n}\n```\n\n## 3. 总结\n\n| 清除浮动的方式         | 优点               | 缺点                                |\n| ---------------------- | ------------------ | ----------------------------------- |\n| 额外标签法             | 通俗易懂，书写方便 | 添加许多无意义的标签，结构化较差    |\n| 父级添加 overflow 属性 | 书写简单           | 溢出隐藏                            |\n| 父级使用 after 伪元素  | 结构语义化正确     | 由于 IE6-7 不支持:after，兼容性问题 |\n| 父级使用双伪元素       | 结构语义化正确     | 由于 IE6-7 不支持:after，兼容性问题 |\n\n\n",
+      "date": 1605105098000,
+      "post": true,
+      "tags": ["CSS"],
+      "title": "CSS 清除浮动的4种方法",
+      "titleEng": "clearFix",
+      "url": "https://lzxjack.top/post?title=clearFix"
+    },
+    {
+      "_id": "8937eaa96124db520617f1dd64108962",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "CSS",
+      "content": "## 1. 原始代码\n\n**html 部分**\n\n```html\n<div class=\"father\">\n\t<div class=\"son\"></div>\n</div>\n```\n\n**css 部分**\n\n```css\nbody {\n    background-color: #6ed0ff;\n}\n\n.father {\n    background-color: #be33ec;\n    border-radius: 20px;\n    box-shadow: 0 0 15px rgb(0, 0, 0);\n    margin: 100px auto;\n    width: 300px;\n    height: 300px;\n}\n\n.son {\n    background-color: #fcff00;\n    border-radius: 20px;\n    box-shadow: 0 0 10px rgb(0, 0, 0);\n    width: 100px;\n    height: 100px;\n}\n```\n\n## 2. 效果展示\n\n### 1. 原始效果\n\n![原始效果](https://img.lzxjack.top:99/20201203162555.png)\n\n### 2. 实现子盒子相对于父盒子水平垂直居中效果\n\n![水平垂直居中后的效果](https://img.lzxjack.top:99/20201203162611.png)\n\n## 3. 具体方法\n\n### 1. grid\n\n```css\n.father {\n    display: grid;\n}\n\n.son {\n    align-self: center;\n    justify-self: center;\n}\n```\n\n### 2. absolute+负margin\n\n```css\n.father {\n    position: relative;\n}\n\n.son {\n    position: absolute;\n    left: 50%;\n    top: 50%;\n    margin-left: -50px;\n    margin-top: -50px;\n}\n```\n\n### 3. absolute+transform\n\n```css\n.father {\n    position: relative;\n}\n\n.son {\n    position: absolute;\n    left: 50%;\n    top: 50%;\n    transform: translate(-50%, -50%);\n}\n```\n\n### 4. absolute+margin\n\n```css\n.father {\n    position: relative;\n}\n\n.son {\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 0;\n    bottom: 0;\n    margin: auto;\n}\n```\n\n### 5. flex\n\n```css\n.father {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n```\n\n### 6. margin+transfrom\n\n```css\n.father {\n    overflow: hidden;\n}\n\n.son {\n    margin: 50% auto;\n    transform: translateY(-50%);\n}\n```\n\n### 7. table-cell\n\n```css\n.father {\n    display: table-cell;\n    text-align: center;\n    vertical-align: middle;\n}\n\n.son {\n    display: inline-block;\n}\n```\n\n### 8. inline-block+vertical-align\n\n```css\n.father {\n    text-align: center;\n    line-height: 300px;\n}\n\n.son {\n    display: inline-block;\n    vertical-align: middle;\n}\n```\n\n\n",
+      "date": 1604933127000,
+      "post": true,
+      "tags": ["CSS", "实用技巧"],
+      "title": "CSS 实现盒子水平垂直居中的方法",
+      "titleEng": "center",
+      "url": "https://lzxjack.top/post?title=center"
+    },
+    {
+      "_id": "2d44d6c2612649d806f3457e4a640b42",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "前端基础",
+      "content": "## 1. 面向过程与面向对象\n\n### 1. 面向过程\n\n**面向过程**就是分析出解决问题所需要的步骤，然后用函数把这些步骤**一步一步**实现，使用的时候再**一个一个**依次调用就可以了。\n\n### 2. 面向对象\n\n**面向对象**是把事务分解成为一个个对象，然后由对象之间分工与合作。\n\n### 3. 面向过程与面向对象对比\n\n|      | 面向过程                                                                     | 面向对象                                                                                                              |\n| ---- | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |\n| 优点 | 性能比面向对象高，适合跟硬件联系很紧密的东西，例如单片机就采用的面向过程编程 | 易维护、易复用、易扩展，由于面向对象有封装、继承、多态性的特性，可以设计出低耦合的系统，使系统 更加灵活、更加易于维护 |\n| 缺点 | 不易维护、不易复用、不易扩展                                                 | 性能比面向过程低                                                                                                      |\n\n## 2. 对象与类\n\n### 1. 对象\n\n对象是由**属性**和**方法**组成的：是一个**无序键值对**的集合，指的是一个**具体的事物**\n\n-   **属性**：事物的特征，在对象中用属性来表示（常用**名词**）\n-   **方法**：事物的行为，在对象中用方法来表示（常用**动词**）\n\n**创建对象：**\n\n```javascript\n//字面量创建对象\nvar usr1 = {\n    name: 'Jack',\n    age: 18,\n};\nconsole.log(usr1);\n\n//构造函数创建对象\nfunction Star(name, age) {\n    this.name = name;\n    this.age = age;\n}\nvar usr2 = new Star('Tom', 20); //实例化对象\nconsole.log(usr2);\n```\n\n**运行结果：**\n![运行结果](https://img.lzxjack.top:99/20201203163107.png)\n\n### 2. 类\n\n在 ES6 中新增加了类的概念，可以使用`class`关键字声明一个类，之后以这个类来**实例化**对象。\n**类**抽象了对象的公共部分，它泛指某一大类。\n**对象**特指某一个，通过类实例化一个具体的对象。\n\n#### 1. 创建类\n\n```javascript\n// 1. 创建类 class\nclass Star {\n    // 类的共有属性放到 constructor 里面\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\n// 2. 利用类创建对象 new\nvar usr = new Star('Jack', 18);\nconsole.log(usr);\n```\n\n**运行结果：**\n![运行结果](https://img.lzxjack.top:99/20201203163124.png)\n\n通过结果我们可以看出：运行结果和**使用构造函数方式一样**\n\n#### 2. 类创建添加属性和方法\n\n```javascript\n// 1. 创建类 class  创建一个类\nclass Star {\n    // 类的共有属性放到 constructor ,里面constructor是构造器或者构造函数\n    constructor(uname, age) {\n        this.uname = uname;\n        this.age = age;\n    } // 注意,方法与方法之间不需要添加逗号\n    do(sports) {\n        console.log(this.uname + '喜欢' + sports);\n    }\n}\n// 2. 利用类创建对象 new\nvar usr = new Star('Jack', 18);\nconsole.log(usr);\nusr.do('打篮球');\n```\n\n**运行结果：**\n![运行结果](https://img.lzxjack.top:99/20201203163139.png)\n\n**注意：**\n\n1. 通过`class`关键字创建类，类名习惯性定义**首字母大写**\n2. 类里有个`constructor`函数，可以接受传递过来的参数，同时**返回实例对象**\n3. `constructor`函数，只要`new`生成实例时，就会**自动调用**这个函数。如果不写这个函数，类也会**自动生成**这个函数\n4. 多个函数方法之间**不需要**添加逗号分隔\n5. 生成实例`new`不能省略\n6. 创建类，类名后面**不要加**小括号。生成实例，类名后面**加**小括号。构造函数**不需要**加`function`\n\n#### 3. 类的继承\n\n```javascript\nclass Father {\n    constructor(surname) {\n        this.surname = surname;\n    }\n    say() {\n        console.log('你的名字是' + this.surname);\n    }\n}\nclass Son extends Father {} // 这样子类就继承了父类的属性和方法\n\nvar damao = new Son('Jack');\ndamao.say();\n```\n\n**运行结果：**\n![运行结果](https://img.lzxjack.top:99/20201203163156.png)\n\n**子类使用`super`关键字访问父类的方法：**\n\n```javascript\n//定义父类\nclass Father {\n    constructor(x, y) {\n        this.x = x;\n        this.y = y;\n    }\n    sum() {\n        console.log(this.x + this.y);\n    }\n}\n//子元素继承父类\nclass Son extends Father {\n    constructor(x, y) {\n        super(x, y); //使用super调用了父类中的构造函数\n    }\n}\nvar son = new Son(1, 2);\nson.sum(); // 结果为3\n```\n\n**注意:**\n\n1. 继承中，如果实例化子类输出一个方法，先看子类有没有这个方法，如果有就先执行子类的\n\n2. 继承中，如果子类里面没有，就去查找父类有没有这个方法。如果有，就执行父类的这个方法\n\n3. 如果子类想要继承父类的方法，同时在自己内部扩展自己的方法，利用`super`调用父类的构造函数，`super`必须在子类`this`之前调用\n\n```javascript\n// 父类有加法方法\nclass Father {\n    constructor(x, y) {\n        this.x = x;\n        this.y = y;\n    }\n    sum() {\n        console.log(this.x + this.y);\n    }\n}\n// 子类继承父类加法方法 同时 扩展减法方法\nclass Son extends Father {\n    constructor(x, y) {\n        // 利用super 调用父类的构造函数 super 必须在子类this之前调用,放到this之后会报错\n        super(x, y);\n        this.x = x;\n        this.y = y;\n    }\n    subtract() {\n        console.log(this.x - this.y);\n    }\n}\nvar son = new Son(5, 3);\nson.subtract(); // 2\nson.sum(); // 8\n```\n\n**运行结果：**\n![运行结果](https://img.lzxjack.top:99/20201203163225.png)\n\n4. 在 ES6 中类**没有变量提升**，所以必须**先定义类**，才能通过类实例化对象\n5. 时刻注意`this`的指向问题，类里面的共有的**属性**和**方法**一定要加`this`使用\n   （1）`constructor`中的`this`指向的是`new`出来的实例对象\n   （2）自定义的方法，一般也指向的`new`出来的实例对象\n   （3）绑定事件之后`this`指向的就是触发事件的事件源\n\n\n",
+      "date": 1604117105000,
+      "post": true,
+      "tags": ["JavaScript"],
+      "title": "JavaScript 面向对象",
+      "titleEng": "js-oo",
+      "url": "https://lzxjack.top/post?title=js-oo"
+    },
+    {
+      "_id": "f427f5e2642313ea0019b99d32f4c2c0",
+      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
+      "classes": "JavaScript 手撕代码",
+      "content": "# 1. 实现效果\n\n![效果演示](https://img.lzxjack.top:99/20201203163246.gif)\n请切换到**移动端页面**查看！\n![切换移动端查看](https://img.lzxjack.top:99/20201203163304.png)\n\n# 2. 代码实现\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n        <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\" />\n        <title>Document</title>\n        <style>\n            body {\n                background-color: #1cee89;\n            }\n\n            div {\n                position: absolute;\n                left: 0;\n                width: 100px;\n                height: 100px;\n                background-color: #8294ff;\n                border-radius: 20px;\n            }\n        </style>\n    </head>\n\n    <body>\n        <div></div>\n        <script>\n            var div = document.querySelector('div');\n            var startX = 0; // 获取手指初始坐标\n            var startY = 0;\n            var x = 0; // 获得盒子原来的位置\n            var y = 0;\n            // 手指触摸\n            div.addEventListener('touchstart', function (e) {\n                //  获取手指初始坐标\n                startX = e.targetTouches[0].pageX;\n                startY = e.targetTouches[0].pageY;\n                x = this.offsetLeft;\n                y = this.offsetTop;\n                this.style.boxShadow = '0 0 15px rgba(0, 0, 0, .6)';\n            });\n            // 手指离开\n            div.addEventListener('touchend', function (e) {\n                this.style.boxShadow = '';\n            });\n\n            // 手指按住移动\n            div.addEventListener('touchmove', function (e) {\n                //  计算手指的移动距离：手指移动之后的坐标减去手指初始的坐标\n                var moveX = e.targetTouches[0].pageX - startX;\n                var moveY = e.targetTouches[0].pageY - startY;\n                // 移动盒子 盒子原来的位置 + 手指移动的距离\n                this.style.left = x + moveX + 'px';\n                this.style.top = y + moveY + 'px';\n                e.preventDefault(); // 阻止屏幕滚动的默认行为\n            });\n        </script>\n    </body>\n</html>\n```\n\n\n",
+      "date": 1603674015000,
+      "post": true,
+      "tags": ["JavaScript"],
+      "title": "JavaScript 移动端拖动元素",
+      "titleEng": "move-mobile",
+      "url": "https://lzxjack.top/post?title=move-mobile"
+    },
+    {
+      "_id": "2cc84e26642313ef067fbb6f296f29e4",
+      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
+      "classes": "前端基础",
+      "content": "# 1. 简单缓动动画函数\n\n```javascript\nanimate(obj, target, time, callback);\n```\n\n**注意：**\n\n-   `obj`：目标对象，需要加**绝对定位**\n-   `target`：目标位置\n-   `time`：动画间隔时间\n-   `callback`：回调函数\n\n# 2. 代码实现\n\n```javascript\nfunction animate(obj, target, time, callback) {\n    // 先清除以前的定时器，只保留当前的一个定时器执行\n    clearInterval(obj.timer);\n    obj.timer = setInterval(function () {\n        // 步长值写到定时器的里面，并设置为整数，缓动效果\n        var step = (target - obj.offsetLeft) / 10;\n        step = step > 0 ? Math.ceil(step) : Math.floor(step);\n        if (obj.offsetLeft == target) {\n            clearInterval(obj.timer);\n            // 回调函数写到定时器结束里面\n            callback && callback();\n        }\n        obj.style.left = obj.offsetLeft + step + 'px';\n    }, time);\n}\n```\n\n\n",
+      "date": 1603672411000,
+      "post": true,
+      "tags": ["JavaScript"],
+      "title": "JavaScript 简单缓动动画函数封装",
+      "titleEng": "pack-animation",
+      "url": "https://lzxjack.top/post?title=pack-animation"
+    }
+  ],
+  "requestId": "9cc103b2afe5a"
+}

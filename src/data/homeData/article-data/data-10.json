@@ -1,0 +1,101 @@
+{
+  "data": [
+    {
+      "_id": "14139e12612b351907a56c321b29a034",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "React 学习笔记",
+      "content": "## 1. 实现效果\n\n`input`输入框显示的是`state`中的数据，`state`改变，`input`输入框中的值也跟着改变：\n\n![](https://img.lzxjack.top:99/20210630150039.gif)\n\n手动更改输入框的值，`state`也会相应改变：\n\n![](https://img.lzxjack.top:99/20210630145948.gif)\n\n## 2. 实现过程\n\n使用 React-Hook，首先定义渲染`input`输入框值的`state`，初始值为空：\n\n```javascript\nconst [inputValue, setInputValue] = useState('');\n```\n\n然后在`input`输入框中添加`value`属性，属性值为`inputValue`，由`inputValue`决定显示的内容。\n\n```html\n<input type=\"text\" className=\"inputDemo\" value={inputValue} />\n```\n\n然而浏览器会报出警告，意思是给`input`添加了`value`属性，必须再加上`onChange` 或者`readOnly`属性，要么就将 value 改为`defaultValue`：\n\n> Warning: You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.\n\n要实时显示`inputValue`的内容，当然不能设置为`defaultValue`，也不能设置只读`readOnly`，所以加上`onChange`事件，里面定义一个函数，功能为根据`input`的`value`改变状态：\n\n```html\n<input\n\ttype=\"text\"\n\tclassName=\"inputDemo\"\n\tvalue={inputValue}\n\tonChange={e => {\n\t\tsetInputValue(e.target.value);\n\t}}\n/>\n```\n\n> `onChange`里面的函数，接受**事件对象**为参数，通过**事件对象**，可以拿到当前的`value`。\n\n## 3. 完整代码\n\n```javascript\nimport { useState } from 'react';\nimport './index.css';\n\nconst Demo = () => {\n    const [inputValue, setInputValue] = useState('');\n    return (\n        <>\n            <input\n                type=\"text\"\n                className=\"inputDemo\"\n                value={inputValue}\n                onChange={e => {\n                    setInputValue(e.target.value);\n                }}\n            />\n        </>\n    );\n};\n\nexport default Demo;\n```\n\n\n",
+      "date": 1625037561000,
+      "post": true,
+      "tags": ["React"],
+      "title": "React 实现输入框input的双向数据绑定",
+      "titleEng": "react-bind",
+      "url": "https://lzxjack.top/post?title=react-bind"
+    },
+    {
+      "_id": "fc8e6465642313af06756fe43df5dc25",
+      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
+      "classes": "CSS",
+      "content": "# 1. text-shadow\n\n该属性设置的是文字阴影效果：\n\n```css\ntext-shadow: h-shadow v-shadow blur color;\n```\n\n-   `h-shadow`：必需。水平阴影的位置。允许负值。\n-   `v-shadow`：必需。垂直阴影的位置。允许负值。\n-   `blur`：可选。模糊的距离。\n-   `color`：可选。阴影的颜色。\n\n![](https://img.lzxjack.top:99/20210628105246.png)\n\n```html\n<span class=\"demo\">文字描边</span>\n```\n\n```css\n.demo {\n    text-shadow: 2px 2px 10px #000;\n}\n```\n\n# 2. text-stroke\n\n该属性是一个复合属性，设置的是文字的描边**厚度**和**颜色**：\n\n```css\ntext-stroke：[ text-stroke-width ] || [ text-stroke-color ]\n```\n\n需要加上`-webkit`前缀。\n\n![](https://img.lzxjack.top:99/20210628105555.png)\n\n```html\n<span class=\"demo\">文字描边</span>\n```\n\n```css\n.demo {\n    -webkit-text-stroke: 2px red;\n}\n```\n\n\n",
+      "date": 1624847999000,
+      "post": true,
+      "tags": ["CSS", "实用技巧"],
+      "title": "CSS 两种方法实现文字描边",
+      "titleEng": "text-shadow",
+      "url": "https://lzxjack.top/post?title=text-shadow"
+    },
+    {
+      "_id": "1ac91032642313ce001aa321455a4a1d",
+      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
+      "classes": "CSS",
+      "content": "# 1. 百分比高度\n\n```css\nhtml,\nbody {\n    height: 100%;\n}\ndiv {\n    height: 100%;\n    background-color: yellow;\n}\n```\n\n相对于父元素 100%高度，所以父元素高度也要调整。\n\n# 2. 相对单位（vh）\n\n```css\ndiv {\n    height: 100vh;\n    background-color: yellow;\n}\n```\n\n`vh`：相对视口**高度**的单位\n\n`vw`：相对视口**宽度**的单位\n\n> `100vh`就代表高度占满整个窗口。\n\n# 3. calc\n\n```css\nhtml,\nbody {\n    height: 100%;\n}\ndiv {\n    height: calc(100%);\n    background-color: yellow;\n}\n```\n\n这里的**百分号**也是相对于父元素的。\n\n了解一下 `CSS3` 中的 `calc()` 函数：\n\n-   `calc()` 函数用于动态计算长度值\n-   运算符前后都需要保留一个空格\n-   任何长度值都可以使用 `calc()` 函数进行计算\n-   支持 `+`, `-`, `*`, `/` 运算\n\n\n",
+      "date": 1624434124000,
+      "post": true,
+      "tags": ["CSS"],
+      "title": "CSS 多种方法实现100%高度的容器",
+      "titleEng": "100h",
+      "url": "https://lzxjack.top/post?title=100h"
+    },
+    {
+      "_id": "fc8e6465642313df067573394f2b1fb8",
+      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
+      "classes": "CSS",
+      "content": "实现元素圆角：\n\n![](https://img.lzxjack.top:99/20210623164907.png)\n\n# 1. border-radius\n\n```css\n.demo {\n    width: 100px;\n    height: 100px;\n    background-color: blue;\n    border-radius: 20px;\n}\n```\n\n# 2. clip-path\n\n```css\n.demo {\n    width: 100px;\n    height: 100px;\n    background-color: blue;\n    clip-path: inset(0 round 20px);\n}\n```\n\n\n",
+      "date": 1624428296000,
+      "post": true,
+      "tags": ["CSS"],
+      "title": "CSS 两种方式实现圆角边框",
+      "titleEng": "round-border",
+      "url": "https://lzxjack.top/post?title=round-border"
+    },
+    {
+      "_id": "fc8e6465642313e1067573400aef1320",
+      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
+      "classes": "CSS",
+      "content": "-   `-webkit-min-device-pixel-ratio`\n\n    当前设备的**物理像素分辨率**与 **CSS 像素分辨率**比值的**最小值**\n\n    可以用标准属性`min-resolution`代替\n\n-   `-webkit-max-device-pixel-ratio`\n\n    当前设备的**物理像素分辨率**与 **CSS 像素分辨率**比值的**最大值**\n\n    可以用标准属性`max-resolution`代替\n\n# 1. border-width\n\n```css\n.border {\n    width: 100px;\n    height: 100px;\n    border: 1px solid #000;\n}\n@media screen and (min-resolution: 2dppx) {\n    .border {\n        border: 0.5px solid #000;\n    }\n}\n@media screen and (min-resolution: 3dppx) {\n    .border {\n        border: 0.333333px solid #000;\n    }\n}\n```\n\n# 2. 伪元素+transform\n\n```css\n.border {\n    height: 100px;\n    width: 100px;\n}\n.border::after {\n    content: '';\n    display: block;\n    height: 100px;\n    width: 100px;\n    border: 1px solid #000;\n}\n@media only screen and (min-resolution: 2dppx) {\n    .border::after {\n        -webkit-transform: scaleY(0.5);\n        transform: scaleY(0.5);\n    }\n}\n@media only screen and (min-resolution: 3dppx) {\n    .border::after {\n        -webkit-transform: scaleY(0.33);\n        transform: sacleY(0.33);\n    }\n}\n```\n\n\n",
+      "date": 1624417966000,
+      "post": true,
+      "tags": ["CSS"],
+      "title": "CSS 1px边框问题两个解决方案",
+      "titleEng": "1px",
+      "url": "https://lzxjack.top/post?title=1px"
+    },
+    {
+      "_id": "93e4b6a0642313e4068384b15f09e883",
+      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
+      "classes": "CSS",
+      "content": "# 1. 实现效果\n\n单行居中：\n\n![](https://img.lzxjack.top:99/20210621164337.png)\n\n多行居左：\n\n![](https://img.lzxjack.top:99/20210621164355.png)\n\n# 2. 实现代码\n\n父元素：\n\n```CSS\n.father {\n    text-align: center;\n}\n```\n\n子元素：\n\n```css\n.son {\n    text-align: left;\n    display: inline-block;\n}\n```\n\nDEMO 代码：\n\n```css\n.father {\n    width: 200px;\n    height: 100px;\n    background-color: rgb(117, 231, 247);\n    text-align: center;\n}\n.son {\n    text-align: left;\n    display: inline-block;\n}\n```\n\n```html\n<div class=\"father\">\n    <div class=\"son\">层叠样式表是一种用来表现HTML或XML等文件样式的计算机语言。</div>\n    <!-- <div class=\"son\">CSS</div> -->\n</div>\n```\n\n\n",
+      "date": 1624275528000,
+      "post": true,
+      "tags": ["CSS", "实用技巧"],
+      "title": "CSS 实现单行居中，多行居左",
+      "titleEng": "center-left",
+      "url": "https://lzxjack.top/post?title=center-left"
+    },
+    {
+      "_id": "cd045e756126356207b8de31413b33ff",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 常见问题",
+      "content": "> **循环打印**问题是面试中经典的题目，一般会给出代码，让我们解释原因，并给出若干解决方案。\n\n### 1. 题目分析\n\n以下代码运行后会打印什么？\n\n> **答案**：6 6 6 6 6\n\n```javascript\nfor (var i = 1; i <= 5; i++) {\n    setTimeout(function () {\n        console.log(i);\n    }, 0);\n}\n```\n\n虽然每个`for`循环中定时器设置的时间都是`0`，但由于 JavaScript 是单线程 `eventLoop`机制，`setTimeout`是异步任务，遇到`setTimeout`函数时，JavaScript 会将其放入**任务队列**中，待同步任务执行完毕后，才执行**任务队列**中的**异步任务**。\n\n又因为`setTimeout`函数也是一种**闭包**，往上找它的**父级作用域链**是`window`，而变量`i`是用`var`声明的，是`window`上的**全局变量**，所以此时变量`i`的值已经变成`i = 6`了，最后执行`setTimeout`时，当然会输出 5 个`6`了！\n\n### 2. 解决办法\n\n如果就是要输入`1 2 3 4 5`，该怎么办呢？\n\n#### 1. 立即执行函数\n\n**立即执行函数**可以锁定参数值，传入每次循环的当前索引，从而**锁定**索引值。\n\n```javascript\nfor (var i = 1; i <= 5; i++) {\n    (function (i) {\n        setTimeout(function () {\n            console.log(i);\n        }, 0);\n    })(i);\n}\n```\n\n#### 2. 使用 let 声明（块级作用域）\n\n利用 JavaScript 的**块级作用域**，就不用这么麻烦了。如果`for`循环使用**块级作用域**变量关键字，循环就会为每个循环创建**独立的变量**，从而每次打印都会有正确的索引值。\n\n```javascript\nfor (let i = 1; i <= 5; i++) {\n    setTimeout(function () {\n        console.log(i);\n    }, 0);\n}\n```\n\n#### 3. 定时器传入第三个参数\n\n一般我们使用`setTimeout`都会使用 2 个参数，**回调函数**和**延迟时间**，但`setTimeout`是有第三个参数的。\n\n一旦定时器到期，会将**第三个参数**作为**参数**传递给**回调函数**。这样打印时，也能得到正确的索引值。\n\n```javascript\nfor (var i = 1; i <= 5; i++) {\n    setTimeout(\n        function (i) {\n            console.log(i);\n        },\n        0,\n        i\n    );\n}\n```\n\n#### 4. 使用 Promise\n\n在任务队列`tasks`中，依次存放`Promise`，其中传入相应的`i`，异步操作完成之后，输出最后的`i`。\n\n```javascript\nconst tasks = []; // 这里存放异步操作的 Promise\nconst output = i =>\n  new Promise(resolve => {\n    setTimeout(() => {\n      console.log(i);\n      resolve();\n    }, i);\n  });\n\n// 生成全部的异步操作\nfor (var i = 0; i <= 5; i++) {\n  tasks.push(output(i));\n}\n\n// 异步操作完成之后，输出最后的 i\nPromise.all(tasks).then(() => {\n  console.log(i);\n});\n\n```\n\n",
+      "date": 1623068307000,
+      "post": true,
+      "tags": ["JavaScript"],
+      "title": "JavaScript经典题 —— 解决循环打印问题",
+      "titleEng": "loop-output",
+      "url": "https://lzxjack.top/post?title=loop-output"
+    },
+    {
+      "_id": "14139e126124dd4906b6b3d261c837ba",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 手撕代码",
+      "content": "> 😃😃😃 本人能力有限，欢迎大佬指正改进~\n\n## 1. 防抖函数（debounce）\n\n**防抖函数功能：**\n\n> 在事件被触发 n 秒后再执行回调，如果在这 n 秒内又被触发，则**重新计时**。\n\n比如一个搜索框，应用防抖函数后，当用户不断输入内容时，不会发送请求。只有当用户一段时间`T`内不输入内容了，才会发送一次请求。如果小于这段时间`T`继续输入内容的话，就会重新计算时间`T`，也不会发送请求。这样降低了发送请求的次数，提高性能的同时也提升了用户体验。\n\n**实现防抖函数：**\n\n```javascript\n// func是用户传入需要防抖的函数\n// wait是等待时间，若不传参，默认50ms\n// 因为闭包，timer将一直在内存中\nconst debounce = (func, wait = 50) => {\n    // 缓存一个定时器\n    let timer = null;\n    // 返回的函数是每次用户实际调用的防抖函数\n    return (...args) => {\n        // 如果已经设定过定时器了就清空上一次的定时器\n        if (timer) clearTimeout(timer);\n        // 开始一个新的定时器，延迟执行用户传入的方法\n        timer = setTimeout(() => {\n            func.apply(this, args);\n        }, wait);\n    };\n};\n```\n\n**实现效果：**\n\n上方输入框，下方显示区，**不断输入**内容时，下方显示区**不会更新**。只有在`1s`内不输入内容了，下方显示区才会更新内容。\n\n![](https://img.lzxjack.top:99/20210605133111.gif)\n\n## 2. 节流函数（throttle）\n\n**节流函数功能：**\n\n> 规定在一个**单位时间**内，只能触发**一次**函数。如果这个单位时间内触发多次函数，**只有一次**生效。\n\n**实现节流函数：**\n\n```javascript\n// func是用户传入需要防抖的函数\n// wait是等待时间，若不传参，默认50ms\n// 因为闭包，flag将一直在内存中\nconst throttle = (func, wait = 50) => {\n    // 定义flag，初始为true\n    let flag = true;\n    // 返回的函数是每次用户实际调用的节流函数\n    return (...args) => {\n        if (flag) {\n            // 如果flag为true，则执行定时器\n            setTimeout(() => {\n                func.apply(this, args);\n                // 函数执行完毕后，将flag改回true\n                // 以便下次再执行\n                flag = true;\n            }, wait);\n        }\n        // 因为定时器是异步任务，定时器执行后，立刻将flag关闭\n        // 在等待延时时间时，阀门始终关闭，不会一直执行函数\n        flag = false;\n    };\n};\n```\n\n**实现效果：**\n\n上方输入框，下方显示区。不断输入内容时，每隔`500ms`，下方显示区**才会更新一次内容**。\n\n![](https://img.lzxjack.top:99/20210605141021.gif)\n\n\n",
+      "date": 1622893858000,
+      "post": true,
+      "tags": ["JavaScript"],
+      "title": "JavaScript 实现防抖、节流函数",
+      "titleEng": "debounce-throttle",
+      "url": "https://lzxjack.top/post?title=debounce-throttle"
+    }
+  ],
+  "requestId": "b47c84a593eb9"
+}

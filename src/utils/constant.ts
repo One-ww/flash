@@ -43,7 +43,7 @@ export const siteCountStale = 300000;
 // 首页文章分页，每页数据
 export const homeSize = 8;
 export const msgSize = 10;
-export const detailPostSize = 10;
+export const detailPostSize = 8;
 
 // 个人信息
 export const myName = "flash";

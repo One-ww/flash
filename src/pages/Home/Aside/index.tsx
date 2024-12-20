@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 
-import AccountCard from './AccountCard';
-import BlogCard from './BlogCard';
-import ClockCard from './ClockCard';
-import DataCard from './DataCard';
-import styles from './index.scss';
-import NoticeCard from './NoticeCard';
-import SiteCard from './SiteCard';
-import TagCard from './TagCard';
+import AccountCard from './AccountCard'
+import BlogCard from './BlogCard'
+import ClockCard from './ClockCard'
+import DataCard from './DataCard'
+import styles from './index.scss'
+// import NoticeCard from './NoticeCard'
+import SiteCard from './SiteCard'
+import TagCard from './TagCard'
 
 const Aside: React.FC = () => {
   return (
@@ -15,14 +15,14 @@ const Aside: React.FC = () => {
       <BlogCard />
       <AccountCard />
       <DataCard />
-      <NoticeCard />
+      {/* <NoticeCard /> */}
       <ClockCard />
       <div className={styles.cardSticky}>
         <TagCard />
         <SiteCard />
       </div>
     </aside>
-  );
-};
+  )
+}
 
-export default Aside;
+export default Aside

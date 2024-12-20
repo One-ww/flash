@@ -1,0 +1,101 @@
+{
+  "data": [
+    {
+      "_id": "1ac91032642313e6001ac9b9334fad33",
+      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
+      "classes": "Demo",
+      "content": "# 1. 实现效果\n\n<a href=\"https://lzxjack.gitee.io/todolist/\" target=\"_blank\">[→ 点击此处预览效果 ←]</a>\n\n-   在上方输入栏中输入待办事项，按`回车键`即可添加到`正在进行`中\n-   `正在进行`中点击每项前面的方格，即可标记为`已经完成`\n-   `已经完成`中点击每项前面的方格，重新回到`正在进行`\n-   点击每项最右边的`圆圈`，删除事项\n-   基于`localStorage`本地存储，关闭浏览器再打开，数据不会丢失\n\n![](https://img.lzxjack.top:99/20210327200854.gif)\n\n# 2. 仓库地址\n\n源代码已上传至：\n\n1. <a href=\"https://github.com/lzxjack/ToDoList.git\" target=\"_blank\">[GitHub]</a>\n2. <a href=\"https://gitee.com/lzxjack/ToDoList.git\" target=\"_blank\">[Gitee]</a>\n\n\n",
+      "date": 1616815732000,
+      "post": true,
+      "tags": ["JavaScript", "jQuery"],
+      "title": "基于jQuery的待办事项 ToDoList",
+      "titleEng": "jquery-todo",
+      "url": "https://lzxjack.top/post?title=jquery-todo"
+    },
+    {
+      "_id": "8937eaa9612e2131078b47dd74df2f23",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "前端基础",
+      "content": "## 1. 基本类型\n\n### 1. 类型声明\n\n-   类型声明是 TS 非常重要的一个特点\n-   通过类型声明可以指定 TS 中变量（参数、形参）的类型\n-   指定类型后，当为变量赋值时，TS 编译器会自动检查值是否符合类型声明，符合则赋值，否则报错\n-   简而言之，类型声明给变量设置了类型，使得变量只能存储某种类型的值\n\n语法：\n\n```typescript\nlet 变量: 类型;\n\nlet 变量: 类型 = 值;\n\nfunction fn(参数: 类型, 参数: 类型): 类型{\n    ...\n}\n```\n\n### 2. 自动类型判断\n\n-   TS 拥有自动的类型判断机制\n-   当对变量的声明和赋值是同时进行的，TS 编译器会自动判断变量的类型\n-   所以如果你的变量的声明和赋值时同时进行的，可以省略掉类型声明\n\n### 3. 类型\n\n|  类型   |       例子        |              描述               |\n| :-----: | :---------------: | :-----------------------------: |\n| number  |    1, -33, 2.5    |            任意数字             |\n| string  | 'hi', \"hi\", `hi`  |           任意字符串            |\n| boolean |    true、false    |      布尔值 true 或 false       |\n| 字面量  |      其本身       |  限制变量的值就是该字面量的值   |\n|   any   |        \\*         |            任意类型             |\n| unknown |        \\*         |         类型安全的 any          |\n|  void   | 空值（undefined） |     没有值（或 undefined）      |\n|  never  |      没有值       |          不能是任何值           |\n| object  |  {name:'孙悟空'}  |         任意的 JS 对象          |\n|  array  |      [1,2,3]      |          任意 JS 数组           |\n|  tuple  |       [4,5]       | 元素，TS 新增类型，固定长度数组 |\n|  enum   |    enum{A, B}     |       枚举，TS 中新增类型       |\n\n-   number\n\n```typescript\nlet decimal: number = 6;\nlet hex: number = 0xf00d;\nlet binary: number = 0b1010;\nlet octal: number = 0o744;\nlet big: bigint = 100n;\n```\n\n-   boolean\n\n```typescript\nlet isDone: boolean = false;\n```\n\n-   string\n\n```typescript\nlet color: string = 'blue';\ncolor = 'red';\n\nlet fullName: string = `Bob Bobbington`;\nlet age: number = 37;\nlet sentence: string = `Hello, my name is ${fullName}.\n\nI'll be ${age + 1} years old next month.`;\n```\n\n-   字面量\n\n    也可以使用字面量去指定变量的类型，通过字面量可以确定变量的。\n\n    `|`表示联合类型，或\n\n```typescript\nlet color: 'red' | 'blue' | 'black';\nlet num: 1 | 2 | 3 | 4 | 5;\n```\n\n-   any\n\n    表示的是任意类型，一个变量设置类型为 any 后相当于对该变量关闭了 TS 的类型检测\n\n    any 类型的变量，可以赋值给其他变量，但也将其他变量变为了 any\n\n    声明变量如果不指定类型，则 TS 解析器会自动判断变量的类型为 any （隐式的 any）\n\n    尽量不使用 any\n\n```typescript\nlet d: any = 4;\nd = 'hello';\nd = true;\n```\n\n-   unknown\n\n    表示未知类型的值\n\n    不能赋值给其他类型的变量\n\n    加了类型判断，就可以赋值\n\n```typescript\nlet e: unknown;\nif (typeof e === 'string') {\n    s = e;\n}\n```\n\n-   void\n\n    函数的返回值为`空`\n\n    若没有设定函数返回值类型，自动判断返回值的类型\n\n```typescript\nlet unusable: void = undefined;\n```\n\n-   never\n\n    函数永远没有返回值\n\n```typescript\nfunction error(message: string): never {\n    throw new Error(message);\n}\n```\n\n-   object\n\n    `{}`用来指定对象中可以包含哪些属性\n\n    语法：`{属性名:属性值,属性名:属性值}`\n\n    在属性名后边加上`?`，表示属性是可选的\n\n    `[propName: string]: any` 表示任意类型的属性\n\n```typescript\nlet obj: object = {};\n```\n\n-   tuple\n\n    固定长度的数组\n\n    `[类型, 类型, 类型.....]`\n\n```typescript\nlet x: [string, number];\nx = ['hello', 10];\n```\n\n-   enum\n\n```typescript\nenum Color {\n    Red,\n    Green,\n    Blue,\n}\nlet c: Color = Color.Green;\n\nenum Color {\n    Red = 1,\n    Green,\n    Blue,\n}\nlet c: Color = Color.Green;\n\nenum Color {\n    Red = 1,\n    Green = 2,\n    Blue = 4,\n}\nlet c: Color = Color.Green;\n```\n\n-   类型断言\n\n    有些情况下，变量的类型对于我们来说是很明确，但是 TS 编译器却并不清楚，此时，可以通过类型断言来告诉编译器变量的类型，断言有两种形式：\n\n```typescript\nlet someValue: unknown = 'this is a string';\nlet strLength: number = (someValue as string).length;\n```\n\n```typescript\nlet someValue: unknown = 'this is a string';\nlet strLength: number = (<string>someValue).length;\n```\n\n-   函数结构类型声明\n\n```typescript\nlet d: (a: number, b: number) => number;\n// 声明d是一个函数：有两个都是number的参数，返回值为number\n```\n\n## 2. 编译选项\n\n-   自动编译文件\n\n    编译文件时，使用`-w`指令后，TS 编译器会自动监视文件的变化，并在文件发生变化时对文件进行重新编译\n\n```powershell\ntsc xxx.ts -w\n```\n\n-   自动编译整个项目\n\n    如果直接使用`tsc`指令，则可以自动将当前项目下的所有 ts 文件编译为 js 文件\n\n    但是能直接使用`tsc`命令的前提是，要先在项目根目录下创建一个 TS 的配置文件 `tsconfig.json`\n\n    `tsconfig.json`是一个 JSON 文件，添加配置文件后，只需只需`tsc`命令即可完成对整个项目的编译\n\n```typescript\ntsc - w;\n```\n\n-   `tsconfig.json`配置\n\n```json\n{\n    // 用来指定哪些ts文件需要被编译\n    \"include\": [\"./src/**/*\"],\n\n    // 不需要被编译的文件目录\n    \"exclude\": [\"./src/hello/**/*\"],\n\n    // 编译器的选项\n    \"compilerOptions\": {\n        // target 用来指定ts被编译为的ES的版本\n        \"target\": \"es2015\",\n\n        // module 指定要使用的模块化的规范\n        \"module\": \"es2015\",\n\n        // lib用来指定项目中要使用的库\n        \"lib\": [\"es6\", \"dom\"],\n\n        // outDir 用来指定编译后文件所在的目录\n        \"outDir\": \"./dist\",\n\n        // 设置outFile后，所有的全局作用域中的代码会合并到同一个文件中\n        \"outFile\": \"./dist/app.js\",\n\n        // 是否对js文件进行编译，默认是false\n        \"allowJs\": true,\n\n        // 是否检查js代码是否符合语法规范，默认是false\n        \"checkJs\": true,\n\n        // 是否移除注释\n        \"removeComments\": true,\n\n        // 不生成编译后的文件\n        \"noEmit\": false,\n\n        // 当有错误时不生成编译后的文件\n        \"noEmitOnError\": true,\n\n        // 所有严格检查的总开关，一开全开，一关全关\n        \"strict\": true,\n\n        // 用来设置编译后的文件是否使用严格模式，默认false\n        \"alwaysStrict\": true,\n\n        // 不允许隐式的any类型\n        \"noImplicitAny\": true,\n\n        // 不允许不明确类型的this\n        \"noImplicitThis\": true,\n\n        // 严格的检查空值\n        \"strictNullChecks\": true\n    }\n}\n```\n\n\n",
+      "date": 1616506229000,
+      "post": true,
+      "tags": ["TypeScript"],
+      "title": "TypeScript 基础学习",
+      "titleEng": "ts-basics",
+      "url": "https://lzxjack.top/post?title=ts-basics"
+    },
+    {
+      "_id": "2d44d6c2612e13620855a2665fcc2591",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "Demo",
+      "content": "## 1. 游戏效果\n\n<a href=\"https://lzxjack.gitee.io/snake/\" target=\"_blank\">[→ 点击此处预览效果 ←]</a>\n\n-   方向键控制蛇的移动方向\n-   蛇吃到食物后，身体多出一格，分数`+1`，食物重新刷新位置\n-   最大等级为 8 级，每 2 分升一级，升级后蛇的移动速度增加\n-   若蛇撞到边界**或**撞到自己，则游戏结束\n-   刷新页面后游戏重新开始\n\n![](https://img.lzxjack.top:99/20210323123246.gif)\n\n## 2. 实现方法\n\n贪吃蛇小游戏用 TypeScript 编写，HTML 骨架和 CSS 样式部分比较简单，很多方法都可以实现效果，这里就说一说 TS 的实现思路。\n\n因为小游戏比较简单，所以没用使用`webpack`等打包，直接写将 TS 编译后的 JS 文件引入页面。TS 部分运用了面向对象的编程思想，首先需要创建四个类，分别是食物类`Food`、蛇类`Snake`、计分面板类`ScorePanel`、游戏控制类`GameControl`，分别给他们编写相应的属性和方法：\n\n|           类            |                                      属性                                       |                                               方法                                               |\n| :---------------------: | :-----------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: |\n|      食物类`Food`       |                        绑定页面表示`食物`的红色方块即可                         |                  获取食物 X、Y 坐标<br/>修改食物的位置，即随机生成一个新的食物                   |\n|       蛇类`Snake`       |                     分别绑定页面的蛇容器、蛇身子、蛇头部分                      | 获取蛇头 X、Y 坐标<br />设置蛇头 X、Y 坐标<br />增加蛇身子<br />蛇身体移动<br />判断蛇是否撞自己 |\n| 计分面板类`ScorePanel`  |                分数<br />等级<br />绑定页面表示分数、等级的部分                 |                                          加分<br />升级                                          |\n| 游戏控制类`GameControl` | 绑定`Snake`、`Food`、`ScorePanel`类<br />是否存活的变量（布尔值）<br />按键方向 |                 游戏初始化<br />判断键盘按下<br />蛇移动<br />判断蛇是否吃到食物                 |\n\n首先游戏控制类进行游戏初始化，通过定时器不断调用蛇移动方法。期间要判断用户按下的按键进行改变方向，判断蛇是否撞到自己、撞墙，判断蛇是否吃到食物，若吃到食物则加分、增加身体、刷新食物位置。根据分数判断是否升级。\n\n## 3. 仓库地址\n\n源代码已上传至：\n\n1. <a href=\"https://github.com/lzxjack/Snake.git\" target=\"_blank\">[Github]</a>\n2. <a href=\"https://gitee.com/lzxjack/Snake.git\" target=\"_blank\">[Gitee]</a>\n\n\n",
+      "date": 1616502728000,
+      "post": true,
+      "tags": ["TypeScript"],
+      "title": "TypeScript 贪吃蛇小游戏",
+      "titleEng": "ts-snake",
+      "url": "https://lzxjack.top/post?title=ts-snake"
+    },
+    {
+      "_id": "cd045e75612e2181094ab1166b28bf9a",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "前端基础",
+      "content": "## 1. 定义类\n\n类的属性：\n\n-   实例属性：直接定义的属性，通过对象的实例访问\n-   静态属性（类属性）：`static`开头，无需创建实例，通过**类**去访问\n-   只读属性：`readonly`开头，无法修改\n\n类的方法：\n\n-   实例方法：直接定义的方法\n-   类方法：`static`开头，通过类去访问\n\n```typescript\nclass Person {\n    // 直接定义的属性\n    age = 18;\n    // 静态属性（类属性）\n    static gender = 'man';\n    // 只读属性\n    readonly name = 'Jack';\n\n    // 实例方法\n    sayHello() {\n        console.log('Hello!');\n    }\n\n    // 类方法\n    static sayHi() {\n        console.log('Hi!');\n    }\n}\n\nconst Jack = new Person();\n\nconsole.log(Jack.name);\nconsole.log(Jack.age);\nconsole.log(Person.gender);\n\nJack.sayHello();\nPerson.sayHi();\n```\n\n## 2. 构造函数\n\n`constructor()`被称为**构造函数**，构造函数会在**创建实例对象**时自动调用。\n\n-   在实例方法中，`this`表示当前当前的对象实例\n\n-   在构造函数中，当前对象就是当前新建的对象\n\n-   可以通过`this`向新建的对象中添加属性\n\n```typescript\nclass Dog {\n    name: string;\n    age: number;\n\n    constructor(name: string, age: number) {\n        this.name = name;\n        this.age = age;\n    }\n\n    bark() {\n        console.log(this.name);\n    }\n}\n\nconst dog = new Dog('小黑', 2);\nconst dog2 = new Dog('小白', 3);\n\ndog.bark(); // 小黑\ndog2.bark(); // 小白\n```\n\n## 3. 继承\n\n-   使用关键字`extends`实现继承\n-   子类将会拥有父类**所有的方法和属性**\n-   可以在子类中添加父类没有的属性和方法\n-   **重写**：子类中添加了和父类相同的方法，则子类方法会覆盖掉父类的方法\n-   在类的方法中，`super`表示当前类的**父类**\n-   若**子类**中写了构造函数，必须在子类构造函数中**手动**对**父类的构造函数**进行调用（`super`表示父类）\n\n```typescript\n// 父类\nclass Animal {\n    name: string;\n    age: number;\n\n    constructor(name: string, age: number) {\n        this.name = name;\n        this.age = age;\n    }\n\n    sayHello() {\n        console.log('动物叫~');\n    }\n}\n\n// 子类：狗\nclass Dog extends Animal {\n    sayHello() {\n        console.log('wang wang~');\n        // super就表示当前类的父类\n        super.sayHello();\n    }\n}\n\n// 子类：猫\nclass Cat extends Animal {\n    gender: string;\n\n    constructor(name: string, age: number, gender: string) {\n        // 手动调用父类的构造函数，参数为name, age\n        super(name, age);\n        this.gender = gender;\n    }\n\n    run() {\n        console.log(`${this.name}在跑！`);\n    }\n    sayHello() {\n        console.log('miao miao~');\n    }\n}\n\nconst dog = new Dog('柯基', 2);\nconst cat = new Cat('布偶', 4, '雌');\n\ndog.sayHello();\n// wang wang~\n// 动物叫~\n\nconsole.log(cat); // Cat { name: '布偶', age: 4, gender: '雌' }\ncat.run(); // 布偶在跑！\n```\n\n## 4. 抽象类、抽象方法\n\n-   以`abstract`开头的类是**抽象类**\n-   抽象类**不能用来创建对象**，是专门用来**被继承**的类\n-   抽象类中可以添加**抽象方法**，以`abstract`开头，**没有方法体**\n-   **抽象方法**只能定义在**抽象类**或**接口**中，子类**必须**对抽象方法进行**重写**\n\n```typescript\nabstract class Animal {\n    name: string;\n\n    constructor(name: string) {\n        this.name = name;\n    }\n    abstract sayHello(): void;\n}\n\nclass Dog extends Animal {\n    age: number;\n\n    constructor(name: string, age: number) {\n        super(name);\n        this.age = age;\n    }\n    sayHello() {\n        console.log(`我是${this.name}`);\n    }\n}\n\nconst dog = new Dog('旺财', 2);\ndog.sayHello(); // 我是旺财\n```\n\n## 5. 接口\n\n-   接口`interface`用来定义一个**类结构**，规定应该包含的属性和方法\n\n-   也可以当成类型声明去使用\n\n-   接口中的所有的属性都不能有实际的值，只定义对象的结构\n\n-   接口中**所有**的方法都是**抽象方法**\n\n-   定义类时，可以使类去**实现一个接口**\n\n    `class 类名 implements 接口名{}`\n\n```typescript\n// 定义接口\ninterface myInterface {\n    name: string;\n}\n\n// 补充这个接口\ninterface myInterface {\n    age: number;\n    sayHello(): void;\n}\n\nclass Person implements myInterface {\n    name: string;\n    age: number;\n    constructor(name: string, age: number) {\n        this.name = name;\n        this.age = age;\n    }\n    sayHello() {\n        console.log('Hello~');\n    }\n}\n```\n\n## 6. 属性封装\n\n### 1. 属性修饰符\n\n对象实质上就是属性和方法的容器，它的主要作用就是**存储属性和方法**，这就是所谓的**封装**。定义类时，可以在属性前添加**属性的修饰符**：\n\n-   `public`：公有属性，可以在**任意位置访问**（修改），默认值\n-   `private`：私有属性，只能在类内部进行访问（修改），但外部可以利用**类的方法**访问私有属性\n-   `protected`：受保护的属性，只能在**当前类**和**当前类的子类**中访问（修改）\n\n可以直接将**属性**定义在**构造函数**中，以下两端代码**等价**：\n\n```typescript\nclass Person {\n    name: string;\n    age: number;\n    constructor(name: string, age: number) {\n        this.name = name;\n        this.age = age;\n    }\n}\n```\n\n```typescript\nclass Person {\n    constructor(public name: string, public age: number) {}\n}\n// public不能忘记\n```\n\n### 2. 属性存取器\n\n-   对于一些**不希望被任意修改**的属性，可以将其设置为`private`\n-   直接将其设置为`private`将导致**无法再通过对象修改其中的属性**\n-   我们可以在类中定义一组**读取、设置**属性的方法，这种对属性读取或设置的属性被称为**属性的存取器**\n-   读取属性的方法叫做`setter`方法，设置属性的方法叫做`getter`方法\n\n```typescript\nclass Person {\n    private age: number;\n    constructor(_age: number) {\n        this.age = _age;\n    }\n    get _age() {\n        return this.age;\n    }\n    set _age(value) {\n        if (value > 0) {\n            this.age = value;\n        }\n    }\n}\n\nconst Tom = new Person(12);\n// “age”为私有属性，只能在类“Person”中访问\n// 所以访问的是 _age\nTom._age = 18; // 可以更改\nconsole.log(Tom._age); // 18\nTom._age = -18; // 不满足条件，无法更改\nconsole.log(Tom._age); //  18\n```\n\n## 7. 泛型\n\n在定义**函数**或**类**时，如果遇到**类型不明确**就可以使用**泛型**。\n\n```typescript\nfunction fn<T>(a: T): T {\n    return a;\n}\n\n// 可以直接调用具有泛型的函数\nlet result = fn(10); // 不指定泛型，TS可以自动对类型进行推断\nlet result2 = fn<string>('hello'); // 指定泛型\n```\n\n```typescript\n// 泛型可以同时指定多个\nfunction fn<T, K>(a: T, b: K): T {\n    console.log(b);\n    return a;\n}\nfn<number, string>(123, 'hello');\n```\n\n```typescript\n// 定义类时可以使用泛型\nclass MyClass<T> {\n    name: T;\n    constructor(name: T) {\n        this.name = name;\n    }\n}\nconst Person = new MyClass<string>('Jack');\n```\n\n```typescript\ninterface Inter {\n    length: number;\n}\n\n// T extends Inter 表示泛型T必须是Inter实现类（子类）\nfunction fn<T extends Inter>(a: T): number {\n    return a.length;\n}\n```\n\n\n",
+      "date": 1616249648000,
+      "post": true,
+      "tags": ["TypeScript"],
+      "title": "TypeScript 面向对象",
+      "titleEng": "ts-oo",
+      "url": "https://lzxjack.top/post?title=ts-oo"
+    },
+    {
+      "_id": "2d44d6c2612e148e0855d6e03e7c1823",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 数据结构与算法",
+      "content": "## 1. 思路\n\n以**升序**排序为例：\n\n1. 分区\n    - 从数组中任意选择一个元素作为`基准`，所有比`基准`小的元素放在`基准`前面，比`基准`大的元素放在`基准`后面。\n2. 递归\n    - 递归地对`基准`前后的子数组进行**分区操作**\n\n**升序快速排序**动画演示如图所示：\n\n![](https://img.lzxjack.top:99/20210318101706.gif)\n\n**时间复杂度**：O(nlogN)\n\n## 2. 实现\n\n现有数组`[7, 5, 4, 15, 3, 9, 6, 12]`，进行升序排序：\n\n```javascript\nArray.prototype.quickSort = function () {\n    const rec = arr => {\n        if (arr.length <= 1) {\n            return arr;\n        }\n        const left = [];\n        const right = [];\n        // 选择基准为数组第一个元素\n        const mid = arr[0];\n        // 从第二个元素开始遍历数组\n        for (let i = 1; i < arr.length; i++) {\n            if (arr[i] < mid) {\n                // 比基准小，放到左数组\n                left.push(arr[i]);\n            } else {\n                // 比基准大，放到右数组\n                right.push(arr[i]);\n            }\n        }\n        // 返回连接好的数组\n        return [...rec(left), mid, ...rec(right)];\n    };\n    const res = rec(this);\n    // 将res拷贝到this\n    res.forEach((item, index) => {\n        this[index] = item;\n    });\n};\n\nconst arr = [7, 5, 4, 15, 3, 9, 6, 12];\narr.quickSort();\nconsole.log(arr);\n```\n\n执行结果：\n\n![](https://img.lzxjack.top:99/20210316114654.png)\n\n\n",
+      "date": 1616032636000,
+      "post": true,
+      "tags": ["JavaScript", "排序算法"],
+      "title": "JavaScript 快速排序",
+      "titleEng": "sort-quick",
+      "url": "https://lzxjack.top/post?title=sort-quick"
+    },
+    {
+      "_id": "cd045e75612e12da09473e6e23648ad9",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 数据结构与算法",
+      "content": "## 1. 思路\n\n1. 遍历数组\n2. 找到跟目标元素，返回它的下标\n3. 遍历结束后，若没有找到目标值，返回`-1`\n\n**时间复杂度**：O(n)\n\n## 2. 实现\n\n现有数组`[7, 5, 4, 15, 3, 9, 6, 12]`，进行顺序搜索`3`：\n\n```javascript\nArray.prototype.sequentialSearch = function (item) {\n    for (let i = 0; i < this.length; i++) {\n        if (this[i] === item) return i;\n    }\n    return -1;\n};\n\nconst res = [7, 5, 4, 15, 3, 9, 6, 12].sequentialSearch(3);\nconsole.log(res);\n```\n\n执行结果：\n\n![](https://img.lzxjack.top:99/20210318095728.png)\n\n\n",
+      "date": 1616029794000,
+      "post": true,
+      "tags": ["JavaScript", "搜索算法"],
+      "title": "JavaScript 顺序搜索",
+      "titleEng": "search-sequential",
+      "url": "https://lzxjack.top/post?title=search-sequential"
+    },
+    {
+      "_id": "2d44d6c2612e14210855c502738b0544",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 数据结构与算法",
+      "content": "## 1. 思路\n\n以**升序**排序为例：\n\n1. 从第二个数开始往前比较\n2. 比前面的数小就继续往前比较\n3. 在合适的位置插入该元素\n4. 第三个数开始往前比较\n5. 以此类推，进行到最后一个数\n\n**升序插入排序**动画演示如图所示：\n\n![](https://img.lzxjack.top:99/20210317134257.gif)\n\n**时间复杂度**：O(n^2)\n\n## 2. 实现\n\n现有数组`[7, 5, 4, 15, 3, 9, 6, 12]`，进行升序排序：\n\n```javascript\nArray.prototype.insertionSort = function () {\n    // 第一个数默认已经排序\n    // 从第二个数开始，遍历没有排序过的数\n    for (let i = 1; i < this.length; i++) {\n        // 提取当前遍历的元素\n        const temp = this[i];\n        // 从当前元素位置往前比较\n        let j = i;\n        while (j > 0) {\n            // 如果前一个数比提取的数\n            if (this[j - 1] > temp) {\n                // 将前一个数后移\n                this[j] = this[j - 1];\n            } else {\n                // 否则退出循环\n                break;\n            }\n            // 每比较一次，往前进一位\n            j--;\n        }\n        // 遍历完成后，将提取的数插入\n        this[j] = temp;\n    }\n};\n\nconst arr = [7, 5, 4, 15, 3, 9, 6, 12];\narr.insertionSort();\nconsole.log(arr);\n```\n\n执行结果：\n\n![](https://img.lzxjack.top:99/20210316114654.png)\n\n\n",
+      "date": 1615944928000,
+      "post": true,
+      "tags": ["JavaScript", "排序算法"],
+      "title": "JavaScript 插入排序",
+      "titleEng": "sort-insertion",
+      "url": "https://lzxjack.top/post?title=sort-insertion"
+    },
+    {
+      "_id": "2d44d6c2612e14ca0855e0fc02c57a59",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "JavaScript 数据结构与算法",
+      "content": "## 1. 思路\n\n以**升序**排序为例：\n\n1. 找到数组中的最小值，将其放置在数组第一位\n2. 找到数组中第二小的值，将其放置在数组第二位\n3. 以此类推，执行`n-1`轮就可以完成排序\n\n**升序选择排序**动画演示如图所示：\n\n![](https://img.lzxjack.top:99/20210316121739.gif)\n\n**时间复杂度**：O(n^2)\n\n## 2. 实现\n\n现有数组`[7, 5, 4, 15, 3, 9, 6, 12]`，进行升序排序：\n\n```javascript\nArray.prototype.selectionSort = function () {\n    // 重复(元素个数-1)次\n    for (let i = 0; i < this.length - 1; i++) {\n        // 把第一个没有排序过的元素设置为最小值\n        let indexMin = i;\n        // 遍历每个没有排序过的元素\n        for (let j = i; j < this.length; j++) {\n            // 如果遍历时出现元素小于现在的最小值\n            if (this[j] < this[indexMin]) {\n                // 将此元素设置为新的最小值\n                indexMin = j;\n            }\n        }\n        // 遍历结束后，将最小值和第一个没有排序过的位置交换\n        if (indexMin !== i) {\n            let temp = this[i];\n            this[i] = this[indexMin];\n            this[indexMin] = temp;\n        }\n    }\n};\n\nconst arr = [7, 5, 4, 15, 3, 9, 6, 12];\narr.selectionSort();\nconsole.log(arr);\n```\n\n执行结果：\n\n![](https://img.lzxjack.top:99/20210316114654.png)\n\n\n",
+      "date": 1615880300000,
+      "post": true,
+      "tags": ["JavaScript", "排序算法"],
+      "title": "JavaScript 选择排序",
+      "titleEng": "sort-selection",
+      "url": "https://lzxjack.top/post?title=sort-selection"
+    }
+  ],
+  "requestId": "5e29ba979223c"
+}

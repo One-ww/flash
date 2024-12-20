@@ -1,0 +1,77 @@
+{
+  "data": [
+    {
+      "_id": "2cc84e26642313f1067fbb825a942084",
+      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
+      "classes": "前端基础",
+      "content": "# 1. 实现效果\n\n点击`点击`按钮，弹出对话框。\n按住对话框顶部并移动，实现拖动效果。\n点击对话框右上角`×`，关闭对话框。\n![实现效果](https://img.lzxjack.top:99/20201208220330.gif)\n\n# 2. 代码实现\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n        <title>Document</title>\n        <style>\n            * {\n                margin: 0;\n                top: 0;\n            }\n\n            .login-btn {\n                width: 50px;\n                height: 50px;\n                line-height: 50px;\n                font-size: 16px;\n                text-align: center;\n                margin: 100px auto;\n                background-color: #1e1e1e;\n                color: white;\n                border-radius: 50%;\n            }\n\n            .login-btn:hover {\n                cursor: pointer;\n                background-color: #323233;\n                box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);\n            }\n\n            .bg {\n                display: none;\n                width: 100%;\n                height: 100%;\n                position: fixed;\n                top: 0;\n                left: 0;\n                background-color: rgba(0, 0, 0, 0.4);\n            }\n\n            .login {\n                display: none;\n                position: fixed;\n                top: 50%;\n                left: 50%;\n                transform: translate(-50%, -50%);\n                width: 300px;\n                height: 200px;\n                background-color: #1e1e1e;\n                box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3);\n            }\n\n            .hd {\n                position: relative;\n                width: 100%;\n                height: 26px;\n                background-color: #323233;\n            }\n\n            .hd:hover {\n                cursor: move;\n            }\n\n            .close {\n                position: absolute;\n                top: 3px;\n                right: 5px;\n                width: 20px;\n                height: 20px;\n                background-color: red;\n                text-align: center;\n                line-height: 20px;\n                border-radius: 50%;\n                box-shadow: 0 0 5px rgba(0, 0, 0, 0.7) inset;\n            }\n\n            .close:hover {\n                background-color: yellow;\n                cursor: pointer;\n            }\n        </style>\n    </head>\n\n    <body>\n        <div class=\"login-btn\">点击</div>\n        <div class=\"bg\"></div>\n        <div class=\"login\">\n            <div class=\"hd\">\n                <div class=\"close\">×</div>\n            </div>\n        </div>\n        <script>\n            // 获取元素\n            var btn = document.querySelector('.login-btn');\n            var bg = document.querySelector('.bg');\n            var login = document.querySelector('.login');\n            var close = document.querySelector('.close');\n            var hd = document.querySelector('.hd');\n\n            // 按下btn，弹出对话框\n            btn.addEventListener('click', function () {\n                bg.style.display = 'block';\n                login.style.display = 'block';\n            });\n\n            // 按下close，关闭对话框\n            close.addEventListener('click', function () {\n                bg.style.display = 'none';\n                login.style.display = 'none';\n            });\n\n            hd.addEventListener('mousedown', function (e) {\n                // 鼠标按下对话框顶部时，获取鼠标到对话框的距离\n                var x = e.pageX - login.offsetLeft;\n                var y = e.pageY - login.offsetTop;\n                // 鼠标按下并移动时，实时更新对话框的位置\n                document.addEventListener('mousemove', move);\n\n                function move(e) {\n                    login.style.left = e.pageX - x + 'px';\n                    login.style.top = e.pageY - y + 'px';\n                }\n                // 鼠标松开时，移除拖拽的动作\n                document.addEventListener('mouseup', function () {\n                    document.removeEventListener('mousemove', move);\n                });\n            });\n        </script>\n    </body>\n</html>\n```\n\n\n",
+      "date": 1603671734000,
+      "post": true,
+      "tags": ["JavaScript"],
+      "title": "JavaScript 拖动元素",
+      "titleEng": "move",
+      "url": "https://lzxjack.top/post?title=move"
+    },
+    {
+      "_id": "cd045e756124e75a07831f42747475bf",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "前端基础",
+      "content": "## 1. JS是单线程\n\nJavaScript 语言的一大特点就是**单线程**，也就是说，**同一个时间只能做一件事。**\n这是因为 Javascript 这门脚本语言诞生的使命所致——JavaScript 是为处理页面中用户的交互，以及操作 DOM 而诞生的。比如我们对某个 DOM 元素进行添加和删除操作，不能同时进行。应该先进行添加，之后再删除。\n\n单线程就意味着，所有任务需要排队，前一个任务结束，才会执行后一个任务。\n这样所导致的问题是：如果 JS 执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞的感觉。\n\n## 2. 同步和异步\n\n为了解决这个问题，利用多核 CPU 的计算能力，HTML5 提出 Web Worker 标准，允许 JavaScript 脚本创建多个线程。于是，JS 中出现了**同步**和**异步**。\n**本质区别：** 这条流水线上<u>各个流程的执行顺序</u>不同。\n\n### 1. 同步\n前一个任务结束后再执行后一个任务，程序的执行顺序与任务的排列顺序是一致的、同步的。\n比如做饭的同步做法：我们要烧水煮饭，等水开了（10 分钟之后），再去切菜，炒菜。\n\n**同步任务**：\n\n同步任务都在主线程上执行，形成一个**执行栈**。\n\n### 2. 异步\n你在做一件事情时，因为这件事情会花费很长时间，在做这件事的同时，你还可以去处理其他事情。\n比如做饭的异步做法，我们在烧水的同时，利用这 10 分钟，去切菜，炒菜。\n\n**异步任务**：\n\nJS 的异步是通过**回调函数**实现的。\n\n一般而言，异步任务有以下三种类型:\n\n1. 普通事件，如`click`、`resize`等\n2. 资源加载，如`load`、`error`等\n3. 定时器，包括`setInterval`、`setTimeout`等\n\n异步任务相关**回调函数**添加到**任务队列**中（**任务队列**也称为**消息队列**）。\n\n**有如下代码：**\n\n```javascript\nconsole.log(1);\nsetTimeout(function () {\n    console.log(3);\n}, 0);\nconsole.log(2);\n\n// 1\n// 2\n// 3\n```\n\n**执行栈**和**任务队列**如图所示：\n![](https://img.lzxjack.top:99/20201208221158.png)\n\n## 3. 执行机制\n\n1. 先执行**执行栈中的同步任务**。\n2. 异步任务（回调函数）放入任务队列中。\n3. 一旦执行栈中的所有同步任务执行完毕，系统就会按次序读取**任务队列**中的异步任务，于是被读取的异步任务结束等待状态，进入执行栈，开始执行。\n   ![](https://img.lzxjack.top:99/20201208221212.png)\n\n![](https://img.lzxjack.top:99/20201208221222.png)\n\n由于**主线程**不断重复**获得任务、执行任务、再获取任务、再执行**，所以这种机制被称为**事件循环（ event loop）**。\n\n\n",
+      "date": 1603592570000,
+      "post": true,
+      "tags": ["JavaScript"],
+      "title": "JavaScript 执行机制浅谈",
+      "titleEng": "enforcement",
+      "url": "https://lzxjack.top/post?title=enforcement"
+    },
+    {
+      "_id": "f427f5e2642313f30019ba0a02aac3bd",
+      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
+      "classes": "CSS",
+      "content": "**（1）属性设置使用简写**\n\n例如：\n\n```css\n.box {\n    margin-top: 10px;\n    margin-right: 20px;\n    margin-bottom: 30px;\n    margin-left: 40px;\n}\n```\n\n简写为：\n\n```css\n.box {\n    margin: 10px 20px 30px 40px;\n}\n```\n\n可以减小生成包的体积。\n\n**（2）用CSS替换图片**\n\n一些箭头、圆，若能用CSS代替，尽量用CSS画。\n\n可以减少HTTP请求，减轻服务器压力。\n\n**（3）删除不必要的单位、零**\n\n例如：\n\n```css\n.box {\n    width: 0.2em;\n    height: 20em;\n    padding: 0px;\n}\n```\n\n可优化为：\n\n```css\n.box {\n    width: 0.2em;\n    height: 20em;\n    padding: 0;\n}\n```\n\n可以减小生成包的体积。\n\n**（4）使用CSS精灵图**\n\n也可以减少HTTP请求，减轻服务器压力。",
+      "date": 1603093237000,
+      "post": true,
+      "tags": ["CSS"],
+      "title": "如何优化CSS以提高性能？",
+      "titleEng": "css-optimize",
+      "url": "https://lzxjack.top/post?title=css-optimize"
+    },
+    {
+      "_id": "2cc84e26642313f6067fbbab5c3cf1ee",
+      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
+      "classes": "CSS",
+      "content": "# 1. 实现效果\n\n一共三栏，左中右，左右分别在页面的左右侧，中间部分充满剩余的宽度。\n\n![](https://img.lzxjack.top:99/20211019145816.png)\n\n# 2. 实现方案\n\n## 1. 浮动布局\n\n注意，中间的盒子，需要写在最下面。左右盒子分别设置左浮动、右浮动。\n\n```html\n<div class=\"box\">\n    <div class=\"left\">left</div>\n    <div class=\"right\">right</div>\n    <div class=\"center\">center</div>\n</div>\n```\n\n```css\n.left {\n    float: left;\n    width: 100px;\n    background: red;\n}\n\n.center {\n    background: green;\n}\n\n.right {\n    float: right;\n    width: 100px;\n    background: blue;\n}\n```\n\n## 2. table布局\n\n```html\n<div class=\"box\">\n    <div class=\"left\">left</div>\n    <div class=\"center\">center</div>\n    <div class=\"right\">right</div>\n</div>\n```\n\n```css\n.box {\n    width: 100%;\n    display: table;\n    height: 100px;\n}\n\n.left {\n    display: table-cell;\n    width: 100px;\n    background: red;\n}\n\n.center {\n    display: table-cell;\n    background: green;\n}\n\n.right {\n    display: table-cell;\n    width: 100px;\n    background: blue;\n}\n```\n\n## 3. 定位布局\n\n父盒子相对定位，子盒子绝对定位。\n\n```html\n<div class=\"box\">\n    <div class=\"left\">left</div>\n    <div class=\"center\">center</div>\n    <div class=\"right\">right</div>\n</div>\n```\n\n```css\n.box {\n    position: relative;\n}\n\n.left {\n    position: absolute;\n    left: 0px;\n    width: 100px;\n    background: red;\n}\n\n.center {\n    position: absolute;\n    left: 100px;\n    right: 100px;\n    background: green;\n}\n\n.right {\n    position: absolute;\n    right: 0px;\n    width: 100px;\n    background: blue;\n}\n```\n\n## 4. flex布局\n\n父盒子设置为`flex`容器，左右盒子定宽，中间盒子占满剩余空间。\n\n```html\n<div class=\"box\">\n    <div class=\"left\">left</div>\n    <div class=\"center\">center</div>\n    <div class=\"right\">right</div>\n</div>\n```\n\n```css\n.box {\n    display: flex;\n}\n\n.left {\n    width: 100px;\n    background: red;\n}\n\n.center {\n    flex: 1;\n    background: green;\n}\n\n.right {\n    width: 100px;\n    background: blue;\n}\n```\n\n## 5. grid布局\n\n只需两行核心代码即可。\n\n```html\n<div class=\"box\">\n    <div class=\"left\">left</div>\n    <div class=\"center\">center</div>\n    <div class=\"right\">right</div>\n</div>\n```\n\n```css\n.box {\n    display: grid;\n    grid-template-columns: 100px 1fr 100px;\n}\n\n.left {\n    background: red;\n}\n\n.center {\n    background: green;\n}\n\n.right {\n    background: blue;\n}\n```\n\n",
+      "date": 1603092649000,
+      "post": true,
+      "tags": ["CSS"],
+      "title": "CSS实现三栏布局的5种方案",
+      "titleEng": "3-layout",
+      "url": "https://lzxjack.top/post?title=3-layout"
+    },
+    {
+      "_id": "1ac91032642313f9001aca5a356d7564",
+      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
+      "classes": "CSS",
+      "content": "# 1. 实现效果\n\n在一个父盒子中，有两个子盒子。左边盒子定宽，右边盒子自动充满剩下的宽度。当左边盒子宽度改变时，右边盒子也会自动调整，以充满整个剩下的宽度。\n\n![](https://img.lzxjack.top:99/20211018151153.gif)\n\n# 2. 实现方案\n\n相同的`HTML`：\n\n```html\n<div class=\"box-wrapper\">\n    <div class=\"left-box\">left-box</div>\n    <div class=\"right-box\">right-box</div>\n</div>\n```\n\n## 1. flex布局\n\n```css\n.box-wrapper {\n    width: 600px;\n    height: 400px;\n    border: 1px solid #000;\n    /* flex布局 */\n    display: flex;\n}\n\n.left-box {\n    width: 200px;\n    height: 100%;\n    background: red;\n}\n\n.right-box {\n    background: blue;\n    flex: 1;\n}\n```\n\n## 2. table布局\n\n```css\n.box-wrapper {\n    width: 600px;\n    height: 400px;\n    border: 1px solid #000;\n    /* table 布局 */\n    display: table;\n}\n\n.left-box {\n    width: 200px;\n    height: 100%;\n    background: red;\n    display: table-cell;\n}\n\n.right-box {\n    height: 100%;\n    background: blue;\n    display: table-cell;\n}\n```\n\n## 3. grid布局\n\n```css\n.box-wrapper {\n    width: 600px;\n    height: 400px;\n    border: 1px solid #000;\n    display: grid;\n    /* 声明列的宽度 */\n    grid-template-columns: 200px auto;\n}\n\n.left-box {\n    background: red;\n}\n\n.right-box {\n    background: blue;\n}\n```\n\n",
+      "date": 1603005361000,
+      "post": true,
+      "tags": ["CSS"],
+      "title": "CSS实现左边定宽、右边自适应布局",
+      "titleEng": "css-auto-width",
+      "url": "https://lzxjack.top/post?title=css-auto-width"
+    },
+    {
+      "_id": "93e4b6a0642313db06838469444aec7c",
+      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
+      "classes": "CSS",
+      "content": "CSS中有继承性的属性如下：\n\n|      类型      |                             属性                             |\n| :------------: | :----------------------------------------------------------: |\n|    **字体**    | `font`、`font-family`、`font-weight`、`font-size`、`font-style`... |\n|    **文本**    | `text-indent`、`text-align`、`line-height`、`word-spacing`、`letter-spacing`、`text-transform`、`direction`、`color` |\n| **元素可见性** |                         `visibility`                         |\n|    表格布局    | `caption-side`、`border-collapse`、`border-spacing`、`empty-cells`、`table-layout` |\n|      列表      | `list-style-type`、`list-style-image`、`list-style-position`、`list-style` |\n|    生成内容    |                           `quotes`                           |\n|    **光标**    |                           `cursor`                           |\n|    页面样式    |      `page`、`page-break-inside`、`windows`、`orphans`       |\n|    声音样式    | `speak`、`speak-punctuation`、`speak-numeral`、`speak-header`、`speech-rate`、`volume`、`voice-family`、`pitch`、`pitch-range`、`stress`、`richness`、`azimuth`、`elevation` |\n\n\n\n",
+      "date": 1602746251000,
+      "post": true,
+      "tags": ["CSS"],
+      "title": "CSS可以继承的属性",
+      "titleEng": "css-inherit",
+      "url": "https://lzxjack.top/post?title=css-inherit"
+    }
+  ],
+  "requestId": "cc6f5f105d752"
+}
