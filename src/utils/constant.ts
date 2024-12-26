@@ -8,7 +8,7 @@ export const icp_site = "https://beian.miit.gov.cn/#/Integrated/index";
 
 export const blogAdminUrl = "";
 
-export const siteTitle = "falsh的博客";
+export const siteTitle = "flash的博客";
 
 // GitHub地址
 export const githubUrl = "https://github.com/One-ww";

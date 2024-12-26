@@ -1,5 +1,5 @@
 import { useRequest, useSafeState } from 'ahooks'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -20,7 +20,6 @@ interface theAtc {
   tags: string[]
   title: string
   titleEng: string
-  url: string
   _id: string
   _openid: string
 }

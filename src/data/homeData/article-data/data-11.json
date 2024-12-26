@@ -9,8 +9,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 中 == 和 === 到底有什么区别？",
-      "titleEng": "equal",
-      "url": "https://lzxjack.top/post?title=equal"
+      "titleEng": "equal"
     },
     {
       "_id": "cd045e7561264b1507bceba72409f256",
@@ -21,20 +20,7 @@
       "post": true,
       "tags": ["LeetCode"],
       "title": "JavaScript 刷题常用方法总结（持续更新...）",
-      "titleEng": "programming-note",
-      "url": "https://lzxjack.top/post?title=programming-note"
-    },
-    {
-      "_id": "2d44d6c26124ac2106b72a9b1904cd31",
-      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
-      "classes": "Demo",
-      "content": "> 😃😃😃 本人能力有限，欢迎大佬指正改进~\n现在聊天室后台经常挂掉，就没再打开过了😅😅\n今后会加以改进，重新上线！🤠\n\n## 1. 前言\n\n最近和后端同学<a href=\"https://blog.csdn.net/asdasdde\" target=\"_blank\">I'M 渣渣</a>一起完成了一个 Demo 级的多人聊天室应用，实现了聊天室的基本功能。\n\n采用**前后端分离**方案，我负责前端代码的编写，<a href=\"https://blog.csdn.net/asdasdde\" target=\"_blank\">I'M 渣渣</a>实现了后端的接口。\n\n前后端都部署到了自己的**阿里云服务器**上。\n\n预览地址：<a href=\"http://47.110.144.145:82/\" target=\"_blank\">多人聊天室</a>\n\n源码仓库：<a href=\"https://github.com/lzxjack/chat-room\" target=\"_blank\">[前端]</a>，<a href=\"https://github.com/dwnb/chat_web\" target=\"_blank\">[后端]</a>\n\n![](https://img.lzxjack.top:99/20210601203923.png)\n\n![](https://img.lzxjack.top:99/20210601203933.png)\n\n## 2. 应用简介\n\n### 1. 主要功能\n\n1. 用户注册\n2. 用户登录\n3. 发送、接收消息\n4. 退出功能\n\n### 2. 主要用到的技术\n\n**前端：**\n\n1. React 脚手架`Create-React-App`\n2. 状态管理`redux` + `react-redux`等\n3. 前端路由 `React-Router`、路由鉴权\n4. 少量使用 `AntD` 组件库 （`Icon` 图标、`Notification` 通知提醒框、`Message` 全局提示）\n\n这里仅记录了前端的相关技术，后端基于`TCP`/`HTTP`协议，采用 C/C++实现，详情请查看<a href=\"https://blog.csdn.net/asdasdde/article/details/117453045\" target=\"_blank\">基于阿里云用 C/C++做了一个 http 协议的 web 聊天室的服务器——《干饭聊天室》</a>。\n\n## 3. 主要功能实现\n\n### 1. 路由鉴权\n\n将用户的登录状态放入`redux`，默认为`false`未登录。\n\n当`App`组件挂载时，判断用户登录状态，若已经登录，则直接跳转到`聊天室页面`；若未登录，则跳转到`注册/登录页面`，让用户登录。\n\n```javascript\n<Switch>\n    {this.props.loginState ? (\n        <Fragment>\n            <Route path=\"/room\" component={Room} />\n            <Redirect to=\"/room\" />\n        </Fragment>\n    ) : (\n        <Fragment>\n            <Route path=\"/welcome\" component={Welcome} />\n            <Redirect to=\"/welcome\" />\n        </Fragment>\n    )}\n</Switch>\n```\n\n### 2. 用户注册\n\n需要验证用户填写的用户名、密码是否符合规范，若不符合规范给出提示并直接`return`，若符合规范才发送注册请求给服务器。\n\n```javascript\n// 点击按钮，登录\nregister = () => {\n    // 数字字母组合，字母开头\n    const unameReg = /^[a-zA-Z][a-zA-Z0-9]{2,9}$/;\n    const uname = this.uname.value;\n    const pwd = this.pwd.value;\n    const pwdAgian = this.pwdAgian.value;\n    // 判断用户名是否符合规则\n    if (!unameReg.test(uname)) {\n        this.openUnameError();\n        return;\n    }\n    // 判断密码长度\n    if (!(pwd.length >= 6 && pwd.length <= 16)) {\n        this.openPwdError();\n        return;\n    }\n    // 判断两次输入的密码是否一致\n    if (pwd !== pwdAgian) {\n        this.openPwdUnEqual();\n        return;\n    }\n    // 调用接口，发送注册请求\n    const url = `${constUrl}/register`;\n    axios({\n        method: 'get',\n        url,\n        params: {\n            name: uname,\n            pwd,\n        },\n    })\n        .then(res => {\n            // 注册成功\n            if (res.data.register === 0) {\n                this.openRegisterSuccess();\n                this.uname.value = '';\n                this.pwd.value = '';\n                this.pwdAgian.value = '';\n                // 跳转到登录页\n                this.props.history.replace(`/welcome/login`);\n            } else {\n                // 注册失败，打开相应的提示框\n                switch (res.data.error) {\n                    case 0: {\n                        this.openUnameReuse();\n                        return;\n                    }\n                    default: {\n                        this.openOtherError();\n                        return;\n                    }\n                }\n            }\n        })\n        .catch(err => console.error(err));\n};\n```\n\n### 3. 用户登录\n\n登录功能没什么好说的，收集参数并发送请求就可以了，若登录成功，则给出提示，并更改`redux`中的登录状态为`true`，页面自动会跳转到聊天室页面。若登陆失败，则根据服务器返回的数据，给出相应提示。\n\n```javascript\nlogin = async () => {\n    const url = `${constUrl}/login`;\n    const name = this.inputUname.value;\n    const pwd = this.inputPwd.value;\n    axios({\n        method: 'get',\n        url,\n        params: {\n            name,\n            pwd,\n        },\n    })\n        .then(res => {\n            if (res.data.login === 0) {\n                this.props.login(name);\n                this.openLoginSuccess();\n                return;\n            }\n            switch (res.data.error) {\n                case 0: {\n                    this.openUnameNotFound();\n                    this.props.logout();\n                    return;\n                }\n                case 1: {\n                    this.openPwdError();\n                    this.props.logout();\n                    return;\n                }\n                case 2: {\n                    this.openOtherError();\n                    this.props.logout();\n                    return;\n                }\n                default:\n                    return;\n            }\n        })\n        .catch(err => console.error(err));\n```\n\n### 4. 接收消息\n\n接受消息功能，同样也是向服务器发送请求，获得所需消息，并展示在页面上。\n\n这里需要将展示聊天记录容器的滚动条自动调整到底部，详情见<a href=\"https://blog.csdn.net/Jack_lzx/article/details/117444212\" target=\"_blank\">JavaScript 实现容器滚动条默认出现在底部位置</a>。\n\n由于发送一次接收消息的请求，只能得到一次消息，所以我在`componentDidMount()`生命周期函数中，开启了一个定时器，每隔 1 秒就发送一次请求，获得所有消息，展示到页面上。由于 React 的`diff`算法，即使没有新的消息，频繁地发送请求，也不会有浪费太多性能。记得在`componentWillUnmount()`中，清除定时器。\n\n```javascript\ncomponentDidMount() {\n    this.getMsg();\n    this.msgUpdate = setInterval(() => {\n        this.getMsg();\n    }, 1000);\n}\ncomponentWillUnmount() {\n    // 清除定时器\n    clearInterval(this.msgUpdate);\n}\n```\n\n```javascript\n// 获取所需消息\ngetMsg = () => {\n    const url = `${constUrl}/information`;\n    const name = this.props.name;\n    axios({\n        method: 'get',\n        url,\n        params: { name },\n        // responseType: 'blob',\n    })\n        .then(res => {\n            console.log(res);\n            // 获取人数\n            const userCount = res.data.userCount;\n            this.setState({ userCount });\n            // 获取新数据\n            const newMsg = res.data.msg;\n            // 获取原数据\n            const oldMsg = this.state.msg;\n            if (res.data.information === 0) {\n                this.setState({ msg: [...oldMsg, ...newMsg] }, () => {\n                    // 滚动条自动到底部\n                    this.messageBox.scrollTop = this.messageBox.scrollHeight;\n                });\n            }\n        })\n        .catch(err => console.error(err));\n};\n```\n\n### 5. 发送消息\n\n发送请求之前，先判断输入框是否为空。不为空，再进行下一步，发送请求。\n\n成功发送消息后，调用一次`接收消息`函数，获得所有消息，即可将刚刚发送的消息立即展示到页面。\n\n```javascript\n   // 发送消息\n   sendMsg = () => {\n    const msg = this.editMsg.value;\n    const name = this.props.name;\n    if (msg === '') {\n        message.warning('请输入消息！');\n        return;\n    }\n    const url = `${constUrl}/information`;\n    axios({\n        method: 'post',\n        url,\n        params: {\n            msg,\n            name,\n            time: new Date().getTime(),\n            id: nanoid(),\n        },\n    })\n        .then(res => {\n            // console.log(res);\n            if (res.data.msg === 0) {\n                this.editMsg.value = '';\n                message.success('发送成功！');\n                // 调用获取所有消息函数\n                this.getMsg();\n            }\n        })\n        .catch(err => console.error(err));\n```\n\n### 6. 退出功能\n\n退出时，发送请求给服务器，告诉服务器有用户退出了、哪个用户退出了，主要用于展示当前在线人数。\n\n将`redux`中的登录状态改为`false`，页面自动跳转到`注册/登录`页面。\n\n```javascript\nlogout = () => {\n    const url = `${constUrl}/logout`;\n    const name = this.props.name;\n    axios({\n        method: 'get',\n        url,\n        params: {\n            name,\n        },\n    });\n    this.openLogout();\n    this.props.logout();\n};\n```\n\n## 4. 前端部署\n\n前端应用经过`React`脚手架打包后，部署到了阿里云服务器上。\n\n采用`nginx`服务器配置，配置如下：\n\n```c\nserver{\n        listen    80;\n        root /home/www/chatRoom;\n        server_name 47.110.144.145;\n        error_page 404 /index.html;\n\n        location /{}\n}\n```\n\n## 5. Todo\n\n由于本人能力有限，本 Demo 还有一些`BUG`没有解决：\n\n1. 当前在数人数显示模块没有正常工作，若用户不点击`退出`按钮，直接关闭浏览器页面，没有监听到用户的退出动作。\n2. 接收到的消息中，`空格`、`?`、`=`、`#`等字符会显示其编码，无法正常显示。\n\n**将来可能添加的功能：**\n\n1. 采用`token`验证用户身份\n\n2. 自定义背景图片切换\n\n3. 支持黑暗模式\n\n4. 适配移动端\n\n5. 支持上传头像\n\n6. 支持发送图片\n\n    ...\n\n\n",
-      "date": 1622535486000,
-      "post": true,
-      "tags": ["React", "AntD", "HTTP", "Cpp"],
-      "title": "基于React、C/C++，使用TCP/HTTP协议的多人聊天室Web应用",
-      "titleEng": "chat-room",
-      "url": "https://lzxjack.top/post?title=chat-room"
+      "titleEng": "programming-note"
     },
     {
       "_id": "2d44d6c2612e121a0855649b3a7d1f60",
@@ -45,8 +31,7 @@
       "post": true,
       "tags": ["JavaScript", "CSS"],
       "title": "JavaScript 实现容器滚动条默认出现在底部位置",
-      "titleEng": "scroll-bottom",
-      "url": "https://lzxjack.top/post?title=scroll-bottom"
+      "titleEng": "scroll-bottom"
     },
     {
       "_id": "8937eaa9612e1fb6078b035006e4c863",
@@ -57,8 +42,7 @@
       "post": true,
       "tags": ["TCP", "Linux"],
       "title": "C语言：实现Linux系统下利用TCP协议传输文件到阿里云服务器",
-      "titleEng": "tcp",
-      "url": "https://lzxjack.top/post?title=tcp"
+      "titleEng": "tcp"
     },
     {
       "_id": "2d44d6c26124bbda06b999a323e959bc",
@@ -69,8 +53,7 @@
       "post": true,
       "tags": ["React", "AntD", "CloudBase"],
       "title": "一款使用React、腾讯云开发的TodoList待办事项Web应用",
-      "titleEng": "todolist",
-      "url": "https://lzxjack.top/post?title=todolist"
+      "titleEng": "todolist"
     },
     {
       "_id": "8937eaa96124f71f061bdc440be9852d",
@@ -81,8 +64,7 @@
       "post": true,
       "tags": ["JavaScript", "性能优化"],
       "title": "浅谈JavaScript中的垃圾回收机制",
-      "titleEng": "garbage-collection",
-      "url": "https://lzxjack.top/post?title=garbage-collection"
+      "titleEng": "garbage-collection"
     },
     {
       "_id": "8937eaa96124bc9506138e2717d16c66",
@@ -93,8 +75,18 @@
       "post": true,
       "tags": ["浏览器"],
       "title": "客户端存储cookie详解",
-      "titleEng": "cookie",
-      "url": "https://lzxjack.top/post?title=cookie"
+      "titleEng": "cookie"
+    },
+    {
+      "_id": "cd045e756124e75a07831f42747475bf",
+      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
+      "classes": "前端基础",
+      "content": "## 1. JS是单线程\n\nJavaScript 语言的一大特点就是**单线程**，也就是说，**同一个时间只能做一件事。**\n这是因为 Javascript 这门脚本语言诞生的使命所致——JavaScript 是为处理页面中用户的交互，以及操作 DOM 而诞生的。比如我们对某个 DOM 元素进行添加和删除操作，不能同时进行。应该先进行添加，之后再删除。\n\n单线程就意味着，所有任务需要排队，前一个任务结束，才会执行后一个任务。\n这样所导致的问题是：如果 JS 执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞的感觉。\n\n## 2. 同步和异步\n\n为了解决这个问题，利用多核 CPU 的计算能力，HTML5 提出 Web Worker 标准，允许 JavaScript 脚本创建多个线程。于是，JS 中出现了**同步**和**异步**。\n**本质区别：** 这条流水线上<u>各个流程的执行顺序</u>不同。\n\n### 1. 同步\n前一个任务结束后再执行后一个任务，程序的执行顺序与任务的排列顺序是一致的、同步的。\n比如做饭的同步做法：我们要烧水煮饭，等水开了（10 分钟之后），再去切菜，炒菜。\n\n**同步任务**：\n\n同步任务都在主线程上执行，形成一个**执行栈**。\n\n### 2. 异步\n你在做一件事情时，因为这件事情会花费很长时间，在做这件事的同时，你还可以去处理其他事情。\n比如做饭的异步做法，我们在烧水的同时，利用这 10 分钟，去切菜，炒菜。\n\n**异步任务**：\n\nJS 的异步是通过**回调函数**实现的。\n\n一般而言，异步任务有以下三种类型:\n\n1. 普通事件，如`click`、`resize`等\n2. 资源加载，如`load`、`error`等\n3. 定时器，包括`setInterval`、`setTimeout`等\n\n异步任务相关**回调函数**添加到**任务队列**中（**任务队列**也称为**消息队列**）。\n\n**有如下代码：**\n\n```javascript\nconsole.log(1);\nsetTimeout(function () {\n    console.log(3);\n}, 0);\nconsole.log(2);\n\n// 1\n// 2\n// 3\n```\n\n**执行栈**和**任务队列**如图所示：\n![](https://img.lzxjack.top:99/20201208221158.png)\n\n## 3. 执行机制\n\n1. 先执行**执行栈中的同步任务**。\n2. 异步任务（回调函数）放入任务队列中。\n3. 一旦执行栈中的所有同步任务执行完毕，系统就会按次序读取**任务队列**中的异步任务，于是被读取的异步任务结束等待状态，进入执行栈，开始执行。\n   ![](https://img.lzxjack.top:99/20201208221212.png)\n\n![](https://img.lzxjack.top:99/20201208221222.png)\n\n由于**主线程**不断重复**获得任务、执行任务、再获取任务、再执行**，所以这种机制被称为**事件循环（ event loop）**。\n\n\n",
+      "date": 1603592570000,
+      "post": true,
+      "tags": ["JavaScript"],
+      "title": "JavaScript 执行机制浅谈",
+      "titleEng": "enforcement"
     }
   ],
   "requestId": "d56603cebf5b1"

@@ -9,8 +9,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 箭头函数的特点、与普通函数的区别",
-      "titleEng": "arrow-func",
-      "url": "https://lzxjack.top/post?title=arrow-func"
+      "titleEng": "arrow-func"
     },
     {
       "_id": "859059a5617bb04f02b11c6a4c3f5472",
@@ -21,8 +20,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 变量声明var、let、const详解",
-      "titleEng": "var-let-const",
-      "url": "https://lzxjack.top/post?title=var-let-const"
+      "titleEng": "var-let-const"
     },
     {
       "_id": "fa24ce1a617936ec02ac2a346144aa9f",
@@ -33,8 +31,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript中的Object.defineProperty()方法",
-      "titleEng": "define-property",
-      "url": "https://lzxjack.top/post?title=define-property"
+      "titleEng": "define-property"
     },
     {
       "_id": "18ed09686177acf701f2dae709c63964",
@@ -45,8 +42,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 实现数组扁平化的常见方法",
-      "titleEng": "arr-flat",
-      "url": "https://lzxjack.top/post?title=arr-flat"
+      "titleEng": "arr-flat"
     },
     {
       "_id": "14139e12611f6f2206179ca371785688",
@@ -57,8 +53,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "理解 JavaScript 闭包，从这里开始",
-      "titleEng": "closure",
-      "url": "https://lzxjack.top/post?title=closure"
+      "titleEng": "closure"
     },
     {
       "_id": "9e7190f161693376002a46615b8daace",
@@ -69,32 +64,29 @@
       "post": true,
       "tags": ["CSS"],
       "title": "CSS尺寸单位px、em、rem、vw、vh以及%的区别",
-      "titleEng": "css-size",
-      "url": "https://lzxjack.top/post?title=css-size"
+      "titleEng": "css-size"
     },
     {
       "_id": "cd045e75615fb32f13c85eb1249220fe",
       "_openid": "dbee9976b3c14448a06f2006a4795cf2",
       "classes": "LeetCode 题解",
-      "content": "> 这是 LeetCode 上 2021-10-8 的每日一题：<a href=\"https://leetcode-cn.com/problems/repeated-dna-sequences/\" target=\"_blank\">「187. 重复的DNA序列」</a>\n\n## 1. 题目描述\n\n所有 DNA 都由一系列缩写为 `'A'`，`'C'`，`'G'` 和 `'T'` 的核苷酸组成，例如：`\"ACGAATTCCG\"`。在研究 DNA 时，识别 DNA 中的重复序列有时会对研究非常有帮助。\n\n编写一个函数来找出所有目标子串，目标子串的长度为 10，且在 DNA 字符串 `s` 中出现次数超过一次。\n\n\n\n**示例1 ：**\n\n```\n输入：s = \"AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT\"\n输出：[\"AAAAACCCCC\",\"CCCCCAAAAA\"]\n```\n\n**示例2 ：**\n\n```\n输入：s = \"AAAAAAAAAAAAA\"\n输出：[\"AAAAAAAAAA\"]\n```\n\n\n\n## 2. 解答\n\n\n### 1. Set+滑动窗口\n\n维护长度为10的滑动窗口，并将窗口中的子串加入`Set`。加入`Set`之前判断`Set`中是否已存在，若存在，放入`res`。最后返回`res`去重后的结果。\n\n```JavaScript\nconst findRepeatedDnaSequences = s => {\n    const len = s.length;\n    const res = [];\n    // 长度小于等于10，直接返回空数组\n    if (len <= 10) return res;\n    const set = new Set();\n    let i = 0;\n    while (i + 9 < len) {\n        // 维护长度为10的滑动窗口\n        const str = s.slice(i, i + 10);\n        // 当前窗口如果set中已经存在，放入res\n        if (set.has(str)) res.push(str);\n        // 当前窗口加入set\n        set.add(str);\n        i++;\n    }\n    // 数组去重\n    return [...new Set(res)];\n};\n```\n\n### 2. Map+滑动窗口\n\n维护长度为10的滑动窗口，并将窗口中的子串加入`Map`并计数。滑动完成后，遍历`Map`，将次数大于1的加入到`res`。\n\n```JavaScript\nconst findRepeatedDnaSequences = s => {\n    const len = s.length;\n    const res = [];\n    // 长度小于等于10，直接返回空数组\n    if (len <= 10) return res;\n    const map = new Map();\n    let i = 0;\n    while (i + 9 < len) {\n        // 维护长度为10的滑动窗口\n        const str = s.slice(i, i + 10);\n        // 放入map计数\n        map.set(str, (map.get(str) || 0) + 1);\n        i++;\n    }\n    for (const item of map) {\n        // 挑选出次数大于1的\n        if (item[1] > 1) res.push(item[0]);\n    }\n    return res;\n};\n```\n\n\n\n***\n\n😄最近新创建了个开源仓库，总结 LeetCode 的每日一题，目前已有 C++、JavaScript 语言版本，欢迎大家提供其他语言版本！\n\n🖥️仓库地址：<a href=\"https://github.com/HDU-Coder-X/Daily-question-of-Leetcode\" target=\"_blank\">「每日一题系列」</a>",
+      "content": "> 这是 LeetCode 上10-8 的每日一题：<a href=\"https://leetcode-cn.com/problems/repeated-dna-sequences/\" target=\"_blank\">「187. 重复的DNA序列」</a>\n\n## 1. 题目描述\n\n所有 DNA 都由一系列缩写为 `'A'`，`'C'`，`'G'` 和 `'T'` 的核苷酸组成，例如：`\"ACGAATTCCG\"`。在研究 DNA 时，识别 DNA 中的重复序列有时会对研究非常有帮助。\n\n编写一个函数来找出所有目标子串，目标子串的长度为 10，且在 DNA 字符串 `s` 中出现次数超过一次。\n\n\n\n**示例1 ：**\n\n```\n输入：s = \"AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT\"\n输出：[\"AAAAACCCCC\",\"CCCCCAAAAA\"]\n```\n\n**示例2 ：**\n\n```\n输入：s = \"AAAAAAAAAAAAA\"\n输出：[\"AAAAAAAAAA\"]\n```\n\n\n\n## 2. 解答\n\n\n### 1. Set+滑动窗口\n\n维护长度为10的滑动窗口，并将窗口中的子串加入`Set`。加入`Set`之前判断`Set`中是否已存在，若存在，放入`res`。最后返回`res`去重后的结果。\n\n```JavaScript\nconst findRepeatedDnaSequences = s => {\n    const len = s.length;\n    const res = [];\n    // 长度小于等于10，直接返回空数组\n    if (len <= 10) return res;\n    const set = new Set();\n    let i = 0;\n    while (i + 9 < len) {\n        // 维护长度为10的滑动窗口\n        const str = s.slice(i, i + 10);\n        // 当前窗口如果set中已经存在，放入res\n        if (set.has(str)) res.push(str);\n        // 当前窗口加入set\n        set.add(str);\n        i++;\n    }\n    // 数组去重\n    return [...new Set(res)];\n};\n```\n\n### 2. Map+滑动窗口\n\n维护长度为10的滑动窗口，并将窗口中的子串加入`Map`并计数。滑动完成后，遍历`Map`，将次数大于1的加入到`res`。\n\n```JavaScript\nconst findRepeatedDnaSequences = s => {\n    const len = s.length;\n    const res = [];\n    // 长度小于等于10，直接返回空数组\n    if (len <= 10) return res;\n    const map = new Map();\n    let i = 0;\n    while (i + 9 < len) {\n        // 维护长度为10的滑动窗口\n        const str = s.slice(i, i + 10);\n        // 放入map计数\n        map.set(str, (map.get(str) || 0) + 1);\n        i++;\n    }\n    for (const item of map) {\n        // 挑选出次数大于1的\n        if (item[1] > 1) res.push(item[0]);\n    }\n    return res;\n};\n```\n\n\n\n***\n\n",
       "date": 1633661709000,
       "post": true,
       "tags": ["JavaScript", "LeetCode"],
       "title": "「每日一题」重复的DNA序列",
-      "titleEng": "lc-187",
-      "url": "https://lzxjack.top/post?title=lc-187"
+      "titleEng": "lc-187"
     },
     {
       "_id": "14139e126151bf680fbc2aab6bdfa59b",
       "_openid": "dbee9976b3c14448a06f2006a4795cf2",
       "classes": "JavaScript 手撕代码",
-      "content": "## 1. 回顾构造函数、实例、原型对象的关系\n\n1. **构造函数**的`prototype`属性指向了构造函数的**原型对象**\n2. **实例**对象是由构造函数创建的，实例对象的`__proto__`属性指向了构造函数的**原型对象**\n3. 构造函数的原型对象的`constructor`属性指向了**构造函数**，**实例对象**的**原型**的`constructor`属性（`usr1. __proto__.constructor`）也指向了**构造函数**\n\n现有构造函数`Star`，`Star`的实例对象`usr1`，其三者关系如图所示：\n\n![](https://img.lzxjack.top:99/20210412122503.png)\n\n## 2. new操作符做了什么\n\n简单来说，当我们使用`new`操作符为**构造函数**创建**实例**时，发生了下面**4**件事：\n\n1. 创建一个**新对象**\n2. 为**新对象**添加属性`__proto__`，将该属性链接至**构造函数**的**原型对象**\n3. 执行构造函数，`this`被绑定在**新对象**上\n4. 确保返回一个对象\n\n如下所示，通过`new`操作符，为构造函数实例化了一个对象：\n\n```javascript\nfunction Person(name, age) {\n    this.name = name;\n    this.age = age;\n}\n\nconst usr1 = new Person('Jack', 18);\nconsole.log(usr1);\n// Person { name: 'Jack', age: 18 }\n```\n\n若在构造函数中，返回一个对象，那么通过`new`操作符得到的对象，就是构造函数中返回的对象：\n\n```javascript\nfunction Person(name, age) {\n    this.name = name;\n    this.age = age;\n    // 构造函数中返回一个对象\n    return {\n        a: 1,\n    };\n}\n\nconst usr1 = new Person('Jack', 18);\nconsole.log(usr1);\n// { a: 1 }\n```\n\n## 3. 手动实现new\n\n知道了`new`操作符背后做的事情，我们可以自己写一个`myNew`，实现相同的功能。\n\n```javascript\n// 定义构造函数\nfunction Person(name, age) {\n    this.name = name;\n    this.age = age;\n}\n\n// 手动实现new:\n// constructor: 构造函数\n// ...args: 构造函数参数\nfunction myNew(constructor, ...args) {\n    // 1. 创建一个新对象\n    const obj = {};\n    // 2. 为新对象添加属性__proto__，将该属性链接至构造函数的原型对象\n    obj.__proto__ = constructor.prototype;\n    // 3. 执行构造函数，this被绑定在新对象上\n    const res = constructor.call(obj, ...args);\n    // 4. 确保返回一个对象\n    return res instanceof Object ? res : obj;\n}\n\nconst usr1 = myNew(Person, 'Jack', 18);\nconst usr2 = new Person('Jack', 18);\n\nconsole.log(usr1);\nconsole.log(usr2);\n```\n\n在浏览器运行环境下，查看输出结果：\n\n![](https://img.lzxjack.top:99/20210927204110.png)\n\n若构造函数本身返回一个对象，自己实现的`myNew`也可以返回这个对象：\n\n```javascript\nfunction Person(name, age) {\n    this.name = name;\n    this.age = age;\n    // 构造函数中返回一个对象\n    return {\n        a: 1,\n    };\n}\n\nfunction myNew(constructor, ...args) {\n    // 1. 创建一个新对象\n    const obj = {};\n    // 2. 为新对象添加属性__proto__，将该属性链接至构造函数的原型对象\n    obj.__proto__ = constructor.prototype;\n    // 3. 执行构造函数，this被绑定在新对象上\n    const res = constructor.call(obj, ...args);\n    // 4. 确保返回一个对象\n    return res instanceof Object ? res : obj;\n}\n\nconst usr2 = myNew(Person, 'Jack', 18);\nconsole.log(usr2);\n// { a: 1 }\n```\n\n\n\n***\n\nJavaScript常见手写代码：\n\n<a href=\"https://github.com/lzxjack/code-js\" target=\"_blank\">「GitHub—code-js」</a>",
+      "content": "## 1. 回顾构造函数、实例、原型对象的关系\n\n1. **构造函数**的`prototype`属性指向了构造函数的**原型对象**\n2. **实例**对象是由构造函数创建的，实例对象的`__proto__`属性指向了构造函数的**原型对象**\n3. 构造函数的原型对象的`constructor`属性指向了**构造函数**，**实例对象**的**原型**的`constructor`属性（`usr1. __proto__.constructor`）也指向了**构造函数**\n\n现有构造函数`Star`，`Star`的实例对象`usr1`，其三者关系如图所示：\n\n![](https://img.huahuabiz.com/user_files/20241222/1734875093235783.png)\n\n## 2. new操作符做了什么\n\n简单来说，当我们使用`new`操作符为**构造函数**创建**实例**时，发生了下面**4**件事：\n\n1. 创建一个**新对象**\n2. 为**新对象**添加属性`__proto__`，将该属性链接至**构造函数**的**原型对象**\n3. 执行构造函数，`this`被绑定在**新对象**上\n4. 确保返回一个对象\n\n如下所示，通过`new`操作符，为构造函数实例化了一个对象：\n\n```javascript\nfunction Person(name, age) {\n    this.name = name;\n    this.age = age;\n}\n\nconst usr1 = new Person('Jack', 18);\nconsole.log(usr1);\n// Person { name: 'Jack', age: 18 }\n```\n\n若在构造函数中，返回一个对象，那么通过`new`操作符得到的对象，就是构造函数中返回的对象：\n\n```javascript\nfunction Person(name, age) {\n    this.name = name;\n    this.age = age;\n    // 构造函数中返回一个对象\n    return {\n        a: 1,\n    };\n}\n\nconst usr1 = new Person('Jack', 18);\nconsole.log(usr1);\n// { a: 1 }\n```\n\n## 3. 手动实现new\n\n知道了`new`操作符背后做的事情，我们可以自己写一个`myNew`，实现相同的功能。\n\n```javascript\n// 定义构造函数\nfunction Person(name, age) {\n    this.name = name;\n    this.age = age;\n}\n\n// 手动实现new:\n// constructor: 构造函数\n// ...args: 构造函数参数\nfunction myNew(constructor, ...args) {\n    // 1. 创建一个新对象\n    const obj = {};\n    // 2. 为新对象添加属性__proto__，将该属性链接至构造函数的原型对象\n    obj.__proto__ = constructor.prototype;\n    // 3. 执行构造函数，this被绑定在新对象上\n    const res = constructor.call(obj, ...args);\n    // 4. 确保返回一个对象\n    return res instanceof Object ? res : obj;\n}\n\nconst usr1 = myNew(Person, 'Jack', 18);\nconst usr2 = new Person('Jack', 18);\n\nconsole.log(usr1);\nconsole.log(usr2);\n```\n\n在浏览器运行环境下，查看输出结果：\n\n![](https://img.huahuabiz.com/user_files/20241222/173487509323674.png)\n\n若构造函数本身返回一个对象，自己实现的`myNew`也可以返回这个对象：\n\n```javascript\nfunction Person(name, age) {\n    this.name = name;\n    this.age = age;\n    // 构造函数中返回一个对象\n    return {\n        a: 1,\n    };\n}\n\nfunction myNew(constructor, ...args) {\n    // 1. 创建一个新对象\n    const obj = {};\n    // 2. 为新对象添加属性__proto__，将该属性链接至构造函数的原型对象\n    obj.__proto__ = constructor.prototype;\n    // 3. 执行构造函数，this被绑定在新对象上\n    const res = constructor.call(obj, ...args);\n    // 4. 确保返回一个对象\n    return res instanceof Object ? res : obj;\n}\n\nconst usr2 = myNew(Person, 'Jack', 18);\nconsole.log(usr2);\n// { a: 1 }\n```\n\n\n\n***\n\n",
       "date": 1632747331000,
       "post": true,
       "tags": ["JavaScript", "this"],
       "title": "JavaScript 手动实现new操作符",
-      "titleEng": "myNew",
-      "url": "https://lzxjack.top/post?title=myNew"
+      "titleEng": "myNew"
     }
   ],
   "requestId": "8c425fc505701"

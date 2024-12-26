@@ -9,8 +9,7 @@
       "post": true,
       "tags": ["React"],
       "title": "React 路由的基本使用",
-      "titleEng": "react-router",
-      "url": "https://lzxjack.top/post?title=react-router"
+      "titleEng": "react-router"
     },
     {
       "_id": "14139e126124c36406b292bf261aa91a",
@@ -21,8 +20,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 深拷贝和浅拷贝",
-      "titleEng": "copy",
-      "url": "https://lzxjack.top/post?title=copy"
+      "titleEng": "copy"
     },
     {
       "_id": "cd045e75611f429f06c57bcc17c48574",
@@ -33,8 +31,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 异步代码执行顺序分析",
-      "titleEng": "async",
-      "url": "https://lzxjack.top/post?title=async"
+      "titleEng": "async"
     },
     {
       "_id": "cd045e75611f69fc06cccfd349a889cf",
@@ -45,8 +42,7 @@
       "post": true,
       "tags": ["JavaScript", "this"],
       "title": "JavaScript call()、apply()、bind()的区别",
-      "titleEng": "call-apply-bind",
-      "url": "https://lzxjack.top/post?title=call-apply-bind"
+      "titleEng": "call-apply-bind"
     },
     {
       "_id": "14139e12612e129e084eeb503930b4bf",
@@ -57,8 +53,7 @@
       "post": true,
       "tags": ["JavaScript", "Node.js"],
       "title": "Node.js 模块查找机制",
-      "titleEng": "search-module",
-      "url": "https://lzxjack.top/post?title=search-module"
+      "titleEng": "search-module"
     },
     {
       "_id": "2d44d6c261264c5206f39a7341170d57",
@@ -69,8 +64,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 原型与原型链详解",
-      "titleEng": "prototype",
-      "url": "https://lzxjack.top/post?title=prototype"
+      "titleEng": "prototype"
     },
     {
       "_id": "14139e126124e57c06b7edba24dcdaf3",
@@ -81,20 +75,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 对象的连续解构赋值",
-      "titleEng": "divide-value",
-      "url": "https://lzxjack.top/post?title=divide-value"
-    },
-    {
-      "_id": "cd045e75611f3a2706c401ff223d9924",
-      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
-      "classes": "Hexo 博客相关",
-      "content": ">从**2021-8-20**开始，此**网站博客**为自己写的**React前后台博客系统**。以下内容是本人之前的解决方案，现在**可能**不适用。\n\n## 1. 为什么我要持续部署\n\n通过`Hexo`搭建的个人博客，虽然很强大、很方便，输入`hexo clean&&hexo g -d`就能快速生成静态页面并部署访问。但`Hexo`生成的是静态页面，无后端，这些工作都是在本地的电脑上操作的，如果更换电脑了，还需要在 github 上冲下拉取源代码，重新搭建环境再部署。若电脑不在身边想要随时编辑文章，就有点困难了。另外，每次在本机部署完，还要将源代码`push`到仓库。\n\n这样操作显然是有些繁琐的。好在`Github Actions`提供了解决方案，可以为仓库添加**自动化**的操作，将`Hexo`博客源代码（不是生成的`public`文件夹，是整个项目代码）放在 Github 上，编写`Github Actions`的工作流程后，每次只需将本地`push`到`Github`，`Github Actions`会帮我们自动完成所有的部署工作。\n\n我的博客是部署到`阿里云OSS`，支持 CDN 加速，全站开启`HTTPS`访问，关键是**费用超级低！**\n\n## 2. 总体部署思路\n\n-   Hexo 博客项目上传到 Github\n-   在阿里云`OSS`中创建`Bucket`，并配置为**静态页面托管**\n-   拿到`Bucket`的`AccessKeyId`和`AccessKeySecret`，配置进 Github 仓库里\n-   编写`Github Actions`工作流程\n-   本地触发`push`命令时，`Github Actions`开始自动部署\n\n## 3. 实现部署过程\n\n### 1. 上传Hexo项目\n\n这个就不用说了吧，在 Github 上创建个**私有仓库**，将本地的 hexo 博客项目源代码上传上去。\n\n另外说一点，我删除了`.gitignore`文件，将项目的全部文件都上传到仓库了（包括`node_modules`等等），这样每次`Github Actions`每次在部署时，不用重新下在所需的依赖包了，可能速度会快一点吧（我也不知道会不会快一点）。**但是第一次 Push 时，所需的时间很长**，自行考虑要不要这样做。\n\n### 2. 创建Bucket\n\n在阿里云`OSS`中创建`Bucket`，注意创建的时候，`读写权限`一定要改为`公共读`。\n\n![](https://img.lzxjack.top:99/20210411135414.png)\n\n创建完成后，在`基础设置`中，找到`静态页面`，作如下配置：\n\n![](https://img.lzxjack.top:99/20210411135615.png)\n\n随后可以配置该`Bucket`访问的域名，配置 CDN 加速，并上传`HTTPS 证书`。点击`传输管理`：\n\n![](https://img.lzxjack.top:99/20210411142514.png)\n\n### 3. 获取AccessKey\n\n将鼠标放到阿里云页面右上角的头像，点击`AccessKey`管理，获取`AccessKeyId`和`AccessKeySecret`，推荐使用子用户`AccessKey`。\n\n![](https://img.lzxjack.top:99/20210411135719.png)\n\n![](https://img.lzxjack.top:99/20210411135941.png)\n\n因为`AccessKey`权限很高，直接将其暴露在代码中非常危险，所以将其配置到 Github 仓库的`Secrets`中，相当于作为`常量`使用。\n\n在存储 Hexo 源代码的仓库中点击`Settings`，找到`Secrets`，添加两项。名称为`KEY`和`SECRET`，值分别为`AccessKeyId`和`AccessKeySecret`。\n\n![](https://img.lzxjack.top:99/20210411140429.png)\n\n### 4. 编写工作流程\n\n在存储 Hexo 源代码的仓库中点击`Actions`，点击`set up a workflow yourself`：\n\n![](https://img.lzxjack.top:99/20210411144600.png)\n\n将下面所有代码复制到代码区，并**根据注释稍作修改**：\n\n```YML\nname: Hexo Blog CI\n\non:\n    push:\n        branches:\n            - main\n\njobs:\n    build:\n        runs-on: ubuntu-latest\n\n        steps:\n            - name: Checkout Repository master branch\n              uses: actions/checkout@master\n\n            - name: Setup Node.js 10.x\n              uses: actions/setup-node@master\n              with:\n                  node-version: '10.x'\n\n            - name: Setup Hexo Dependencies\n              run: |\n                  npm install\n                  npm install -g hexo-cli\n                  hexo clean\n                  hexo generate\n            - name: setup aliyun oss\n              uses: manyuanrong/setup-ossutil@master\n              with:\n                  endpoint: oss-cn-hangzhou.aliyuncs.com\n                  access-key-id: ${{ secrets.KEY }}\n                  access-key-secret: ${{ secrets.SECRET }}\n            - name: cp files to aliyun\n              run: ossutil cp -rf public oss://xxxxx/\n```\n\n完成后点击`Start commit`按钮。\n\n### 5. 完成\n\n随后`Github Actions`便开始第一次工作，出现`绿色勾勾`则表示部署成功！快打开域名查看吧~\n\n![](https://img.lzxjack.top:99/20210411142107.png)\n\n因为刚刚在远程仓库创建了`main.yml`，可以先在本地执行`git pull`，同步远程最新的文件，再进行`push`。\n\n## 4. 如何远程使用\n\n完成部署后，我们就可以在**脱离本地项目**，在远程仓库发布、修改文章啦，即使电脑不在身边也不怕！\n\n可以借助<a href=\"https://github.com/HexoPlusPlus/HexoPlusPlus\" target=\"_blank\">[HexoPlusPlus]</a>实现一个类似后台的页面，在这上面发布新文章、修改文章等操作。\n\n![](https://img.lzxjack.top:99/20210411143245.png)\n\n☑ 当然了，也可以直接在 Github 仓库中，管理文章。\n\n## 5. 另外工作\n\n如果电脑在身边，我还是习惯在本地管理博客，再`push`，虽然不用自己输入`hexo clean&&hexo g -d`，但是要自己输入`git add .`、`git commit -m 'xxx'`、`git push`，还是太麻烦了。\n\n因为实在太懒，写了一个`.BAT`脚本文件，放在项目中。\n\n![](https://img.lzxjack.top:99/20210411143830.png)\n\n```bash\n@echo off\ngit pull\ngit add .\ngit commit -m 'WIN10'\ngit push\n```\n\n这样我在本地修改完后，只需**双击运行该脚本**即可，自动 push 到仓库，仓库又自动完成部署！\n\n\n",
-      "date": 1618126269000,
-      "post": true,
-      "tags": ["GitHub", "Hexo", "实用技巧"],
-      "title": "Github Actions自动部署hexo博客到阿里云OSS",
-      "titleEng": "hexo-actions",
-      "url": "https://lzxjack.top/post?title=hexo-actions"
+      "titleEng": "divide-value"
     }
   ],
   "requestId": "01a612482db08"

@@ -11,10 +11,11 @@ import styles from './index.scss'
 interface Props {
   titleEng?: string
   title?: string
+  id?: string
 }
 
-const CopyRight: React.FC<Props> = ({ titleEng, title }) => {
-  const url = `${myLink}/post?title=${title}&page=${titleEng}`
+const CopyRight: React.FC<Props> = ({ titleEng, title, id }) => {
+  const url = `${myLink}/post?title=${id}&page=${titleEng}`
 
   const copyUrl = () => {
     if (copy(url)) {
@@ -25,7 +26,9 @@ const CopyRight: React.FC<Props> = ({ titleEng, title }) => {
   return (
     <div className={styles.copyrightBox}>
       <CopyrightIcon className={styles.copyrightIcon} />
+
       <div className={styles.title}>{title}</div>
+
       <div className={styles.urlBox}>
         <div className={styles.url}>{url}</div>
         <div className={styles.copyBtn} onClick={copyUrl}>

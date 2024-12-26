@@ -9,8 +9,7 @@
       "post": true,
       "tags": ["浏览器"],
       "title": "客户端存储sessionStorage、localStorage详解",
-      "titleEng": "storage",
-      "url": "https://lzxjack.top/post?title=storage"
+      "titleEng": "storage"
     },
     {
       "_id": "2d44d6c26126497806f338f31f489c41",
@@ -21,8 +20,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript JSON对象和字符串互相转化",
-      "titleEng": "obj-json",
-      "url": "https://lzxjack.top/post?title=obj-json"
+      "titleEng": "obj-json"
     },
     {
       "_id": "8937eaa9612e116b078819df29846ab0",
@@ -33,8 +31,7 @@
       "post": true,
       "tags": ["React"],
       "title": "使用 react-redux 实现组件的状态管理和数据通信",
-      "titleEng": "react-redux",
-      "url": "https://lzxjack.top/post?title=react-redux"
+      "titleEng": "react-redux"
     },
     {
       "_id": "2d44d6c26128f84b077031fb1532bfb8",
@@ -45,8 +42,7 @@
       "post": true,
       "tags": ["React"],
       "title": "React 集中式路由管理 + 路由鉴权",
-      "titleEng": "react-router-config",
-      "url": "https://lzxjack.top/post?title=react-router-config"
+      "titleEng": "react-router-config"
     },
     {
       "_id": "14139e12611f3e75060f4a726cdac115",
@@ -57,8 +53,7 @@
       "post": true,
       "tags": ["JavaScript", "数组"],
       "title": "JavaScript 数组迭代方法笔记",
-      "titleEng": "arr-func",
-      "url": "https://lzxjack.top/post?title=arr-func"
+      "titleEng": "arr-func"
     },
     {
       "_id": "2d44d6c26128f5d2076fc88175165ff7",
@@ -69,8 +64,7 @@
       "post": true,
       "tags": ["React"],
       "title": "React 学习笔记 —— 扩展内容",
-      "titleEng": "react-extension",
-      "url": "https://lzxjack.top/post?title=react-extension"
+      "titleEng": "react-extension"
     },
     {
       "_id": "2d44d6c26128f89407703d23425974c3",
@@ -81,8 +75,7 @@
       "post": true,
       "tags": ["React"],
       "title": "React-Router 传递参数",
-      "titleEng": "react-router-props",
-      "url": "https://lzxjack.top/post?title=react-router-props"
+      "titleEng": "react-router-props"
     },
     {
       "_id": "8937eaa9612e2053078b1bff30163678",
@@ -93,8 +86,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript this指向问题详解",
-      "titleEng": "this",
-      "url": "https://lzxjack.top/post?title=this"
+      "titleEng": "this"
     }
   ],
   "requestId": "f0d6db2398d9e"

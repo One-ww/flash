@@ -9,8 +9,7 @@
       "post": true,
       "tags": ["JavaScript", "数据结构"],
       "title": "JavaScript 数据结构 —— 字典",
-      "titleEng": "map",
-      "url": "https://lzxjack.top/post?title=map"
+      "titleEng": "map"
     },
     {
       "_id": "8937eaa961262e590644b4fb569f895b",
@@ -21,8 +20,7 @@
       "post": true,
       "tags": ["JavaScript", "数据结构"],
       "title": "JavaScript 数据结构 —— 链表",
-      "titleEng": "linked-list",
-      "url": "https://lzxjack.top/post?title=linked-list"
+      "titleEng": "linked-list"
     },
     {
       "_id": "14139e126124f48706ba59ca7cd613bc",
@@ -33,20 +31,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript中为什么0.1+0.2!=0.3？附解决办法！",
-      "titleEng": "float",
-      "url": "https://lzxjack.top/post?title=float"
-    },
-    {
-      "_id": "cd045e75611f6c9f06cd2b060dba8b3e",
-      "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
-      "classes": "Hexo 博客相关",
-      "content": ">从**2021-8-20**开始，此**网站博客**为自己写的**React前后台博客系统**。以下内容是本人之前的解决方案，现在**可能**不适用。\n\n## 1. 本地电脑\n\n### 1. 安装nodeJS\n\n浏览器进入<a href=\"https://nodejs.org/en/\" target=\"_blank\">NodeJS 官网</a>，安装 LTS（Long Term Support）版本。\n\n![](https://img.lzxjack.top:99/20201214153754.png)\n\n按住`win+R`，输入`cmd`，进入 cmd 命令行工具，输入`node -v`查看 node 版本，\n\n![](https://img.lzxjack.top:99/20201214153948.png)\n\n若出现版本信息，则说明 node 安装成功。\n\n### 2. 安装Hexo\n\n在 cmd 命令行中输入`npm install hexo-cli -g`，安装 hexo。完成后输入`hexo -v`查看版本信息，确认安装成功。\n\n![](https://img.lzxjack.top:99/20201214162153.png)\n\n-   初始化根目录\n\n    创建文件夹`Hexo-Blog`，在 cmd 命令行中进入该目录，输入`hexo init`初始化根目录。\n\n    ![](https://img.lzxjack.top:99/20201214161509.png)\n\n-   本地查看\n\n    输入`hexo g&&hexo s`（生成静态文件，并开启本地服务器）\n\n    ![](https://img.lzxjack.top:99/20201214161646.png)\n\n    根据提示，在浏览器中打开`http://localhost:4000`，即可看到初始的博客页面。\n\n    ![](https://img.lzxjack.top:99/20201214161919.png)\n\n-   美化\n\n对自己的博客进行更改样式、美化、增删功能、发布文章等操作，就不展开介绍了。\n\n## 2. 购买域名\n\n-   购买域名\n\n    在阿里云上以学生认证优惠购买了`lzxjack.top`这个域名。\n\n    ![](https://img.lzxjack.top:99/20201218140113.png)\n\n-   域名备案\n\n    域名绑定国内的服务器，必须要进行备案操作，否则将无法访问。\n\n    ![](https://img.lzxjack.top:99/20201218140217.png)\n\n    ![](https://img.lzxjack.top:99/20201218140337.png)\n\n    从提交备案信息，到管局审核通过，备案号下来一共花了不到 10 天的时间。\n\n-   域名解析\n\n    域名解析是把域名指向网站空间 IP，让人们通过注册的域名可以方便地访问到网站的一种服务。IP 地址是网络上标识站点的数字地址，为了方便记忆，采用域名来代替 IP 地址标识站点地址。\n\n    ![](https://img.lzxjack.top:99/20201218141015.png)\n\n    -   主机记录中，`www`代表域名前加`www.`，如`www.lzxjack.top`，`@`就代表`lzxjack.top`，这样两个地址都能访问到服务器了\n    -   记录类型`A`是指，将域名指向一个`IPV4`地址\n    -   记录值就是服务器的公网 IP\n\n## 3. 服务器端\n\n### 1. 购买服务器\n\n为了让其他用户在自己的客户端访问到自己的博客，就需要将博客部署到服务器上，其他用户通过访问服务器的公网 IP 来访问到服务器上的资源。若绑定了域名，还可以通过域名访问。\n\n通过<a href=\"https://developer.aliyun.com/plan/grow-up\" target=\"_blank\">阿里云开发者成长计划</a>，购买了`轻量应用服务器`。在系统的选择上，作为服务器系统，CentOS 稳定、强大，所以系统镜像选择了 Linux 系统的 CentOS 7.3 版本。\n\n![](https://img.lzxjack.top:99/20201214163538.png)\n\n### 2. 配置端口\n\n点击云服务器管理页面的`防火墙`，再点击`添加规则`。\n\n![](https://img.lzxjack.top:99/20210301193255.png)\n\n要使用 HTTP 协议访问服务器，需要在服务器端监听 80 端口，因为 80 端口是服务器的默认端口号。而阿里云服务器默认关闭 80 端口，则需要我们手动打开监听 80 端口。另外，服务器端配置 Git 时需要使用 SSH 协议进行本地与服务器的连接，需要服务器监听 22 端口，也需要手动打开。\n\n![](https://img.lzxjack.top:99/20201215122715.png)\n\n### 3. 服务器环境搭建\n\n此步骤需要在云服务器上完成，具体方法可以使用远程连接，也可以使用 Xshell 客户端进行连接。\n\n![](https://img.lzxjack.top:99/20210301193413.png)\n\n-   安装 nginx\n\n    1. 切换到 root 帐号\n\n        ```\n        sudo su root\n        ```\n\n        ![](https://img.lzxjack.top:99/20201210215126.png)\n\n    2. 需要使用 nginx 作为 Web 服务器，所以我们首先要安装 nginx。可以使用 yum 命令直接进行安装。\n\n        ```\n        yum install -y nginx\n        ```\n\n        ![](https://img.lzxjack.top:99/20201210215244.png)\n\n    3. 安装完成后启动 nginx 服务器\n\n        ```\n        systemctl start nginx\n        ```\n\n        ```\n        systemctl enable nginx\n        ```\n\n        ![](https://img.lzxjack.top:99/20201210215400.png)\n\n-   建立博客根目录\n\n    将博客的页面文件放在`/home/www/website/`路径下，需要先创建这些文件。\n\n    ```\n    cd /home\n    mkdir www\n    cd www\n    mkdir website\n    ```\n\n    查看创建的文件：\n    ![](https://img.lzxjack.top:99/20201215170011.png)\n\n-   配置 nginx 路由\n\n    建立了博客的根目录后，需要将 nginx 服务器指向这个根目录地址，才能访问到博客页面，所以需要修改 nginx 的配置文件。\n\n    阿里云默认的库下载的是基于 fedora 的 nginx，查阅资料发现，默认配置文件位于` etc/nginx/`下的`nginx.conf `。\n\n    查看 nginx 的默认配置文件：\n\n    ```\n    cd ~\n    cd /etc/nginx\n    ls\n    ```\n\n    ![](https://img.lzxjack.top:99/20201215125019.png)\n\n    文件中的`nginx.conf`就是默认配置文件。\n\n    但不采用直接修改 nginx 配置文件的方式，而是新建一个文件夹，将自己的配置写在新建的**文件夹**中。再利用`include`，在配置文件`nginx.conf`中将文件夹引入进来即可。这样若有新的需求时，只需在文件夹中添加新需求的配置文件即可，不会再次修改配置文件`nginx.conf`，提高效率。\n\n    切换`/etc/nginx/`目录，在此目录下创建一个文件夹`vhost`：\n\n    ```\n    cd /etc/nginx\n    mkdir vhost\n    cd vhost\n    ```\n\n    ![](https://img.lzxjack.top:99/20201210215654.png)\n\n    输入`vim blog.conf`新建`blog.conf`文件并编辑内容：\n\n    ```\n    server{\n            listen    80;\n            root /home/www/website;\n            server_name lzxjack.top;\n            location /{\n            }\n    }\n    ```\n\n    ![](https://img.lzxjack.top:99/20201230193405.png)\n\n    其中，`listen`代表监听 80 端口。`root`是博客的根目录，页面存放的地址。`server_name`是服务器名称，填域名`lzxjack.top`，将**域名**和博客的**页面根目录**绑定。\n\n    为了让`http://www.lzxjack.top/`也能访问到博客页面，再新建一个配置文件`wwwblog.conf`，将`server_name`设置为`www.lzxjack.top`：\n\n    ![](https://img.lzxjack.top:99/20201230193623.png)\n\n    这样，`/etc/nginx/vhost`目录下就有两个配置文件，`blog.conf`和`wwwblog.conf`：\n\n    ![](https://img.lzxjack.top:99/20201230193829.png)\n\n    打开`/etc/nginx/`目录下的`nginx.conf`文件，添加下面一行代码，将刚才新建的配置文件引入进来。`*.conf`的意思是将`vhost`文件夹下的所有`.conf`后缀的文件都引入了进来。**注意：要写在`http{}`的里面。**\n\n    ```\n    include /etc/nginx/vhost/*.conf;\n    ```\n\n    ![](https://img.lzxjack.top:99/20201211120654.png)\n\n    至此，完成了 nginx 路由的配置，将域名和云服务器指定路径进行了绑定。\n\n### 4. 安装nodeJS\n\n```\ncurl -sL https://rpm.nodesource.com/setup_10.x | bash -\nyum install -y nodejs\n```\n\n![](https://img.lzxjack.top:99/20201210220802.png)\n\n![](https://img.lzxjack.top:99/20201210220951.png)\n\n![](https://img.lzxjack.top:99/20201210221033.png)\n\n![](https://img.lzxjack.top:99/20201210224206.png)\n\n安装完成后执行 node -v 和 npm -v 如果打印版本号则安装成功\n\n![](https://img.lzxjack.top:99/20201210224901.png)\n\n## 4. 配置服务端Git\n\n这一部分主要目的是本地电脑可以通过`ssh`方式连接到云服务器，然后就可以通过命令行方式将博客传到服务器上。\n\n### 1. 安装Git\n\n```\nyum install git\n```\n\n![](https://img.lzxjack.top:99/20201210225136.png)\n\n![](https://img.lzxjack.top:99/20201210225200.png)\n\n### 2. 配置Git用户\n\n输入以下添加 Git 用户：\n\n```\nadduser git\n```\n\n![](https://img.lzxjack.top:99/20201228213709.png)\n\n修改用户权限：\n\n```\nchmod 740 /etc/sudoers\n```\n\n打开/etc/sudoers：\n\n```\nvi /etc/sudoers\n```\n\n在这个位置添加语句：\n\n```\ngit ALL=(ALL) ALL\n```\n\n![](https://img.lzxjack.top:99/20201210225456.png)\n\n保存退出后，将`sudoers`文件权限改回原样：\n\n```\nchmod 400 /etc/sudoers\n```\n\n设置 Git 用户的密码：\n\n```\nsudo passwd git\n```\n\n![](https://img.lzxjack.top:99/20201210225652.png)\n\n切换到 git 用户，然后在`~`目录下创建`.ssh`文件夹\n\n```\nsu git\ncd ~\nmkdir .ssh\ncd .ssh\n```\n\n![](https://img.lzxjack.top:99/20201210225755.png)\n\n### 3. 配置Git密钥\n\n生成公钥密钥文件：\n\n```\nssh-keygen\n```\n\n**输入后都按回车即可！！！**\n\n此时在目录下就会有两个文件，分别是`id_rsa`和`id_rsa.pub`，其中`id_rsa.pub`就是公钥文件，复制一份：\n\n```\ncp id_rsa.pub authorized_keys\n```\n\n![](https://img.lzxjack.top:99/20201211113959.png)\n\n这样目录下就会有一个`authorized_keys`文件，修改它的权限：\n\n```\nchmod 600 ~/.ssh/authorized_keys\nchmod 700 ~/.ssh\n```\n\n![](https://img.lzxjack.top:99/20201211114203.png)\n\n客户端生成密钥：\n\n在**本地电脑**的`CMD`命令行工具中输入`ssh-keygen -t rsa`，都按回车即可！会在本地电脑的用户文件夹下生成密钥：\n\n![](https://img.lzxjack.top:99/20210301194118.png)\n\n接着，将本地电脑的`id_rsa.pub`文件的内容拷贝到云服务器的`authorized_keys`文件的**末尾**！！！！可采用的方法有：\n\n-   直接复制内容\n-   通过`Xftp`文件传输工具，先将本地电脑的`id_rsa.pub`文件传输到云服务器某位置，再在云服务器上**该位置**执行`cat id_rsa.pub >> ~/.ssh/authorized_keys`即可\n\n然后我们在本地电脑上，打开 cmd，使用`ssh`方式连接云服务器，输入：\n\n```\nssh -v git@云服务器的公网IP\n```\n\n![](https://img.lzxjack.top:99/20210301213333.png)\n\n![](https://img.lzxjack.top:99/20210301194637.png)\n\n最后提示`Welcome to Alibaba Cloud Elastic Compute Service !`，说明**不用输入密码**也登录成功了，即配置 Git 密钥成功，以后更新博客部署的时候不用输入 Git 密码了！\n\n### 4. 创建Git仓库\n\n创建一个 Git 的仓库，并且新建一个`post-receive`文件\n\n```\ncd ~\ngit init --bare blog.git\nvi ~/blog.git/hooks/post-receive\n```\n\n![](https://img.lzxjack.top:99/20201211114620.png)\n\n输入以下内容：\n\n```\ngit --work-tree=/home/www/website --git-dir=/home/git/blog.git checkout -f\n```\n\n![](https://img.lzxjack.top:99/20201211114552.png)\n\n保存退出并授予该文件可执行权限\n\n```\nchmod +x ~/blog.git/hooks/post-receive\n```\n\n![](https://img.lzxjack.top:99/20201211114656.png)\n\n到此服务端配置完成。\n\n## 5. 配置Hexo并部署发布\n\n本地电脑和服务端配置都完成后，**在本地电脑的 Hexo 根目录下**，输入以下安装插件：\n\n```\nnpm install hexo-deployer-git --save\nnpm install hexo-server\n```\n\n打开`_config.yml`文件，修改`deploy`项目如下：\n\n```\ndeploy:\n  type: git\n  repo: git@云服务器公网IP:/home/git/blog.git\n  branch: master\n```\n\n其中，`type`项表示部署类型为`git`，仓库`repo`地址为`git@云服务器公网IP:/home/git/blog.git`，分支`branch`为`master`主分支。\n\n对博客进行的美化、功能添加、文章拟写等完毕后，命令行输入`hexo clean`清除本地缓存，输入`hexo g -d`生成静态文件，并部署到远程仓库。\n\n此时本地的博客页面已经部署到了服务器的`/home/www/website`目录下：\n\n![](https://img.lzxjack.top:99/20201228214311.png)\n\n部署完成后，若打开页面没变化，可以在云服务器输入以下重启`nginx`即可：\n\n```\nnginx -s reload\n```\n\n到此，通过 hexo 搭建博客并部署到阿里云服务器总算完成啦！\n\n\n",
-      "date": 1614605952000,
-      "post": true,
-      "tags": ["实用技巧"],
-      "title": "建站过程：搭建Hexo博客并部署阿里云服务器",
-      "titleEng": "hexo-blog",
-      "url": "https://lzxjack.top/post?title=hexo-blog"
+      "titleEng": "float"
     },
     {
       "_id": "0122a587642313e80680c9bb1e20162d",
@@ -57,8 +42,7 @@
       "post": true,
       "tags": ["Webpack"],
       "title": "初学 Webpack 相关配置",
-      "titleEng": "webpack",
-      "url": "https://lzxjack.top/post?title=webpack"
+      "titleEng": "webpack"
     },
     {
       "_id": "cd045e75612639a907b9b7e05c8ac22f",
@@ -69,8 +53,7 @@
       "post": true,
       "tags": ["模块化"],
       "title": "前端模块化相关规范",
-      "titleEng": "module",
-      "url": "https://lzxjack.top/post?title=module"
+      "titleEng": "module"
     },
     {
       "_id": "14139e12612e21ae0852140576ffa14b",
@@ -81,8 +64,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 中的变量提升",
-      "titleEng": "variable-up",
-      "url": "https://lzxjack.top/post?title=variable-up"
+      "titleEng": "variable-up"
     },
     {
       "_id": "14139e12612e1327084f0a7101c89111",
@@ -93,8 +75,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 实现一个sleep()延迟函数",
-      "titleEng": "sleep",
-      "url": "https://lzxjack.top/post?title=sleep"
+      "titleEng": "sleep"
     }
   ],
   "requestId": "d880c4377e116"

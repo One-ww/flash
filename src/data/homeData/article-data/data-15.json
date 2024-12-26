@@ -1,18 +1,6 @@
 {
   "data": [
     {
-      "_id": "1ac91032642313e6001ac9b9334fad33",
-      "_openid": "dbee9976b3c14448a06f2006a4795cf2",
-      "classes": "Demo",
-      "content": "# 1. 实现效果\n\n<a href=\"https://lzxjack.gitee.io/todolist/\" target=\"_blank\">[→ 点击此处预览效果 ←]</a>\n\n-   在上方输入栏中输入待办事项，按`回车键`即可添加到`正在进行`中\n-   `正在进行`中点击每项前面的方格，即可标记为`已经完成`\n-   `已经完成`中点击每项前面的方格，重新回到`正在进行`\n-   点击每项最右边的`圆圈`，删除事项\n-   基于`localStorage`本地存储，关闭浏览器再打开，数据不会丢失\n\n![](https://img.lzxjack.top:99/20210327200854.gif)\n\n# 2. 仓库地址\n\n源代码已上传至：\n\n1. <a href=\"https://github.com/lzxjack/ToDoList.git\" target=\"_blank\">[GitHub]</a>\n2. <a href=\"https://gitee.com/lzxjack/ToDoList.git\" target=\"_blank\">[Gitee]</a>\n\n\n",
-      "date": 1616815732000,
-      "post": true,
-      "tags": ["JavaScript", "jQuery"],
-      "title": "基于jQuery的待办事项 ToDoList",
-      "titleEng": "jquery-todo",
-      "url": "https://lzxjack.top/post?title=jquery-todo"
-    },
-    {
       "_id": "8937eaa9612e2131078b47dd74df2f23",
       "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
       "classes": "前端基础",
@@ -21,20 +9,18 @@
       "post": true,
       "tags": ["TypeScript"],
       "title": "TypeScript 基础学习",
-      "titleEng": "ts-basics",
-      "url": "https://lzxjack.top/post?title=ts-basics"
+      "titleEng": "ts-basics"
     },
     {
       "_id": "2d44d6c2612e13620855a2665fcc2591",
       "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
       "classes": "Demo",
-      "content": "## 1. 游戏效果\n\n<a href=\"https://lzxjack.gitee.io/snake/\" target=\"_blank\">[→ 点击此处预览效果 ←]</a>\n\n-   方向键控制蛇的移动方向\n-   蛇吃到食物后，身体多出一格，分数`+1`，食物重新刷新位置\n-   最大等级为 8 级，每 2 分升一级，升级后蛇的移动速度增加\n-   若蛇撞到边界**或**撞到自己，则游戏结束\n-   刷新页面后游戏重新开始\n\n![](https://img.lzxjack.top:99/20210323123246.gif)\n\n## 2. 实现方法\n\n贪吃蛇小游戏用 TypeScript 编写，HTML 骨架和 CSS 样式部分比较简单，很多方法都可以实现效果，这里就说一说 TS 的实现思路。\n\n因为小游戏比较简单，所以没用使用`webpack`等打包，直接写将 TS 编译后的 JS 文件引入页面。TS 部分运用了面向对象的编程思想，首先需要创建四个类，分别是食物类`Food`、蛇类`Snake`、计分面板类`ScorePanel`、游戏控制类`GameControl`，分别给他们编写相应的属性和方法：\n\n|           类            |                                      属性                                       |                                               方法                                               |\n| :---------------------: | :-----------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: |\n|      食物类`Food`       |                        绑定页面表示`食物`的红色方块即可                         |                  获取食物 X、Y 坐标<br/>修改食物的位置，即随机生成一个新的食物                   |\n|       蛇类`Snake`       |                     分别绑定页面的蛇容器、蛇身子、蛇头部分                      | 获取蛇头 X、Y 坐标<br />设置蛇头 X、Y 坐标<br />增加蛇身子<br />蛇身体移动<br />判断蛇是否撞自己 |\n| 计分面板类`ScorePanel`  |                分数<br />等级<br />绑定页面表示分数、等级的部分                 |                                          加分<br />升级                                          |\n| 游戏控制类`GameControl` | 绑定`Snake`、`Food`、`ScorePanel`类<br />是否存活的变量（布尔值）<br />按键方向 |                 游戏初始化<br />判断键盘按下<br />蛇移动<br />判断蛇是否吃到食物                 |\n\n首先游戏控制类进行游戏初始化，通过定时器不断调用蛇移动方法。期间要判断用户按下的按键进行改变方向，判断蛇是否撞到自己、撞墙，判断蛇是否吃到食物，若吃到食物则加分、增加身体、刷新食物位置。根据分数判断是否升级。\n\n## 3. 仓库地址\n\n源代码已上传至：\n\n1. <a href=\"https://github.com/lzxjack/Snake.git\" target=\"_blank\">[Github]</a>\n2. <a href=\"https://gitee.com/lzxjack/Snake.git\" target=\"_blank\">[Gitee]</a>\n\n\n",
+      "content": "## 1. 游戏效果\n\n<a href=\"https://gluttonous-snake-six.vercel.app/\" target=\"_blank\">[→ 点击此处预览效果 ←]</a>\n\n-   方向键控制蛇的移动方向\n-   蛇吃到食物后，身体多出一格，分数`+1`，食物重新刷新位置\n-   最大等级为 8 级，每 2 分升一级，升级后蛇的移动速度增加\n-   若蛇撞到边界**或**撞到自己，则游戏结束\n-   刷新页面后游戏重新开始\n\n![](https://img.lzxjack.top:99/20210323123246.gif)\n\n## 2. 实现方法\n\n贪吃蛇小游戏用 TypeScript 编写，HTML 骨架和 CSS 样式部分比较简单，很多方法都可以实现效果，这里就说一说 TS 的实现思路。\n\n因为小游戏比较简单，所以没用使用`webpack`等打包，直接写将 TS 编译后的 JS 文件引入页面。TS 部分运用了面向对象的编程思想，首先需要创建四个类，分别是食物类`Food`、蛇类`Snake`、计分面板类`ScorePanel`、游戏控制类`GameControl`，分别给他们编写相应的属性和方法：\n\n|           类            |                                      属性                                       |                                               方法                                               |\n| :---------------------: | :-----------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: |\n|      食物类`Food`       |                        绑定页面表示`食物`的红色方块即可                         |                  获取食物 X、Y 坐标<br/>修改食物的位置，即随机生成一个新的食物                   |\n|       蛇类`Snake`       |                     分别绑定页面的蛇容器、蛇身子、蛇头部分                      | 获取蛇头 X、Y 坐标<br />设置蛇头 X、Y 坐标<br />增加蛇身子<br />蛇身体移动<br />判断蛇是否撞自己 |\n| 计分面板类`ScorePanel`  |                分数<br />等级<br />绑定页面表示分数、等级的部分                 |                                          加分<br />升级                                          |\n| 游戏控制类`GameControl` | 绑定`Snake`、`Food`、`ScorePanel`类<br />是否存活的变量（布尔值）<br />按键方向 |                 游戏初始化<br />判断键盘按下<br />蛇移动<br />判断蛇是否吃到食物                 |\n\n首先游戏控制类进行游戏初始化，通过定时器不断调用蛇移动方法。期间要判断用户按下的按键进行改变方向，判断蛇是否撞到自己、撞墙，判断蛇是否吃到食物，若吃到食物则加分、增加身体、刷新食物位置。根据分数判断是否升级。\n\n## 3. 仓库地址\n\n源代码已上传至：\n\n1. <a href=\"https://github.com/One-ww/gluttonous-snake\" target=\"_blank\">[Github]</a>\n\n\n\n",
       "date": 1616502728000,
       "post": true,
       "tags": ["TypeScript"],
       "title": "TypeScript 贪吃蛇小游戏",
-      "titleEng": "ts-snake",
-      "url": "https://lzxjack.top/post?title=ts-snake"
+      "titleEng": "ts-snake"
     },
     {
       "_id": "cd045e75612e2181094ab1166b28bf9a",
@@ -45,8 +31,7 @@
       "post": true,
       "tags": ["TypeScript"],
       "title": "TypeScript 面向对象",
-      "titleEng": "ts-oo",
-      "url": "https://lzxjack.top/post?title=ts-oo"
+      "titleEng": "ts-oo"
     },
     {
       "_id": "2d44d6c2612e148e0855d6e03e7c1823",
@@ -57,8 +42,7 @@
       "post": true,
       "tags": ["JavaScript", "排序算法"],
       "title": "JavaScript 快速排序",
-      "titleEng": "sort-quick",
-      "url": "https://lzxjack.top/post?title=sort-quick"
+      "titleEng": "sort-quick"
     },
     {
       "_id": "cd045e75612e12da09473e6e23648ad9",
@@ -69,8 +53,7 @@
       "post": true,
       "tags": ["JavaScript", "搜索算法"],
       "title": "JavaScript 顺序搜索",
-      "titleEng": "search-sequential",
-      "url": "https://lzxjack.top/post?title=search-sequential"
+      "titleEng": "search-sequential"
     },
     {
       "_id": "2d44d6c2612e14210855c502738b0544",
@@ -81,8 +64,7 @@
       "post": true,
       "tags": ["JavaScript", "排序算法"],
       "title": "JavaScript 插入排序",
-      "titleEng": "sort-insertion",
-      "url": "https://lzxjack.top/post?title=sort-insertion"
+      "titleEng": "sort-insertion"
     },
     {
       "_id": "2d44d6c2612e14ca0855e0fc02c57a59",
@@ -93,8 +75,7 @@
       "post": true,
       "tags": ["JavaScript", "排序算法"],
       "title": "JavaScript 选择排序",
-      "titleEng": "sort-selection",
-      "url": "https://lzxjack.top/post?title=sort-selection"
+      "titleEng": "sort-selection"
     }
   ],
   "requestId": "5e29ba979223c"

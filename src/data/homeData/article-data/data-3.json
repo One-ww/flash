@@ -9,8 +9,7 @@
       "post": true,
       "tags": ["React"],
       "title": "React 关于setState同步或异步问题的理解",
-      "titleEng": "react-setstate",
-      "url": "https://lzxjack.top/post?title=react-setstate"
+      "titleEng": "react-setstate"
     },
     {
       "_id": "9e7190f161891f70046412ec74c4954a",
@@ -21,20 +20,18 @@
       "post": true,
       "tags": ["React"],
       "title": "React 父子组件通信的几种方法",
-      "titleEng": "react-father-son",
-      "url": "https://lzxjack.top/post?title=react-father-son"
+      "titleEng": "react-father-son"
     },
     {
       "_id": "859059a56183cf8603b9ecd259a983e7",
       "_openid": "dbee9976b3c14448a06f2006a4795cf2",
       "classes": "React 学习笔记",
-      "content": "最近使用 React + Hook + TS 写了一个练手的`demo`，练习了 React + Hook 的 TypeScript 写法。本文主要记录自己在写`demo`过程中，遇到关于 TypeScript 写法上的坑。\n\n`demo`地址：<a href=\"https://github.com/lzxjack/ts-todo\" target=\"_blank\">「ts-todo」</a>\n\n## 1. 创建 TS 项目\n\n使用`create-react-app`创建`React`项目，应该没有什么坑，记得在创建`React`项目的时候，添加`typescript`配置即可：\n\n```powershell\nnpx create-react-app app-name --template typescript\n```\n\n## 2. 在 React Hook 中 TS 写法\n\n将所有`.js`文件全部更名为`.ts`后缀，所有`.jsx`文件更名为`.tsx`，若还使用 JavaScript 的写法的话，项目还是能运行的，但配置了 TypeScript 还写 JavaScript 就达不到练手的目的了！\n\n在写`demo`的过程中，遇到了如下几个坑，经过查找后得到了解决，特此记录。\n\n### 1. 函数组件\n\n既然要用 React Hook，就需要写函数组件，我们需要告诉 TypeScript，这个函数是个 React 组件，在 JavaScript 中，通常这样定义一个函数组件：\n\n```javascript\nconst App = () => {\n    return <>App</>;\n};\n```\n\n配置了 TypeScript，就需要加上函数类型。React 提供了`React.FunctionComponent`的类型，意思是**函数组件**，我们可以直接简写为`React.FC`，如下代码所示：\n\n```typescript\nconst App: React.FC = () => {\n    return <>App</>;\n};\n```\n\n### 2. 类型声明举例\n\n一些简单的类型声明，比如`number`、`string`、`boolean`类型的，只需在声明的变量后面加上`:[类型]`即可。\n\n比如，定义一个`number`类型的`age`和`boolean`类型的`isDone`：\n\n```typescript\nlet age: number = 37;\nlet isDone: boolean = false;\n```\n\n在写`demo`中，我使用到一个**对象数组**，如下结构：\n\n```typescript\n[\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n]\n```\n\n那么一般的`array`类型已经满足不了了，这时就需要再定义一个`interface`：\n\n```typescript\ninterface TaskObj {\n    id: string;\n    content: string;\n    isDone: boolean;\n}\n```\n\n**注意**：接口名通常是**大写字母**开头。\n\n这个`interface`表示，定义的对象需要同时满足以下条件：\n\n- 有`id`属性，且类型为`string`\n- 有`content`属性，且类型为`string`\n- 有`isDone`属性，且类型为`boolean`\n\nTypeScript并不会检查属性的顺序，只需相应的属性存在，并且类型也满足即可。\n\n这时候定义单个对象，就可以使用刚刚定义的`interface`了：\n\n```typescript\nconst obj: TaskObj = { id: 'xxxx', content: 'xxxxxxx', isDone: false };\n```\n\n但如果需要定义上述的**对象数组**，需要这样写：\n\n```typescript\nconst allTasks: TaskObj[] = [\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n];\n```\n\n`TaskObj[]`表示该类型是一个数组，数组里的元素需要满足`TaskObj`接口。\n\n### 3. useState\n\n对于存储`string`类型的`state`，在`useState`右边加上`<string>`即可：\n\n```typescript\nconst [input, setInput] = useState<string>('');\n```\n\n实际上，`useState<string>('')`已经给了初始值`''`，那么 TypeScript 会**自动类型判断**，即使不写`<string>`也可以。\n\n如果要存储的数据结构如下：\n\n```typescript\n[\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n]\n```\n\n那么还是需要上文提到的`interface`：\n\n```typescript\ninterface TaskObj {\n    id: string;\n    content: string;\n    isDone: boolean;\n}\n\nconst [task, setTask] = useState<TaskObj[]>([]);\n```\n\n### 4. 父组件给子组件传参\n\n在 JavaScript 中，父组件给子组件传递参数，直接子组件上写，子组件通过`props`接收即可：\n\n```tsx\n<Doing doing={doing} setTask={setTask} />\n```\n\n但是 TypeScript 若直接这么写会报错，原因是子组件并没有满足传递参数的接口，需要自己定义接口。\n\n如上代码，在子组件`Doing`外，需要定一个满足传递参数的接口：\n\n```typescript\ninterface DoingProps {\n    doing: TaskObj[];\n    setTask: Function;\n}\n\nconst Doing: React.FC<DoingProps> = ({ doing, setTask }) => {\n\t...\n}\n```\n\n如上代码，定义了一个`DoingProps`接口，并且在子组件的`React.FC`后添加`<DoingProps>`，表明该组件接收的参数需要满足如下条件：\n\n- 有`doing`属性，且类型为数组，数组的元素满足`TaskObj`接口。\n- 有`setTask`属性，且类型是一个函数。\n\n这样，父组件给子组件传参的过程就用 TypeScript 实现了。\n\n### 5. 类型断言\n\n在写`demo`中，需要拿到一个输入框的`DOM`节点，写了如下代码：\n\n```typescript\nconst inputNode: HTMLInputElement = document.getElementById(`${id}`)\n```\n\nTypeScript 却提示有如下错误：\n\n![](https://img.lzxjack.top:99/20211104195943.png)\n\n这时候只需加上类型断言即可，明确告诉编译器变量的类型：\n\n```typescript\nconst inputNode: HTMLInputElement = document.getElementById(`${id}`) as HTMLInputElement;\n```\n\n### 6. 键盘事件\n\n需要判断按下的按键，这时候需要键盘事件对象，用 TypeScript 来写，需要先将键盘事件`KeyboardEvent`引入：\n\n```typescript\nimport { KeyboardEvent } from 'react';\n```\n\n传递事件对象参数时，需要指明为键盘事件：\n\n```tsx\n<input \n    type=\"text\" \n    defaultValue=\"{obj.content}\" \n    onKeyDown={(e: KeyboardEvent) => updateTask(e, obj.id, obj.content)}\n/>\n```\n\n`updateTask`函数定义如下：\n\n```typescript\nconst updateTask = (e: KeyboardEvent, id: string, oldContent: string) => {\n\t...\n}\n```\n\n",
+      "content": "最近使用 React + Hook + TS 写了一个练手的`demo`，练习了 React + Hook 的 TypeScript 写法。本文主要记录自己在写`demo`过程中，遇到关于 TypeScript 写法上的坑。\n\n\n\n## 1. 创建 TS 项目\n\n使用`create-react-app`创建`React`项目，应该没有什么坑，记得在创建`React`项目的时候，添加`typescript`配置即可：\n\n```powershell\nnpx create-react-app app-name --template typescript\n```\n\n## 2. 在 React Hook 中 TS 写法\n\n将所有`.js`文件全部更名为`.ts`后缀，所有`.jsx`文件更名为`.tsx`，若还使用 JavaScript 的写法的话，项目还是能运行的，但配置了 TypeScript 还写 JavaScript 就达不到练手的目的了！\n\n在写`demo`的过程中，遇到了如下几个坑，经过查找后得到了解决，特此记录。\n\n### 1. 函数组件\n\n既然要用 React Hook，就需要写函数组件，我们需要告诉 TypeScript，这个函数是个 React 组件，在 JavaScript 中，通常这样定义一个函数组件：\n\n```javascript\nconst App = () => {\n    return <>App</>;\n};\n```\n\n配置了 TypeScript，就需要加上函数类型。React 提供了`React.FunctionComponent`的类型，意思是**函数组件**，我们可以直接简写为`React.FC`，如下代码所示：\n\n```typescript\nconst App: React.FC = () => {\n    return <>App</>;\n};\n```\n\n### 2. 类型声明举例\n\n一些简单的类型声明，比如`number`、`string`、`boolean`类型的，只需在声明的变量后面加上`:[类型]`即可。\n\n比如，定义一个`number`类型的`age`和`boolean`类型的`isDone`：\n\n```typescript\nlet age: number = 37;\nlet isDone: boolean = false;\n```\n\n在写`demo`中，我使用到一个**对象数组**，如下结构：\n\n```typescript\n[\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n]\n```\n\n那么一般的`array`类型已经满足不了了，这时就需要再定义一个`interface`：\n\n```typescript\ninterface TaskObj {\n    id: string;\n    content: string;\n    isDone: boolean;\n}\n```\n\n**注意**：接口名通常是**大写字母**开头。\n\n这个`interface`表示，定义的对象需要同时满足以下条件：\n\n- 有`id`属性，且类型为`string`\n- 有`content`属性，且类型为`string`\n- 有`isDone`属性，且类型为`boolean`\n\nTypeScript并不会检查属性的顺序，只需相应的属性存在，并且类型也满足即可。\n\n这时候定义单个对象，就可以使用刚刚定义的`interface`了：\n\n```typescript\nconst obj: TaskObj = { id: 'xxxx', content: 'xxxxxxx', isDone: false };\n```\n\n但如果需要定义上述的**对象数组**，需要这样写：\n\n```typescript\nconst allTasks: TaskObj[] = [\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n];\n```\n\n`TaskObj[]`表示该类型是一个数组，数组里的元素需要满足`TaskObj`接口。\n\n### 3. useState\n\n对于存储`string`类型的`state`，在`useState`右边加上`<string>`即可：\n\n```typescript\nconst [input, setInput] = useState<string>('');\n```\n\n实际上，`useState<string>('')`已经给了初始值`''`，那么 TypeScript 会**自动类型判断**，即使不写`<string>`也可以。\n\n如果要存储的数据结构如下：\n\n```typescript\n[\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n    { id: 'xxxx', content: 'xxxxxxx', isDone: false },\n]\n```\n\n那么还是需要上文提到的`interface`：\n\n```typescript\ninterface TaskObj {\n    id: string;\n    content: string;\n    isDone: boolean;\n}\n\nconst [task, setTask] = useState<TaskObj[]>([]);\n```\n\n### 4. 父组件给子组件传参\n\n在 JavaScript 中，父组件给子组件传递参数，直接子组件上写，子组件通过`props`接收即可：\n\n```tsx\n<Doing doing={doing} setTask={setTask} />\n```\n\n但是 TypeScript 若直接这么写会报错，原因是子组件并没有满足传递参数的接口，需要自己定义接口。\n\n如上代码，在子组件`Doing`外，需要定一个满足传递参数的接口：\n\n```typescript\ninterface DoingProps {\n    doing: TaskObj[];\n    setTask: Function;\n}\n\nconst Doing: React.FC<DoingProps> = ({ doing, setTask }) => {\n\t...\n}\n```\n\n如上代码，定义了一个`DoingProps`接口，并且在子组件的`React.FC`后添加`<DoingProps>`，表明该组件接收的参数需要满足如下条件：\n\n- 有`doing`属性，且类型为数组，数组的元素满足`TaskObj`接口。\n- 有`setTask`属性，且类型是一个函数。\n\n这样，父组件给子组件传参的过程就用 TypeScript 实现了。\n\n### 5. 类型断言\n\n在写`demo`中，需要拿到一个输入框的`DOM`节点，写了如下代码：\n\n```typescript\nconst inputNode: HTMLInputElement = document.getElementById(`${id}`)\n```\n\nTypeScript 却提示有如下错误：\n\n![](https://img.huahuabiz.com/user_files/20241222/1734874731909719.png)\n\n这时候只需加上类型断言即可，明确告诉编译器变量的类型：\n\n```typescript\nconst inputNode: HTMLInputElement = document.getElementById(`${id}`) as HTMLInputElement;\n```\n\n### 6. 键盘事件\n\n需要判断按下的按键，这时候需要键盘事件对象，用 TypeScript 来写，需要先将键盘事件`KeyboardEvent`引入：\n\n```typescript\nimport { KeyboardEvent } from 'react';\n```\n\n传递事件对象参数时，需要指明为键盘事件：\n\n```tsx\n<input \n    type=\"text\" \n    defaultValue=\"{obj.content}\" \n    onKeyDown={(e: KeyboardEvent) => updateTask(e, obj.id, obj.content)}\n/>\n```\n\n`updateTask`函数定义如下：\n\n```typescript\nconst updateTask = (e: KeyboardEvent, id: string, oldContent: string) => {\n\t...\n}\n```\n\n",
       "date": 1636028167000,
       "post": true,
       "tags": ["TypeScript"],
       "title": "关于React Hook使用TypeScript遇到的问题记录",
-      "titleEng": "react-ts",
-      "url": "https://lzxjack.top/post?title=react-ts"
+      "titleEng": "react-ts"
     },
     {
       "_id": "fa24ce1a618343cc040b6fdc1e88560a",
@@ -45,8 +42,7 @@
       "post": true,
       "tags": ["JavaScript", "babel"],
       "title": "JavaScript 关于数组的扩展运算符实现",
-      "titleEng": "arr-extend",
-      "url": "https://lzxjack.top/post?title=arr-extend"
+      "titleEng": "arr-extend"
     },
     {
       "_id": "fa24ce1a6182418b03e900e65b77ef5f",
@@ -57,8 +53,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 异步编程Promise详解",
-      "titleEng": "promise",
-      "url": "https://lzxjack.top/post?title=promise"
+      "titleEng": "promise"
     },
     {
       "_id": "9e7190f16180c9e40345153401794fd0",
@@ -69,8 +64,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript class和function的区别",
-      "titleEng": "class-function",
-      "url": "https://lzxjack.top/post?title=class-function"
+      "titleEng": "class-function"
     },
     {
       "_id": "fa24ce1a617f913e03848cce07e919cc",
@@ -81,20 +75,18 @@
       "post": true,
       "tags": ["JavaScript", "ES6"],
       "title": "JavaScript ES6中Object的新增方法",
-      "titleEng": "es6-object",
-      "url": "https://lzxjack.top/post?title=es6-object"
+      "titleEng": "es6-object"
     },
     {
       "_id": "9e7190f1617d2ceb02d5b04c352952e3",
       "_openid": "dbee9976b3c14448a06f2006a4795cf2",
       "classes": "LeetCode 题解",
-      "content": "> 这是 LeetCode 上 2021-10-30 的每日一题：<a href=\"https://leetcode-cn.com/problems/single-number-iii/\" target=\"_blank\">「260. 只出现一次的数字 III」</a>\n\n## 1. 题目描述\n\n给定一个整数数组 `nums`，其中恰好有两个元素只出现一次，其余所有元素均出现两次。 找出只出现一次的那两个元素。你可以按 **任意顺序** 返回答案。\n\n你的算法应该具有线性时间复杂度。你能否仅使用常数空间复杂度来实现？\n\n**示例1 ：**\n\n```\n输入：nums = [1,2,1,3,2,5]\n输出：[3,5]\n解释：[5, 3] 也是有效的答案。\n```\n\n**示例2 ：**\n\n```\n输入：nums = [-1,0]\n输出：[-1,0]\n```\n\n**示例3 ：**\n\n```\n输入：nums = [0,1]\n输出：[1,0]\n```\n\n\n\n## 2. 解答\n\n这道题和[136. 只出现一次的数字](https://leetcode-cn.com/problems/single-number/)解法类似。\n\n异或运算：\n1. `0`和**任何数**异或=**任何数本身**\n2. **任何数**和**自身**异或=`0`\n3. 异或满足**交换律**、**结合律**\n\n知道了以上三条，就可以解题了。\n\n总体思路，将`nums`的数按照一定规则分成两组，相同的数必然会被分到一组，关键是**两个不同的数一定要分在不同组**。再每组进行异或，得到的结果就是原数组中两个不同的数，具体如下：\n\n- 首先从0开始，与数组中所有的数进行异或，得到结果`temp`\n- `temp`等价为数组中两个不同的数**异或的结果**\n- 寻找`temp`中，为`1`的最低的位`k`。例如`[1,2,1,3,2,5]`，得到`temp=6`，也就是`110`，`110`的为`1`的最低的位是第1位，则`k=10`\n- `temp`为`110`，是`011`和`101`异或的结果，为`1`的最低位代表两个不同的数，在这一位上不同。那么让两个不同的数，和`k`进行**与**操作，就能分开了\n- 分组，`011&10`，`101&10`，可以将两个不同的数分在两组，其余相同的数肯定会被分在同一组\n- 每组分别进行异或运算，得到两个答案\n\n```JavaScript\nconst singleNumber = nums => {\n    let temp = 0;\n    const len = nums.length;\n    for (let i = 0; i < len; i++) {\n        temp = temp ^ nums[i];\n    }\n    // 此时temp是两个不同的数异或的结果\n    // 寻找k，k是temp最低位为1、其余位是0的二进制数\n    let k = 1;\n    while ((temp & k) === 0) k = k << 1;\n\n    let [num1, num2] = [0, 0];\n    for (let i = 0; i < len; i++) {\n        // 分组，目的是将两个不同的数分开\n        if (nums[i] & k) {\n            num1 = num1 ^ nums[i];\n        } else {\n            num2 = num2 ^ nums[i];\n        }\n    }\n    return [num1, num2];\n};\n```\n\n\n",
+      "content": "> 这是 LeetCode 上的每日一题：<a href=\"https://leetcode-cn.com/problems/single-number-iii/\" target=\"_blank\">「260. 只出现一次的数字 III」</a>\n\n## 1. 题目描述\n\n给定一个整数数组 `nums`，其中恰好有两个元素只出现一次，其余所有元素均出现两次。 找出只出现一次的那两个元素。你可以按 **任意顺序** 返回答案。\n\n你的算法应该具有线性时间复杂度。你能否仅使用常数空间复杂度来实现？\n\n**示例1 ：**\n\n```\n输入：nums = [1,2,1,3,2,5]\n输出：[3,5]\n解释：[5, 3] 也是有效的答案。\n```\n\n**示例2 ：**\n\n```\n输入：nums = [-1,0]\n输出：[-1,0]\n```\n\n**示例3 ：**\n\n```\n输入：nums = [0,1]\n输出：[1,0]\n```\n\n\n\n## 2. 解答\n\n这道题和[136. 只出现一次的数字](https://leetcode-cn.com/problems/single-number/)解法类似。\n\n异或运算：\n1. `0`和**任何数**异或=**任何数本身**\n2. **任何数**和**自身**异或=`0`\n3. 异或满足**交换律**、**结合律**\n\n知道了以上三条，就可以解题了。\n\n总体思路，将`nums`的数按照一定规则分成两组，相同的数必然会被分到一组，关键是**两个不同的数一定要分在不同组**。再每组进行异或，得到的结果就是原数组中两个不同的数，具体如下：\n\n- 首先从0开始，与数组中所有的数进行异或，得到结果`temp`\n- `temp`等价为数组中两个不同的数**异或的结果**\n- 寻找`temp`中，为`1`的最低的位`k`。例如`[1,2,1,3,2,5]`，得到`temp=6`，也就是`110`，`110`的为`1`的最低的位是第1位，则`k=10`\n- `temp`为`110`，是`011`和`101`异或的结果，为`1`的最低位代表两个不同的数，在这一位上不同。那么让两个不同的数，和`k`进行**与**操作，就能分开了\n- 分组，`011&10`，`101&10`，可以将两个不同的数分在两组，其余相同的数肯定会被分在同一组\n- 每组分别进行异或运算，得到两个答案\n\n```JavaScript\nconst singleNumber = nums => {\n    let temp = 0;\n    const len = nums.length;\n    for (let i = 0; i < len; i++) {\n        temp = temp ^ nums[i];\n    }\n    // 此时temp是两个不同的数异或的结果\n    // 寻找k，k是temp最低位为1、其余位是0的二进制数\n    let k = 1;\n    while ((temp & k) === 0) k = k << 1;\n\n    let [num1, num2] = [0, 0];\n    for (let i = 0; i < len; i++) {\n        // 分组，目的是将两个不同的数分开\n        if (nums[i] & k) {\n            num1 = num1 ^ nums[i];\n        } else {\n            num2 = num2 ^ nums[i];\n        }\n    }\n    return [num1, num2];\n};\n```\n\n\n",
       "date": 1635593375000,
       "post": true,
       "tags": ["JavaScript"],
       "title": "「每日一题」只出现一次的数字 III",
-      "titleEng": "lc-260-III",
-      "url": "https://lzxjack.top/post?title=lc-260-III"
+      "titleEng": "lc-260-III"
     }
   ],
   "requestId": "0b8accdce9d0d"

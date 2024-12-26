@@ -9,8 +9,7 @@
       "post": true,
       "tags": ["Axios"],
       "title": "学习记录 —— Axios",
-      "titleEng": "axios",
-      "url": "https://lzxjack.top/post?title=axios"
+      "titleEng": "axios"
     },
     {
       "_id": "14139e126128f6c10767db002a0c44b7",
@@ -21,8 +20,7 @@
       "post": true,
       "tags": ["React"],
       "title": "React 中key属性到底有什么作用？",
-      "titleEng": "react-key",
-      "url": "https://lzxjack.top/post?title=react-key"
+      "titleEng": "react-key"
     },
     {
       "_id": "14139e126128f99e07684f331dad1608",
@@ -33,8 +31,7 @@
       "post": true,
       "tags": ["React"],
       "title": "React 创建虚拟DOM的两种方式",
-      "titleEng": "react-VDOM",
-      "url": "https://lzxjack.top/post?title=react-VDOM"
+      "titleEng": "react-VDOM"
     },
     {
       "_id": "8937eaa96128f4fd06b864491707b517",
@@ -45,8 +42,7 @@
       "post": true,
       "tags": ["React"],
       "title": "React 组件三大属性",
-      "titleEng": "react-props",
-      "url": "https://lzxjack.top/post?title=react-props"
+      "titleEng": "react-props"
     },
     {
       "_id": "cd045e756128f72108467c8343f47a7e",
@@ -57,8 +53,7 @@
       "post": true,
       "tags": ["React"],
       "title": "React 生命周期（新）",
-      "titleEng": "react-life-new",
-      "url": "https://lzxjack.top/post?title=react-life-new"
+      "titleEng": "react-life-new"
     },
     {
       "_id": "14139e12611f4e3e06124dff0ad974d0",
@@ -69,8 +64,7 @@
       "post": true,
       "tags": ["实用技巧", "Hexo", "脚本"],
       "title": "编写BAT脚本实现Hexo一键部署",
-      "titleEng": "bat",
-      "url": "https://lzxjack.top/post?title=bat"
+      "titleEng": "bat"
     },
     {
       "_id": "8937eaa96128f66506b88fd15bec1533",
@@ -81,8 +75,7 @@
       "post": true,
       "tags": ["React"],
       "title": "React 收集表单数据",
-      "titleEng": "react-get-form-data",
-      "url": "https://lzxjack.top/post?title=react-get-form-data"
+      "titleEng": "react-get-form-data"
     },
     {
       "_id": "cd045e75611f421d06c555054ba55e00",
@@ -93,8 +86,7 @@
       "post": true,
       "tags": ["HTML"],
       "title": "HTML script标签中async和defer的区别",
-      "titleEng": "async-defer",
-      "url": "https://lzxjack.top/post?title=async-defer"
+      "titleEng": "async-defer"
     }
   ],
   "requestId": "1446b3ca6c043"

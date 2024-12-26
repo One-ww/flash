@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks'
 import React from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 
 import Layout from '@/components/Layout'
 import MarkDown from '@/components/MarkDown'
@@ -54,7 +54,7 @@ const Post: React.FC = () => {
     >
       <MarkDown content={handleData?.content} className={styles.mb} />
       <PostTags tags={handleData?.tags} />
-      <CopyRight title={handleData?._id} titleEng={page ? page : ''} />
+      <CopyRight title={handleData?.title} id={handleData?._id} titleEng={page ? page : ''} />
       {/* <Comment titleEng={params ? params : ""} title={handleData?.title} /> */}
       <Navbar content={handleData?.content} />
     </Layout>

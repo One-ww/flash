@@ -9,8 +9,7 @@
       "post": true,
       "tags": ["CSS", "实用技巧"],
       "title": "CSS 文字溢出部分用省略号代替",
-      "titleEng": "text-ellipsis",
-      "url": "https://lzxjack.top/post?title=text-ellipsis"
+      "titleEng": "text-ellipsis"
     },
     {
       "_id": "8937eaa96124f5bc061bb41f4a78b7d7",
@@ -21,8 +20,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript forEach、for-in和for-of的区别总结",
-      "titleEng": "for-in-of",
-      "url": "https://lzxjack.top/post?title=for-in-of"
+      "titleEng": "for-in-of"
     },
     {
       "_id": "2d44d6c261264d2d06f3ebb8344b2e51",
@@ -33,8 +31,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 生成指定范围内的随机整数",
-      "titleEng": "random-num",
-      "url": "https://lzxjack.top/post?title=random-num"
+      "titleEng": "random-num"
     },
     {
       "_id": "2d44d6c26124ddbb06beb7e34b6b0625",
@@ -45,8 +42,7 @@
       "post": true,
       "tags": ["JavaScript", "数据结构"],
       "title": "JavaScript 实现对象的深拷贝",
-      "titleEng": "obj-deep-copy",
-      "url": "https://lzxjack.top/post?title=obj-deep-copy"
+      "titleEng": "obj-deep-copy"
     },
     {
       "_id": "8937eaa9611f3e09058068256b7bcba2",
@@ -57,8 +53,7 @@
       "post": true,
       "tags": ["实用技巧"],
       "title": "React中按需引入AntD样式",
-      "titleEng": "antd-style",
-      "url": "https://lzxjack.top/post?title=antd-style"
+      "titleEng": "antd-style"
     },
     {
       "_id": "14139e126124d4fe06b58fb84139c9c3",
@@ -69,8 +64,7 @@
       "post": true,
       "tags": ["CSS"],
       "title": "什么是CSS盒子模型，你对盒模型知道多少？",
-      "titleEng": "css-box",
-      "url": "https://lzxjack.top/post?title=css-box"
+      "titleEng": "css-box"
     },
     {
       "_id": "8937eaa9612b365506f08ca9703f11bc",
@@ -81,20 +75,18 @@
       "post": true,
       "tags": ["React"],
       "title": "在React中引入多个script标签，并同步执行",
-      "titleEng": "react-load-script",
-      "url": "https://lzxjack.top/post?title=react-load-script"
+      "titleEng": "react-load-script"
     },
     {
       "_id": "8937eaa9612e10430787e9656396ffe5",
       "_openid": "9bf44da2dbb8473da1fcf4f591cb82ff",
       "classes": "站点搭建",
-      "content": "## 1. 实现效果\n\n最近在用 React 写一个博客管理系统，有一个功能是添加新文章。在新建文章的页面，我希望做到像 CSDN 这样，左边是编辑区（`markdown`格式），右边是预览区。实时更新，编辑文本的同时，在预览区就能看到效果。\n\n就自己动手实现了一个这样的组件，**markdown 实时预览编辑器**！\n\n具体效果如下：\n\n![](https://img.lzxjack.top:99/20210831192229.png)\n\n## 2. 实现过程\n\n使用 React 实现，做成单独的一个组件。\n\n首先 HTML 结构如下：\n\n```html\n<header>基于React的markdown实时编辑器</header>\n<div className=\"marked\">\n    {/* 编辑区 */}\n    <div className=\"input-region markdownStyle\"></div>\n    {/* 预览区 */}\n    <div className=\"show-region markdownStyle\"></div>\n</div>\n```\n\n稍微写一点样式，让编辑区和预览区左右布局。\n\n定义一个`hook`，存储输入的内容：\n\n```javascript\nconst [text, setText] = useState('');\n```\n\n左边编辑区，让一个`div`可编辑，给其加上`contentEditable`属性，并让值为`plaintext-only`，表示编辑区域只能输入**纯文本**。\n\n```html\n<div className=\"input-region markdownStyle\" contenteditable=\"plaintext-only\"></div>\n```\n\n> 为什么不用`textarea`：\n>\n> `div`高度可自适应，可以拿到纯文本。\n\n当左边编辑区内容改变时，将输入的纯文本存入到`state`，给编辑区的`div`加上`onInput`属性，通过事件对象拿到纯文本：\n\n```html\n<div\n    className=\"input-region markdownStyle\"\n    contentEditable=\"plaintext-only\"\n    onInput={e => {\n        setText(e.target.innerText);\n    }}\n></div>\n```\n\n要渲染成`markdown`格式的内容，就需要插件来渲染，这里使用`marked`，代码高亮也有需求，使用`highlight.js`：\n\n```powershell\nyarn add marked highlight.js\n```\n\n```javascript\nimport marked from 'marked';\nimport hljs from 'highlight.js';\n```\n\n配置`marked`和`highlight`：\n\n```javascript\nuseEffect(() => {\n    // 配置highlight\n    hljs.configure({\n        tabReplace: '',\n        classPrefix: 'hljs-',\n        languages: ['CSS', 'HTML', 'JavaScript', 'Python', 'TypeScript', 'Markdown'],\n    });\n    // 配置marked\n    marked.setOptions({\n        renderer: new marked.Renderer(),\n        highlight: code => hljs.highlightAuto(code).value,\n        gfm: true, //默认为true。 允许 Git Hub标准的markdown.\n        tables: true, //默认为true。 允许支持表格语法。该选项要求 gfm 为true。\n        breaks: true, //默认为false。 允许回车换行。该选项要求 gfm 为true。\n    });\n}, []);\n```\n\n引入`github`风格的代码高亮主题，但我自己又稍作了修改：\n\n```javascript\nimport './github-dark.css';\n```\n\n在预览区，使用 React 的标签属性 dangerouslySetInnerHTMl 来显示内容：\n\n```html\n<div\n    className=\"show-region markdownStyle\"\n    dangerouslySetInnerHTML={{\n        __html: marked(text).replace(/<pre>/g, \"<pre id='hljs'>\"),\n    }}\n></div>\n```\n\n调用`marked`将文本渲染成`markdown`格式的内容。后面加`replace`是因为，我发现渲染过后不显示**代码框背景色**，就在`<pre>`标签加上了`id`，然后自己写了 CSS，让其显示代码框背景。\n\n整个组件写好之后，最终的代码：\n\n```javascript\nimport { useState, useEffect } from 'react';\nimport marked from 'marked';\nimport hljs from 'highlight.js';\nimport './github-dark.css';\nimport './index.css';\n\nconst Marked = () => {\n    const [text, setText] = useState('');\n    useEffect(() => {\n        // 配置highlight\n        hljs.configure({\n            tabReplace: '',\n            classPrefix: 'hljs-',\n            languages: ['CSS', 'HTML', 'JavaScript', 'Python', 'TypeScript', 'Markdown'],\n        });\n        // 配置marked\n        marked.setOptions({\n            renderer: new marked.Renderer(),\n            highlight: code => hljs.highlightAuto(code).value,\n            gfm: true, //默认为true。 允许 Git Hub标准的markdown.\n            tables: true, //默认为true。 允许支持表格语法。该选项要求 gfm 为true。\n            breaks: true, //默认为false。 允许回车换行。该选项要求 gfm 为true。\n        });\n    }, []);\n    return (\n        <>\n            <header>基于React的markdown实时编辑器</header>\n            <div className=\"marked\">\n                <div\n                    className=\"input-region markdownStyle\"\n                    contentEditable=\"plaintext-only\"\n                    // suppressContentEditableWarning\n                    onInput={e => {\n                        setText(e.target.innerText);\n                    }}\n                ></div>\n                <div\n                    className=\"show-region markdownStyle\"\n                    dangerouslySetInnerHTML={{\n                        __html: marked(text).replace(/<pre>/g, \"<pre id='hljs'>\"),\n                    }}\n                ></div>\n            </div>\n        </>\n    );\n};\n\nexport default Marked;\n```\n\n## 3. 源代码\n\n其他代码，如**代码高亮主题文件**、**样式文件**，包括整个源代码，都放到了<a href=\"https://github.com/lzxjack/react-markdown\" target=\"_blank\">[Github]</a>上，需要自取。\n\n如果对你有帮助，帮忙点个小心心 ❤️~\n\n\n",
+      "content": "## 1. 实现效果\n\n最近在用 React 写一个博客管理系统，有一个功能是添加新文章。在新建文章的页面，我希望做到像 CSDN 这样，左边是编辑区（`markdown`格式），右边是预览区。实时更新，编辑文本的同时，在预览区就能看到效果。\n\n就自己动手实现了一个这样的组件，**markdown 实时预览编辑器**！\n\n具体效果如下：\n\n![](https://img.lzxjack.top:99/20210831192229.png)\n\n## 2. 实现过程\n\n使用 React 实现，做成单独的一个组件。\n\n首先 HTML 结构如下：\n\n```html\n<header>基于React的markdown实时编辑器</header>\n<div className=\"marked\">\n    {/* 编辑区 */}\n    <div className=\"input-region markdownStyle\"></div>\n    {/* 预览区 */}\n    <div className=\"show-region markdownStyle\"></div>\n</div>\n```\n\n稍微写一点样式，让编辑区和预览区左右布局。\n\n定义一个`hook`，存储输入的内容：\n\n```javascript\nconst [text, setText] = useState('');\n```\n\n左边编辑区，让一个`div`可编辑，给其加上`contentEditable`属性，并让值为`plaintext-only`，表示编辑区域只能输入**纯文本**。\n\n```html\n<div className=\"input-region markdownStyle\" contenteditable=\"plaintext-only\"></div>\n```\n\n> 为什么不用`textarea`：\n>\n> `div`高度可自适应，可以拿到纯文本。\n\n当左边编辑区内容改变时，将输入的纯文本存入到`state`，给编辑区的`div`加上`onInput`属性，通过事件对象拿到纯文本：\n\n```html\n<div\n    className=\"input-region markdownStyle\"\n    contentEditable=\"plaintext-only\"\n    onInput={e => {\n        setText(e.target.innerText);\n    }}\n></div>\n```\n\n要渲染成`markdown`格式的内容，就需要插件来渲染，这里使用`marked`，代码高亮也有需求，使用`highlight.js`：\n\n```powershell\nyarn add marked highlight.js\n```\n\n```javascript\nimport marked from 'marked';\nimport hljs from 'highlight.js';\n```\n\n配置`marked`和`highlight`：\n\n```javascript\nuseEffect(() => {\n    // 配置highlight\n    hljs.configure({\n        tabReplace: '',\n        classPrefix: 'hljs-',\n        languages: ['CSS', 'HTML', 'JavaScript', 'Python', 'TypeScript', 'Markdown'],\n    });\n    // 配置marked\n    marked.setOptions({\n        renderer: new marked.Renderer(),\n        highlight: code => hljs.highlightAuto(code).value,\n        gfm: true, //默认为true。 允许 Git Hub标准的markdown.\n        tables: true, //默认为true。 允许支持表格语法。该选项要求 gfm 为true。\n        breaks: true, //默认为false。 允许回车换行。该选项要求 gfm 为true。\n    });\n}, []);\n```\n\n引入`github`风格的代码高亮主题，但我自己又稍作了修改：\n\n```javascript\nimport './github-dark.css';\n```\n\n在预览区，使用 React 的标签属性 dangerouslySetInnerHTMl 来显示内容：\n\n```html\n<div\n    className=\"show-region markdownStyle\"\n    dangerouslySetInnerHTML={{\n        __html: marked(text).replace(/<pre>/g, \"<pre id='hljs'>\"),\n    }}\n></div>\n```\n\n调用`marked`将文本渲染成`markdown`格式的内容。后面加`replace`是因为，我发现渲染过后不显示**代码框背景色**，就在`<pre>`标签加上了`id`，然后自己写了 CSS，让其显示代码框背景。\n\n整个组件写好之后，最终的代码：\n\n```javascript\nimport { useState, useEffect } from 'react';\nimport marked from 'marked';\nimport hljs from 'highlight.js';\nimport './github-dark.css';\nimport './index.css';\n\nconst Marked = () => {\n    const [text, setText] = useState('');\n    useEffect(() => {\n        // 配置highlight\n        hljs.configure({\n            tabReplace: '',\n            classPrefix: 'hljs-',\n            languages: ['CSS', 'HTML', 'JavaScript', 'Python', 'TypeScript', 'Markdown'],\n        });\n        // 配置marked\n        marked.setOptions({\n            renderer: new marked.Renderer(),\n            highlight: code => hljs.highlightAuto(code).value,\n            gfm: true, //默认为true。 允许 Git Hub标准的markdown.\n            tables: true, //默认为true。 允许支持表格语法。该选项要求 gfm 为true。\n            breaks: true, //默认为false。 允许回车换行。该选项要求 gfm 为true。\n        });\n    }, []);\n    return (\n        <>\n            <header>基于React的markdown实时编辑器</header>\n            <div className=\"marked\">\n                <div\n                    className=\"input-region markdownStyle\"\n                    contentEditable=\"plaintext-only\"\n                    // suppressContentEditableWarning\n                    onInput={e => {\n                        setText(e.target.innerText);\n                    }}\n                ></div>\n                <div\n                    className=\"show-region markdownStyle\"\n                    dangerouslySetInnerHTML={{\n                        __html: marked(text).replace(/<pre>/g, \"<pre id='hljs'>\"),\n                    }}\n                ></div>\n            </div>\n        </>\n    );\n};\n\nexport default Marked;\n```\n\n\n\n\n",
       "date": 1625483913000,
       "post": true,
       "tags": ["React"],
       "title": "一步步教你用React写一个markdown实时编辑器！",
-      "titleEng": "react-marked",
-      "url": "https://lzxjack.top/post?title=react-marked"
+      "titleEng": "react-marked"
     }
   ],
   "requestId": "864533d2b732d"

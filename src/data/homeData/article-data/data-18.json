@@ -9,8 +9,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 实现(4).add(2).minus(1)功能",
-      "titleEng": "add-min",
-      "url": "https://lzxjack.top/post?title=add-min"
+      "titleEng": "add-min"
     },
     {
       "_id": "cd045e756124f84a07861fdc39555557",
@@ -21,8 +20,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 实现一个判断数据类型的函数",
-      "titleEng": "get-type",
-      "url": "https://lzxjack.top/post?title=get-type"
+      "titleEng": "get-type"
     },
     {
       "_id": "8937eaa9611f692a0587244714c2a646",
@@ -33,8 +31,7 @@
       "post": true,
       "tags": ["HTML", "CSS", "jQuery"],
       "title": "使用jQuery写一个仿IOS14计算器",
-      "titleEng": "calculator",
-      "url": "https://lzxjack.top/post?title=calculator"
+      "titleEng": "calculator"
     },
     {
       "_id": "8937eaa9611f6d490587ab7e0c7ba5c2",
@@ -45,8 +42,7 @@
       "post": true,
       "tags": ["CSS"],
       "title": "CSS 清除浮动的4种方法",
-      "titleEng": "clearFix",
-      "url": "https://lzxjack.top/post?title=clearFix"
+      "titleEng": "clearFix"
     },
     {
       "_id": "8937eaa96124db520617f1dd64108962",
@@ -57,8 +53,7 @@
       "post": true,
       "tags": ["CSS", "实用技巧"],
       "title": "CSS 实现盒子水平垂直居中的方法",
-      "titleEng": "center",
-      "url": "https://lzxjack.top/post?title=center"
+      "titleEng": "center"
     },
     {
       "_id": "2d44d6c2612649d806f3457e4a640b42",
@@ -69,8 +64,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 面向对象",
-      "titleEng": "js-oo",
-      "url": "https://lzxjack.top/post?title=js-oo"
+      "titleEng": "js-oo"
     },
     {
       "_id": "f427f5e2642313ea0019b99d32f4c2c0",
@@ -81,8 +75,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 移动端拖动元素",
-      "titleEng": "move-mobile",
-      "url": "https://lzxjack.top/post?title=move-mobile"
+      "titleEng": "move-mobile"
     },
     {
       "_id": "2cc84e26642313ef067fbb6f296f29e4",
@@ -93,8 +86,7 @@
       "post": true,
       "tags": ["JavaScript"],
       "title": "JavaScript 简单缓动动画函数封装",
-      "titleEng": "pack-animation",
-      "url": "https://lzxjack.top/post?title=pack-animation"
+      "titleEng": "pack-animation"
     }
   ],
   "requestId": "9cc103b2afe5a"
